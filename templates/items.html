@@ -1,0 +1,268 @@
+{% extends 'layout.html' %}
+
+{% block dropFile %}
+
+  <div class="UI-block center-block" id="dragDiv" style="text-align:left">
+    <div class="row" style="padding-left:20px;padding-right:20px;">
+      <form method="post" action="/process" enctype="multipart/form-data">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+          <input type="file" class="btn tron-white" name="fileJSON" id="fileUpload"/>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+          <button type="submit" class="btn tron-white">Submit</button>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="text-align:right;margin-top:2px">
+          <h3 class="UI-Title">{{ fileName }}</h3>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+{% endblock %}
+
+{% block body %}
+
+  {% if fileName != '[empty]' %}
+
+  <div class="row">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <div class="UI-block center-block" id="deckItems">
+        <div class="row">
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <h3 class="UI-Title" style="padding-left:10px;">Deck Items</h3>
+          </div>
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 collapse-section">
+            <a href="#" onclick="collapse('deck', this);">hide</a>
+          </div>
+        </div>
+        <div class="UI-sub-block-white" id="deck">
+        <div class="row" style="padding-left:20px;padding-right:20px;">
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <b><i>NAME</i></b>
+          </div>
+          <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <b><i>TYPE</i></b>
+          </div>
+        </div>
+
+        <!-- add new row here foreach deck item -->
+        {% block deck %}
+
+          {% for d in deckList %}
+
+          <div class="row" style="padding-left:20px;padding-right:20px;">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" {% if loop.index is divisibleby 2 %}style="background:#F8F8F8"{% endif %}>
+              {{ d.name }}
+            </div>
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" {% if loop.index is divisibleby 2 %}style="background:#F8F8F8"{% endif %}>
+              {{ d.type }}
+            </div>
+          </div>
+
+          {% endfor %}
+
+        {% endblock %}
+        </div>
+      </div>
+
+      <div class="UI-block center-block">
+        <div class="row">
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <h3 class="UI-Title" style="padding-left:10px;">Ingredients</h3>
+          </div>
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 collapse-section">
+            <a href="#" onclick="collapse('ingredients', this);">hide</a>
+          </div>
+        </div>
+        <div class="UI-sub-block-white" id="ingredients">
+        <div class="row" style="padding-left:20px;padding-right:20px;">
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <b><i>NAME</i></b>
+          </div>
+          <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <b><i>TYPE</i></b>
+          </div>
+        </div>
+
+        {% block ingredients %}
+
+          {% for g in ingrList %}
+          <div class="row">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            Type
+            </div>
+          </div>
+          {% endfor %}
+
+        {% endblock %}
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <div class="UI-block center-block" id="heads">
+        <div class="row">
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <h3 class="UI-Title" style="padding-left:10px;">Head Items</h3>
+          </div>
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 collapse-section">
+            <a href="#" onclick="collapse('head', this);">hide</a>
+          </div>
+        </div>
+        <div id="head">
+
+        {% block head %}
+
+          {% for h in headList %}
+          <div class="UI-sub-block-white">
+            <div class="row" style="padding-left:20px;padding-right:20px;">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                  <b><i>Name:</i></b>
+                </div>
+                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                  {{ h.name }}
+                </div>
+            </div>
+            <div class="row" style="padding-left:20px;padding-right:20px;">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                  <b><i>Type:</i></b>
+                </div>
+                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                  {{ h.type }}
+                </div>
+            </div>
+            <div class="row" style="padding-left:20px;padding-right:20px;">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                  <b><i>Trash:</i></b>
+                </div>
+                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                  {{ h.trash }}
+                </div>
+            </div>
+
+            <br />
+            <div style="padding-left:20px;padding-right:20px;text-align:left;"><b><i>Attributes:</i></b></div>
+              <div class="row" style="padding-left:20px;padding-right:20px;">
+                 {% for key, value in h.attr.items() %}
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" {% if loop.index is divisibleby 2 %}style="background:#F8F8F8"{% endif %}>
+                  {{ key }}
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" {% if loop.index is divisibleby 2 %}style="background:#F8F8F8"{% endif %}>
+                  {{ value }}
+                </div>
+               {% endfor %}
+            </div>
+          </div>
+          {% endfor %}
+
+        {% endblock %}
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="UI-block center-block" id="actions">
+    <div class="row">
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <h3 class="UI-Title" style="padding-left:10px;">Instructions</h3>
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 collapse-section">
+        <a href="#" onclick="collapse('instructions', this);">hide</a>
+      </div>
+    </div>
+    <div id="instructions">
+
+    {% block actions %}
+
+      {% for group in instrList %}
+      <div class="UI-sub-block-white">
+        <div class="row" style="padding-left:20px;padding-right:20px;">
+          <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            <b><i>Tool:</i></b>
+          </div>
+          <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+            {{ group.tool }}
+          </div>
+        </div>
+        {% for i in group.instr %}
+          <div class="UI-sub-block-gray">
+            <div class="row" style="padding-left:20px;padding-right:20px;">
+              <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <b><i>Action Type:</i></b>
+              </div>
+              <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                {{ i.type }}
+              </div>
+            </div>
+
+            {% for motion in i.moves %}
+              <div class="UI-sub-block-white">
+                <div class="row" style="padding-left:20px;padding-right:20px;">
+                  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                  {% for location in motion.from %}
+                    <div class="UI-sub-block-gray">
+                    <b><i>FROM:</i></b>
+                    {% for key, value in location.items() %}
+                      <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ key }}:
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ value }}
+                        </div>
+                      </div>
+                    {% endfor %}
+                    </div>
+                  {% endfor %}
+                  </div>
+                  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                  {% for location in motion.to %}
+                    <div class="UI-sub-block-gray">
+                    <b><i>TO:</i></b>
+                    {% for key, value in location.items() %}
+                      <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ key }}:
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ value }}
+                        </div>
+                      </div>
+                    {% endfor %}
+                    </div>
+                  {% endfor %}
+                  </div>
+                  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <div class="UI-sub-block-gray">
+                      <b><i>ATTRIBUTES:</i></b>
+                      {% for key, value in motion.other.items() %}
+                      <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ key }}:
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        {{ value }}
+                        </div>
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+
+          </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+
+    {% endblock %}
+    </div>
+  </div>
+
+  {% endif %}
+
+{% endblock %}
