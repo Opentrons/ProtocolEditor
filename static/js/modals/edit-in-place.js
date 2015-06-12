@@ -6,6 +6,7 @@ Sugar.addModal('edit-in-place', {
 		mode.listen('.edit-handle', 'click', function(evt, parentMode, parentModal) {
 			evt.stop();
 			parentModal.setMode('edit');
+			parentModal.find('form').el.reset();
 		});
 	
 	},
