@@ -9,8 +9,6 @@ class Deck:
 	holds the information about containers on the deck
 	'''
 
-#	containers = [] #array of containers
-
 	def __init__(self):
 		self.containers = []
 

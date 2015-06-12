@@ -43,6 +43,19 @@ a:active {
 	text-decoration: none;
 }
 
+button:disabled {
+	color:#CCCCCC;
+	background-color:#EEEEEE;
+}
+
+input[type="text"]:focus {
+	outline:none;
+}
+
+img {
+	margin-bottom:5px;
+}
+
 .UI-block{
 	position:relative;
 	display:block;

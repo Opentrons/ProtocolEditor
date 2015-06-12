@@ -12,7 +12,3 @@ class Ingredients:
 
 	def addIngredient(self, ingredient):
 		self.ingrs.append(ingredient)
-
-	def toString(self):
-		out = ""
-		return out

@@ -14,7 +14,3 @@ class Head:
 
 	def getTools(self):
 		return self.tools
-
-	def toString(self):
-		out = ""
-		return out

@@ -9,13 +9,10 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-3.3.4-dist/css/bootstrap.min.css')}}">
-  <!--  <link href="../static/bootstrap-3.3.4-dist/css/bootstrap.min.css" rel="stylesheet">
--->
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}"><!--
-    <link rel="icon" type="image/png" href="../images/favicon.png" >-->
+
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
 
     <title>JSON Editor</title>
-
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="../static/bootstrap-3.3.4-dist/js/jquery.min.js"></script>
@@ -24,30 +21,22 @@
 
     <link rel="stylesheet" href="../static/main.css">
     <script type="text/javascript" src="../static/js/collapse.js"></script>
-    <!--<script type="text/javascript" src="../static/js/editor.js"></script>
-    <script type="text/javascript" src="../static/js/main.js"></script>
-    <script type="text/javascript" src="./js/loadFiles.js"></script> -->
+    <script type="text/javascript" src="../static/js/vanilla_eve.js"></script>
   </head>
     
   <body>
 
     <div style="padding-top:20px;">
-      <nav class="navbar navbar-default" style="margin-bottom:30px;">
+      <nav class="navbar navbar-inverse" style="margin-bottom:30px;">
         <div class="container-fluid">
           <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
             <a class="navbar-brand" style="font-family:\"Trons-Strong\"" href="http://opentrons.com" target="_blank">
-              <img src="../static/images/droplet-only_logo.png" height="100%">
+              <img src="{{ url_for('static', filename='images/favicon.png') }}" height="100%">
             </a>
             <ul class="nav navbar-nav navbar-left">
               <li>
-                <a href="https://github.com/gordonhart" target="_blank">JSON Protocol Editor</a>
+                <a href="https://github.com/gordonhart">JSON Protocol Editor</a>
               </li>
               <li><a href="#">v0.0.1</a></li>
             </ul>

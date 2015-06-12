@@ -26,13 +26,6 @@ class Motion:
 	def addOtherAttribute(self, _otherKey, _otherValue):
 		self.otherAttr[_otherKey] = _otherValue
 
-#	def setVolume(self, _vol):
-#		self.volume = _vol
-
-#	def setBlowout(self, _blowout):
-#		self.blowout = _blowout
-
-
 	def getAttributes(self):
 		'''
 		returns a dictionary of all of the attributes for this motion
@@ -41,12 +34,4 @@ class Motion:
 		out['from'] = self.fromAttr
 		out['to'] = self.toAttr
 		out['other'] = self.otherAttr
-#		out['volume'] = self.volume
-#		out['blowout'] = self.blowout
 		return out
-
-
-#	def getFrom(self): return self.fromContainer
-#	def getTo(self): return self.toContainer
-#	def getVolume(self): return self.volume
-#	def getBlowout(self): return self.blowout
