@@ -177,11 +177,12 @@
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                   <div class="edit-in-place modalComponent mode-display">
                     <div class="mode display edit">
-                      <span class="edit" style="cursor:pointer;">{{ key }}</span>
+                      <span class="edit-handle" style="cursor:pointer;">{{ key }}</span>
                     </div>
                   
                       <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        <div class="mode display value">{{ value }}</div>
+                        <div class="mode display value">
+                          <span class="edit-handle" style="cursor:pointer;">{{ value }}</span></div>
                         <div class="mode edit">
                           <form action="/user/1/edit" method="post">
                           <input type="text" value="{{ value }}" name="name" />
