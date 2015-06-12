@@ -174,11 +174,22 @@
             <div style="padding-left:20px;padding-right:20px;text-align:left;"><!--<b><i>ATTRIBUTES:</i></b><--><img src="../static/images/attributes.png" height="18px"></div>
               <div class="row" style="padding-left:20px;padding-right:20px;">
                  {% for key, value in h.attr.items() %}
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" {% if loop.index is divisibleby 2 %}style="background:#F8F8F8"{% endif %}>
-                  {{ key }}
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" {% if loop.index is divisibleby 2 %}style="background:#F8F8F8"{% endif %}>
-                  {{ value }}
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                  <div class="edit-in-place modalComponent mode-display">
+                    <div class="mode display edit">
+                      <span class="edit" style="cursor:pointer;">{{ key }}</span>
+                    </div>
+                  
+                      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="mode display value">{{ value }}</div>
+                        <div class="mode edit">
+                          <form action="/user/1/edit" method="post">
+                          <input type="text" value="{{ value }}" name="name" />
+                          <input type="submit" value="Save" />
+                        </form>
+                      </div>
+                    </div>
+                  </div>  
                 </div>
                {% endfor %}
             </div>
