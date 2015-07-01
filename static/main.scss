@@ -1,0 +1,298 @@
+$light: #FDFDFD;
+$gray: #F8F8F8;
+$darker-gray: #DDDDDD;
+$darkest-gray: #BBBBBB;
+$border-gray: #e7e7e7;
+
+$red: #fb3f0f;
+$blue: #0f3ffb;
+$white: #FFFFFF;
+
+$black: #000000;
+$fade-black: #222222;
+
+@mixin gray-outline {
+	border-radius: 4px;
+	border: 1px solid $border-gray;
+}
+
+@mixin shadow {
+	box-shadow: 1px 1px 1px #888888;
+}
+
+@mixin uniform-padding($pxval) {
+	padding: $pxval $pxval $pxval $pxval;
+}
+
+@font-face {
+	font-family: "Tron-Normal";
+	src: url(fonts/Geogtq-Rg-webfont.woff2);
+}
+@font-face {
+	font-family: "Tron-Strong";
+	src: url(fonts/Geogtq-Sb-webfont.woff2);
+}
+@font-face {
+	font-family: "Tron-Light";
+	src: url(fonts/Geogtq-Ul-webfont.woff2);
+}
+
+html, body, .container{
+	font-family: "Tron-Normal";
+	width:1050px !important;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+a:link {
+	color:$darker-gray;
+	text-decoration:none;
+}
+
+a:visited, a:hover, a:active {
+	color:$darkest-gray;
+	text-decoration: none;
+}
+
+button:disabled {
+	color:$darkest-gray;
+	background-color:$darker-gray;
+}
+
+input[type="text"]:focus {
+	outline:none;
+}
+
+img {
+	margin-bottom:5px;
+}
+
+img.icon {
+	height:18px;
+}
+
+img.pipette {
+	height:60px;
+	padding-left:15px;
+}
+
+img.tipchange {
+	height: 18px;
+	text-align: center;
+	margin-bottom:0px;
+}
+
+img.brand {
+	height:100%;
+}
+
+.move-icon-bar {
+	width:50px;
+	text-align:center;
+}
+
+.hide-delete {
+	color:$darker-gray;
+	text-align:right;
+	font-style:italic;
+}
+
+.padded-sides {
+	padding-right:20px;
+	padding-left:20px;
+}
+
+.zebra:nth-of-type(odd) {
+    background: $gray;
+}
+
+.filename-block {
+	text-align:right;
+	margin-top:2px;
+	display:inline;
+	float:right;
+	position:relative;
+}
+
+.filename-input {
+	text-align:right;
+	background: $gray;
+	border:none;
+	font-size:18px;
+	width:475px
+}
+
+.filename-extension {
+	padding-right:25px;
+	font-size:18px;
+}
+
+.edit-input {
+	border:none;
+	background: transparent;
+/*	background: rgba($blue, 0.1); */
+}
+
+.move-number {
+	text-align:right;
+	color: $blue;
+	font-family:"Tron-Strong";
+}
+
+.move-number-label {
+	color:$darkest-gray;
+	font-style:italic;
+	text-align:right;
+	font-family: "Tron-Light";
+	padding-right:5px;
+}
+
+.strong {
+	font-family: "Tron-Strong";
+}
+
+.add-button {
+	color:$darker-gray;
+	font-style:italic;
+}
+
+.submit-new {
+	width:100%;
+	margin-bottom:10px;
+}
+
+.add-motion-button {
+	color:$darker-gray;
+	font-style:italic;
+	text-align:center;
+}
+
+.action-block {
+	position:relative;
+	display:block;
+
+	padding: 10px 10px 0px 10px;
+	margin-bottom:10px;
+
+	@include gray-outline;
+}
+
+.action-block-gray {
+	@extend .action-block;
+	background-color: $gray;
+}
+
+.action-block-white {
+	@extend .action-block;
+	background-color: $white;
+}
+
+.navbar-pad {
+	margin-top:20px;
+	margin-bottom:30px;
+}
+
+@mixin UI-block-template($color, $marginBottom, $padding) {
+	position:relative;
+	display:block;
+	background-color: $color;
+
+	margin-bottom:$marginBottom;
+
+	@include uniform-padding($padding);
+	@include gray-outline;
+}
+
+.UI-block { @include UI-block-template($gray, 30px, 10px); }
+.UI-sub-block-white{ @include UI-block-template($white, 10px, 10px); }
+.UI-sub-block-gray{ @include UI-block-template($gray, 10px, 10px); }
+.UI-sub-block-dark-gray{ @include UI-block-template($darkest-gray, 10px, 10px); }
+.UI-sub-block-black{ @include UI-block-template($black, 10px, 10px); }
+
+.UI-Title{
+	margin-top:0px;
+	padding-left:10px;
+	font-family: "Tron-Normal";
+	color:$fade-black;
+}
+
+
+.add-move-block {
+	@include UI-block-template($gray, 10px, 10px);
+	text-align:center;
+}
+
+.tip-change-block {
+	@include UI-block-template($white, 10px, 10px);
+	text-align:center;
+	margin-left:20px;
+	margin-right:20px;
+}
+
+.collapse-section{
+	color:$darker-gray;
+	font-style:italic;
+	text-align:right;
+	padding-right:30px;
+}
+
+/* BUTTON STYLINGS */
+
+.btn{
+	border: 1px solid #ccc;
+}
+
+.tron-blue {
+	background-color: $blue;
+	color:$light;
+}
+
+.tron-blue:hover, .tron-blue:active, .tron-blue:focus {
+	color:white;
+	font-weight: bold;
+	@include shadow;
+}
+
+.tron-red {
+	background-color: $red;
+	color:$light;
+}
+
+.tron-red:hover, .tron-red:active, .tron-red:focus {
+	color:white;
+	font-weight: bold;
+	@include shadow;
+}
+
+.tron-black {
+	background-color: #222;
+	color:$light;
+}
+
+.tron-black:hover, .tron-black:active, .tron-black:focus {
+	color:white;
+	font-weight: bold;
+	@include shadow;
+}
+
+.tron-white {
+	background-color: $white;
+	color:$black;
+}
+
+.tron-white:hover, .tron-white:active, .tron-white:focus {
+	color:$black;
+	font-weight: bold;
+	@include shadow;
+}
+
+.tron-grey {
+	background-color: #aaa;
+	color:$light;
+}
+
+.tron-grey:hover, .tron-grey:active, .tron-grey:focus {
+	color:$light;
+	font-weight: bold;
+	@include shadow;
+}

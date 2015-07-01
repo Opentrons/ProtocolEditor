@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+import collections
+
 class Motion:
 	'''
 	helper class for the sub-objects called "motions"
@@ -9,16 +11,16 @@ class Motion:
 		self.parent = _parent
 		self.fromAttr = []
 		self.toAttr = []
-		self.otherAttr = {}
+		self.otherAttr = collections.OrderedDict()
 
 	def addFrom(self, **kwargs):
-		fromAttributes = {}
+		fromAttributes = collections.OrderedDict()
 		for key, value in kwargs.iteritems():
 			fromAttributes[key] = value
 		self.fromAttr.append(fromAttributes) #fromAttr is a list of locations/corresponding attributes
 	
 	def addTo(self, **kwargs):
-		toAttributes = {}
+		toAttributes = collections.OrderedDict()
 		for key, value in kwargs.iteritems():
 			toAttributes[key] = value
 		self.toAttr.append(toAttributes)
@@ -30,7 +32,7 @@ class Motion:
 		'''
 		returns a dictionary of all of the attributes for this motion
 		'''
-		out = {}
+		out = collections.OrderedDict()
 		out['from'] = self.fromAttr
 		out['to'] = self.toAttr
 		out['other'] = self.otherAttr

@@ -1,0 +1,77 @@
+{% import 'edit.html' as editor %}
+
+{% macro deck(deckList, fileName) %}
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="UI-Title">Deck Items</h3>
+    </div>
+    <div class="col-md-6 collapse-section">
+      <span class="collapse-handle" style="cursor:pointer;">hide</span>
+    </div>
+  </div>
+  <div class="UI-sub-block-white" id="deck">
+    <div class="padded-sides">
+      <div class="row">
+        <div class="col-md-6">
+          <img src="/static/images/deckName.png" class="icon">          
+        </div>
+        <div class="col-md-6">
+          <img src="/static/images/deckType.png" class="icon">
+        </div>
+      </div>
+
+      {% for d in deckList %}
+      <div class="row zebra">
+        <div class="col-md-6">
+          {{ editor.edit(value=d.name, blockName="deckName") }}
+        </div>
+        <div class="col-md-5">
+          {{ editor.edit(value=d.type, blockName="deckType") }}
+        </div>
+        <div class="col-md-1 hide-delete">
+          <a href="javascript:void(0)" onclick="removeDiv('zebra', this);">&times;</a>
+        </div>
+      </div>
+      {% endfor %}
+
+      <!-- ADD CONTAINER SECTION -->
+      <div class="row">
+        <div class="add-in-place modalComponent mode-button"> <!-- modal add new container button -->
+          <div class="mode button">
+            <div class="col-md-12 add-button">
+              <span class="add-handle" style="cursor:pointer;">Add Container</span>
+            </div>
+          </div>
+          <div class="mode add">
+            <form method="post" action="/add" enctype="multipart/form-data" onsubmit="traverse('container_fullJSON'); addContainer(this, 'container_newJSON');">
+
+              <div class="col-md-6">
+                <input type="text" class="edit-input" onclick="this.select();" size="30" name="name" value="[ New Container Name ]" /> 
+              </div>
+              <div class="col-md-6">
+                <input type="text" class="edit-input" onclick="this.select();" size="30" name="kind" value="[ New Container Type ]" /> 
+              </div>
+
+              <br /><br />
+              <div class="row">
+                <div class="col-md-8">
+                  <button type="submit" class="btn tron-blue submit-new">
+                    Confirm Addition of New Container
+                  </button>
+                </div>
+                <div class="col-md-4">
+                  <span class="btn tron-grey submit-new add-handle" style="cursor:pointer;">Cancel</span>
+                </div>
+              </div>
+
+              <input type="hidden" name="newJSON" value="json" id="container_newJSON" />
+              <input type="hidden" name="fileName" value="{{ fileName }}" />
+              <input type="hidden" name="fullJSON" value="json" id="container_fullJSON" />
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+{% endmacro %}

@@ -2,6 +2,8 @@
 
 # Authored by Gordon Hart, June 2015
 
+import collections
+
 class Tool:
 	'''
 	holds information about the individual tool
@@ -9,7 +11,7 @@ class Tool:
 	def __init__(self, _name):
 		self.name = _name
 		self.tipRacks = []
-		self.attributes = {} #generic attributes dictionary
+		self.attributes = collections.OrderedDict() #generic attributes dictionary
 		self.points = [] #list of dicts of calibration points
 
 	def setType(self, _type):
@@ -22,7 +24,9 @@ class Tool:
 		self.tipRacks.append(_rack) #add this rack to the list of tip racks
 
 	def addPoint(self, _f1, _f2):
-		temp = dict(f1=_f1, f2=_f2)
+		temp = collections.OrderedDict()
+		temp['f1'] = _f1
+		temp['f2'] = _f2
 		self.points.append(temp)
 
 	def addAttr(self, _key, _item):

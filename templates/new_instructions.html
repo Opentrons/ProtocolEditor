@@ -1,0 +1,239 @@
+{% import 'edit.html' as editor %}
+
+{% macro newTransfer(fileName, groupIndex) %}
+<div class="UI-sub-block-gray new_transfer_moveBlock" id="addTransfer" style="display:none;">
+
+  <div class="row padded-sides">
+    <div class="col-md-12">
+      <table><tr>
+      <td class="padded-sides"><b><i>Action Type:</i></b></td>
+      <td class="move-icon-bar"><img src="/static/images/transfer.png" class="icon" /></td>
+      <td class="padded-sides"><div class="instrMove">transfer</div></td>
+      </tr></table>
+    </div>
+  </div>
+
+  <div class="row padded-sides">
+
+    <div class="col-md-4">
+      <div class="UI-sub-block-white">
+      <img src="/static/images/from.png" class="icon">
+
+        <div id="new_transfer_from_{{ groupIndex }}" class="fromBlock">
+          <div class="row">
+            <div class="col-md-6">
+            {{ editor.undefined("fromLocKey") }}
+            </div>
+            <div class="col-md-6">
+            {{ editor.undefined("fromLocValue") }}
+            </div>
+          </div>
+        </div>
+        <a href="javascript:void(0)" class="add-button" onclick="addLine('new_transfer_from_{{ groupIndex }}', 'fromLocKey', 'fromLocValue');">Add Attribute</a>
+
+      </div>
+    </div>
+    <div class="col-md-4">
+  	  <div class="UI-sub-block-white">
+      <img src="/static/images/to.png" class="icon">
+
+        <div id="new_transfer_to_{{ groupIndex }}" class="toBlock">
+          <div class="row">
+            <div class="col-md-6">
+            {{ editor.undefined("toLocKey") }}
+            </div>
+            <div class="col-md-6">
+            {{ editor.undefined("toLocValue") }}
+            </div>
+          </div>
+        </div>
+        <a href="javascript:void(0)" class="add-button" onclick="addLine('new_transfer_to_{{ groupIndex }}', 'toLocKey', 'toLocValue');">Add Attribute</a>
+  	  
+      </div>
+    </div>
+    <div class="col-md-4">
+  	  <div class="UI-sub-block-white">
+      <img src="/static/images/attributes.png" class="icon">
+
+        <div id="new_transfer_attr_{{ groupIndex }}" class="attrBlock">
+          <div class="row">
+            <div class="col-md-6">
+            {{ editor.undefined("otherAttrKey") }}
+            </div>
+            <div class="col-md-6">
+            {{ editor.undefined("otherAttrValue") }}
+            </div>
+          </div>
+        </div>
+        <a href="javascript:void(0)" class="add-button" onclick="addLine('new_transfer_to_{{ groupIndex }}', 'otherAttrKey', 'otherAttrValue');">Add Attribute</a>
+
+  	  </div>
+    </div>
+
+  </div>
+  <div class="tip-change-block">
+    - - - - - <img src="/static/images/tipchange.png" class="tipchange" /> - - - - -
+  </div>
+
+  <div class="row padded-sides">
+    <div class="col-md-12">
+      <form method="post" action="/refresh" enctype="multipart/form-data" onsubmit="addInstruction(this.parentNode.parentNode.parentNode); traverse('transfer_JSON');">
+        <div class="row">
+          <div class="col-md-8">
+            <button type="submit" class="btn tron-blue submit-new">
+              Confirm Addition of Transfer
+            </button>
+          </div>
+          <div class="col-md-4">
+ <!--           <span class="btn tron-grey submit-new add-handle" style="cursor:pointer;">Cancel</span>-->
+          </div>
+        </div>
+
+        <input type="hidden" name="fileName" value="{{ fileName }}" />
+        <input type="hidden" name="fullJSON" value="json" id="transfer_JSON" />
+      </form>
+    </div>
+  </div>
+
+</div>
+{% endmacro %}
+
+
+
+{% macro newDistribute(fileName, groupIndex) %}
+<div class="UI-sub-block-gray" id="addDistribute" style="display:none;">
+
+  <div class="row padded-sides">
+    <div class="col-md-12">
+      <table><tr>
+      <td class="padded-sides"><b><i>Action Type:</i></b></td>
+      <td class="move-icon-bar"><img src="/static/images/distribute.png" class="icon" /></td>
+      <td class="padded-sides"><div class="instrMove">Distribute</div></td>
+      </tr></table>
+    </div>
+  </div>
+
+  <div class="row padded-sides">
+
+    <div class="col-md-4">
+      <div class="UI-sub-block-white">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="UI-sub-block-white">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="UI-sub-block-white">
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row padded-sides">
+    <div class="col-md-12">
+      <form method="post" action="/addInstruction" enctype="multipart/form-data">
+        <button type="submit" class="btn tron-blue" onclick="traverse('distribute_JSON');" style="width:100%">
+          Confirm Addition of New Distribute
+        </button>
+
+        <input type="hidden" name="fileName" value="{{ fileName }}" />
+        <input type="hidden" name="addJSON" value="json" id="distribute_JSON" />
+      </form>
+    </div>
+  </div>
+
+</div>
+{% endmacro %}
+
+
+
+{% macro newConsolidate(fileName, groupIndex) %}
+<div class="UI-sub-block-gray" id="addConsolidate" style="display:none;">
+
+  <div class="row padded-sides">
+    <div class="col-md-12">
+      <table><tr>
+      <td class="padded-sides"><b><i>Action Type:</i></b></td>
+      <td class="move-icon-bar"><img src="/static/images/consolidate.png" class="icon" /></td>
+      <td class="padded-sides"><div class="instrMove">Consolidate</div></td>
+      </tr></table>
+    </div>
+  </div>
+
+  <div class="row padded-sides">
+
+    <div class="col-md-4">
+      <div class="UI-sub-block-white">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="UI-sub-block-white">
+      </div>
+      <div class="UI-sub-block-white">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="UI-sub-block-white">
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row padded-sides">
+    <div class="col-md-12">
+      <form method="post" action="/addInstruction" enctype="multipart/form-data">
+        <button type="submit" class="btn tron-blue" onclick="traverse('consolidate_JSON');" style="width:100%">
+          Confirm Addition of New Consolidate
+        </button>
+
+        <input type="hidden" name="fileName" value="{{ fileName }}" />
+        <input type="hidden" name="addJSON" value="json" id="consolidate_JSON" />
+      </form>
+    </div>
+  </div>
+
+</div>
+{% endmacro %}
+
+
+
+{% macro newMix(fileName, groupIndex) %}
+<div class="UI-sub-block-gray" id="addMix" style="display:none;">
+
+  <div class="row padded-sides">
+    <div class="col-md-12">
+      <table><tr>
+      <td class="padded-sides"><b><i>Action Type:</i></b></td>
+      <td class="move-icon-bar"><img src="/static/images/mix.png" class="icon" /></td>
+      <td class="padded-sides"><div class="instrMove">Mix</div></td>
+      </tr></table>
+    </div>
+  </div>
+
+  <div class="row padded-sides">
+
+    <div class="col-md-4"></div>
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <div class="UI-sub-block-white">
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row padded-sides">
+    <div class="col-md-12">
+      <form method="post" action="/addInstruction" enctype="multipart/form-data">
+        <button type="submit" class="btn tron-blue" onclick="traverse('mix_JSON');" style="width:100%">
+          Confirm Addition of New Mix
+        </button>
+
+        <input type="hidden" name="fileName" value="{{ fileName }}" />
+        <input type="hidden" name="addJSON" value="json" id="mix_JSON" />
+      </form>
+    </div>
+  </div>
+
+</div>
+{% endmacro %}

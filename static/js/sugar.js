@@ -58,7 +58,20 @@ Sugar.Element.prototype = {
 		var modalRoot = this.getParent('.modalComponent');
 		modalRoot.el.className = modalRoot.el.className.replace(/\bmode-\w+\b/, '');
 		modalRoot.addClass('mode-'+mode);
+	},
+
+	///////////////////////////
+	// helper methods I added for use in edit-in-place.js
+	///////////////////////////
+	setFocus: function() {
+		this.el.focus();
+	},
+
+	selectAll: function() {
+		this.el.select();
 	}
+	///////////////////////////
+	///////////////////////////
 
 };
 

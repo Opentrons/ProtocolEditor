@@ -1,315 +1,106 @@
 {% extends 'layout.html' %}
 
-{% block dropFile %}
-
-  <div class="UI-block center-block" id="dragDiv" style="text-align:left">
-    <div class="row" style="padding-left:20px;padding-right:20px;">
-
-      <form method="post" action="/process" enctype="multipart/form-data">
-        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-          <button type="submit" class="btn tron-blue">Process</button>
-        </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-          <input type="file" class="btn tron-white" name="fileJSON" id="fileUpload" accept=".json" />
-        </div>
-      </form>
-
-      <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
-
-        <form action="/save" method="post" enctype="multipart/form-data" style="text-align:right;margin-top:2px;display:inline;float:right;position:relative;">
-          <table><tr>
-            <td><input type="text" value="{{ fileName }}" name="fileName" style="text-align:right;background:#f8f8f8;border:none;font-size:18px;width:475px" /></td>
-            <td style="padding-right:25px;"><div style="font-size:18px;">.json</div></td>
-            <td><button type="submit" class="btn tron-blue" {% if fileName == '[empty]' %}disabled{% endif %}>Save</button></td>
-          </tr></table>
-        </form>
-
-      </div>
-    </div>
-
-  </div>
-
-{% endblock %}
+<!-- import macros -->
+{% import 'deck.html' as d %}
+{% import 'ingredients.html' as ingr %}
+{% import 'head.html' as h %}
+{% import 'instructions.html' as instr %}
 
 {% block body %}
+{% if fileName != '[empty]' %}
 
-  {% if fileName != '[empty]' %}
+<div class="row">
+  <div class="col-md-6">
 
-  <div class="row">
-    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-      <div class="UI-block center-block" id="deckItems">
-        <div class="row">
-          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            <h3 class="UI-Title" style="padding-left:10px;">Deck Items</h3>
-          </div>
-          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 collapse-section">
-            <a href="#" onclick="collapse('deck', this);">hide</a>
-          </div>
-        </div>
-        <div class="UI-sub-block-white" id="deck">
-        <div class="row" style="padding-left:20px;padding-right:20px;">
-          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-            <b><i>NAME</i></b>
-          </div>
-          <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-            <b><i>TYPE</i></b>
-          </div>
-        </div>
+    <!-- sections use MODAL hide/show -->
+    <div class="UI-block center-block" id="deckItems"> <!-- START DECK -->
+      <div class="collapse-in-place modalComponent mode-expanded">
 
-        <!-- add new row here foreach deck item -->
-        {% block deck %}
-
-          {% for d in deckList %}
-
-          <div class="row" style="padding-left:20px;padding-right:20px;">
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" {% if loop.index is divisibleby 2 %}style="background:#F8F8F8"{% endif %}>
-              {{ d.name }}
-            </div>
-            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" {% if loop.index is divisibleby 2 %}style="background:#F8F8F8"{% endif %}>
-              {{ d.type }}
-            </div>
-          </div>
-
-          {% endfor %}
-
-        {% endblock %}
-        </div>
-      </div>
-
-      <div class="UI-block center-block">
-        <div class="row">
-          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            <h3 class="UI-Title" style="padding-left:10px;">Ingredients</h3>
-          </div>
-          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 collapse-section">
-            <a href="#" onclick="collapse('ingredients', this);">hide</a>
-          </div>
-        </div>
-        <div class="UI-sub-block-white" id="ingredients">
-        <div class="row" style="padding-left:20px;padding-right:20px;">
-          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-            <b><i>NAME</i></b>
-          </div>
-          <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-            <b><i>TYPE</i></b>
-          </div>
-        </div>
-
-        {% block ingredients %}
-
-          {% for g in ingrList %}
+        <div class="mode collapsed">
           <div class="row">
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-            Type
+            <div class="col-md-6">
+              <h3 class="UI-Title">Deck Items</h3>
+            </div>
+            <div class="col-md-6 collapse-section">
+              <span class="collapse-handle" style="cursor:pointer;">show</span>
             </div>
           </div>
-          {% endfor %}
+        </div>
 
-        {% endblock %}
+        <div class="mode expanded">
+          {{ d.deck(deckList, fileName) }}
         </div>
 
       </div>
+    </div> <!-- END DECK -->
+    
+    <div class="UI-block center-block" id="Ingredients"> <!-- START INGREDIENTS -->
+      <div class="collapse-in-place modalComponent mode-expanded">
 
-    </div>
-
-    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-      <div class="UI-block center-block" id="heads">
-        <div class="row">
-          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            <h3 class="UI-Title" style="padding-left:10px;">Head Items</h3>
-          </div>
-          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 collapse-section">
-            <a href="#" onclick="collapse('head', this);">hide</a>
+        <div class="mode collapsed">
+          <div class="row">
+            <div class="col-md-6">
+              <h3 class="UI-Title">Ingredients</h3>
+            </div>
+            <div class="col-md-6 collapse-section">
+              <span class="collapse-handle" style="cursor:pointer;">show</span>
+            </div>
           </div>
         </div>
-        <div id="head">
 
-        {% block head %}
-
-          {% for h in headList %}
-          <div class="UI-sub-block-white">
-            <div class="row">
-              <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="padding-left:30px">
-                <img src="../static/images/pipette.png" height="80">
-              </div>
-              <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                <div class="row" style="padding-left:20px;padding-right:20px;">
-                  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                    <b><i>NAME:</i></b>
-                  </div>
-                  <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                    {{ h.name }}
-                  </div>
-                </div>
-                <div class="row" style="padding-left:20px;padding-right:20px;">
-                  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                    <b><i>TYPE:</i></b>
-                  </div>
-                  <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                    {{ h.type }}
-                  </div>
-                </div>
-                <div class="row" style="padding-left:20px;padding-right:20px;">
-                  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                    <b><i>TRASH:</i></b>
-                  </div>
-                  <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                    {{ h.trash }}
-                  </div>
-                </div>
-                <div class="row" style="padding-left:20px;padding-right:20px;">
-                  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                    <b><i>TIP RACK(S):</i></b>
-                  </div>
-                  <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                  {% for tiprack in h.tipRacks %}
-                    {{ tiprack }}<br />
-                  {% endfor %}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <br />
-            <div style="padding-left:20px;padding-right:20px;text-align:left;"><!--<b><i>ATTRIBUTES:</i></b><--><img src="../static/images/attributes.png" height="18px"></div>
-              <div class="row" style="padding-left:20px;padding-right:20px;">
-                 {% for key, value in h.attr.items() %}
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                  <div class="edit-in-place modalComponent mode-display">
-                    <div class="mode display edit">
-                      <span class="edit-handle" style="cursor:pointer;">{{ key }}</span>
-                    </div>
-                  
-                      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        <div class="mode display value">
-                          <span class="edit-handle" style="cursor:pointer;">{{ value }}</span></div>
-                        <div class="mode edit">
-                          <form action="/user/1/edit" method="post">
-                          <input type="text" value="{{ value }}" name="name" />
-                          <input type="submit" value="Save" />
-                        </form>
-                      </div>
-                    </div>
-                  </div>  
-                </div>
-               {% endfor %}
-            </div>
-          </div>
-          {% endfor %}
-
-        {% endblock %}
+        <div class="mode expanded">
+          {{ ingr.ingredients(ingrList, fileName) }}
+        </div>
+        
       </div>
-      </div>
-    </div>
+    </div> <!-- END INGREDIENTS -->
+
   </div>
 
-  <div class="UI-block center-block" id="actions">
-    <div class="row">
-      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-        <h3 class="UI-Title" style="padding-left:10px;">Instructions</h3>
-      </div>
-      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 collapse-section">
-        <a href="#" onclick="collapse('instructions', this);">hide</a>
-      </div>
-    </div>
-    <div id="instructions">
+  <div class="col-md-6">
+    <div class="UI-block center-block" id="heads"> <!-- START HEAD -->
+      <div class="collapse-in-place modalComponent mode-expanded">
 
-    {% block actions %}
-
-      {% for group in instrList %}
-      <div class="UI-sub-block-white">
-        <div class="row" style="padding-left:20px;padding-right:20px;">
-          <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-            <b><i>Tool:</i></b>
-          </div>
-          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-            {{ group.tool }}
-          </div>
-          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 collapse-section">
-            <a href="#" onclick="collapse('{{ group.tool }}', this);">hide</a>
-          </div>
-        </div>
-        <div id="{{ group.tool }}">
-        {% for i in group.instr %}
-          <div class="UI-sub-block-gray">
-            <div class="row" style="padding-left:20px;padding-right:20px;">
-              <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                <b><i>Action Type:</i></b>
-              </div>
-              <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
-                {{ i.type }}
-              </div>
+        <div class="mode collapsed">
+          <div class="row">
+            <div class="col-md-6">
+              <h3 class="UI-Title">Head Items</h3>
             </div>
-
-            {% for motion in i.moves %}
-              <div class="UI-sub-block-white">
-                <div class="row" style="padding-left:20px;padding-right:20px;">
-                  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                  {% for location in motion.from %}
-                    <div class="UI-sub-block-gray">
-                    <img src="../static/images/from.png" height="18px">
-                   <!-- <b><i>FROM:</i></b> -->
-                    {% for key, value in location.items() %}
-                      <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        {{ key }}:
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        {{ value }}
-                        </div>
-                      </div>
-                    {% endfor %}
-                    </div>
-                  {% endfor %}
-                  </div>
-                  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                  {% for location in motion.to %}
-                    <div class="UI-sub-block-gray">
-                    <img src="../static/images/to.png" height="18px">
-                  <!--  <b><i>TO:</i></b> -->
-                    {% for key, value in location.items() %}
-                      <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        {{ key }}:
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        {{ value }}
-                        </div>
-                      </div>
-                    {% endfor %}
-                    </div>
-                  {% endfor %}
-                  </div>
-                  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                    <div class="UI-sub-block-gray">
-                    <img src="../static/images/attributes.png" height="18px">
-                   <!--   <b><i>ATTRIBUTES:</i></b> -->
-                      {% for key, value in motion.other.items() %}
-                      <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        {{ key }}:
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        {{ value }}
-                        </div>
-                      </div>
-                    {% endfor %}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            {% endfor %}
-
+            <div class="col-md-6 collapse-section">
+              <span class="collapse-handle" style="cursor:pointer;">show</span>
+            </div>
           </div>
-        {% endfor %}
+        </div>
+
+        <div class="mode expanded">
+          {{ h.head(headList, fileName) }}
+        </div>
+        
+      </div>
+    </div> <!-- END HEAD -->
+  </div>
+</div>
+
+<div class="UI-block center-block" id="Instructions"> <!-- START INSTRUCTIONS -->
+  <div class="collapse-in-place modalComponent mode-expanded">
+
+    <div class="mode collapsed">
+      <div class="row">
+        <div class="col-md-6">
+          <h3 class="UI-Title">Instructions</h3>
+        </div>
+        <div class="col-md-6 collapse-section">
+          <span class="collapse-handle" style="cursor:pointer;">show</span>
         </div>
       </div>
-      {% endfor %}
-
-    {% endblock %}
     </div>
+
+    <div class="mode expanded">
+      {{ instr.instructions(instrList, fileName) }}
+    </div>
+    
   </div>
+</div> <!-- END INSTRUCTIONS -->
 
-  {% endif %}
-
+{% endif %}
 {% endblock %}

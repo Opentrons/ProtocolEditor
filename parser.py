@@ -2,6 +2,7 @@
 
 import json
 import sys
+import collections
 
 from head import Head
 from tool import Tool
@@ -10,6 +11,7 @@ from deck import Deck
 from container import Container
 
 from ingredients import Ingredients
+from reagent import Reagent
 
 from actions import *
 from group import Group
@@ -22,13 +24,114 @@ class Parser:
 	instruction items
 	'''
 	def __init__(self, rawJson): #send it a raw string of all of the json on instantiation
-		self.parsed_json = json.loads(rawJson) #parse the json
+		self.parsed_json = json.loads(rawJson, object_pairs_hook=collections.OrderedDict) #parse the json into ordered dict
+
+		self.error = self.properlyFormattedInput()
+		self.head = None
+		self.deck = None
+		self.ingredients = None
+		self.instructions = None
+
+		if self.error == '': #instantiate the objects if they're there
+			self.head = self.parseHead()
+			self.deck = self.parseDeck()
+			self.ingredients = self.parseIngredients()
+			self.insructions = self.parseInstructions()
+
+			self.update() #adds new connects if necessary
+
+
+	def properlyFormattedInput(self):
+		error = '' #pass by default
+		if 'head' not in self.parsed_json:
+			error += ' - - missing head section'
+		if 'deck' not in self.parsed_json:
+			error += ' - - missing deck section'
+		if 'ingredients' not in self.parsed_json:
+			error += ' - - missing ingredients section'
+		if 'instructions' not in self.parsed_json:
+			error += ' - - missing instructions section'
+
+		return error
+
+
+	def addInstruction(self, groupNum, instrType):
+		if instrType == 'transfer':
+			act = Transfer()
+		elif instrType == 'distribute':
+			act = Distribute()
+		elif instrType == 'consolidate':
+			act = Consolidate()
+		elif instrType == 'mix':
+			act = Mix()
+
+		if act is not None:
+			self.instructions.groups[groupNum].addAction(act) #add new motion to list
+
+
+	def addContainer(self, name, kind): #create and add new container to list
+		cont = Container(name, kind)
+		self.deck.addContainer(cont)
+
+
+	def addIngredient(self, name, volume, container, location):
+		reag = Reagent(name)
+
+		attr = collections.OrderedDict()
+		attr['volume'] = volume
+		attr['container'] = container
+		attr['location'] = location
+
+		reag.addLocation(**attr)
+		self.ingredients.addReagent(reag) #add new reagent to list
+
+
+	def addIngrLocation(self, parent, volume, container, location):
+		newLoc = collections.OrderedDict()
+		newLoc['volume'] = volume
+		newLoc['container'] = container
+		newLoc['location'] = location
+
+		reags = self.ingredients.getReagents()
+		for reag in reags: #go through list to find proper ingredient
+#			print "%s , %s" % (reag.getName, parent)
+			if 	reag.getName() == parent:
+				reag.addLocation(**newLoc)
+				return
+
+
+	def update(self):
+		for tool in self.head.getTools(): # go through tools and check that each has an instructions group
+			exists = False
+			for group in self.instructions.getGroups():
+				if group.getTool() == tool.getName():
+					exists = True
+
+			if exists is False: #the section doesn't exist, add a new instruction group for the new tool
+				newGroup = Group(self.instructions)
+				newGroup.addTool(tool.getName())
+				self.instructions.addGroup(newGroup)
+
+
+	def getHead(self): return self.head
+	def getDeck(self): return self.deck
+	def getIngredients(self): return self.ingredients
+	def getInstructions(self): return self.instructions
+
+
+
+	'''
+	PARSER METHODS
+
+	These shouldn't be called anywhere but in the parser's instantiation.
+	In fact, they should probably be private......
+	'''
 
 	def parseHead(self):
 		'''
 		return a Head object with the the head information stored in it
 		'''
-		myHead = Head()
+		self.head = Head()
 
 		mySection = self.parsed_json['head'] #go to head section of json dict
 
@@ -53,33 +156,48 @@ class Parser:
 				else:
 					myTool.addAttr(key, thisItem) #add attribute to tool's generic attribute list
 
-			myHead.addTool(myTool) #add new tool to the head
+			self.head.addTool(myTool) #add new tool to the head
 
-		return myHead #return head object
+		return self.head #return head object
 
 
 	def parseDeck(self):
 		'''
 		return a Deck object with the containers stored
 		'''
-		myDeck = Deck()
+		self.deck = Deck()
 
 		mySection = self.parsed_json['deck']
 
 		for key in mySection: 
 			temp = Container(key, mySection[key]['labware'])
 			#make new container with name corresponding to key, type to the labware element
-			myDeck.addContainer(temp) #add containter to deck
+			self.deck.addContainer(temp) #add containter to deck
 
-		return myDeck
+		return self.deck
 
 
 	def parseIngredients(self):
 		'''
 		return ingredients?
 		'''
-		myIngredients = Ingredients()
-		return myIngredients
+		self.ingredients = Ingredients()
+
+		mySection = self.parsed_json['ingredients']
+
+		for key in mySection:
+			section = mySection[key]
+			reagent = Reagent(key)
+			for location in section:
+				locationAttributes = collections.OrderedDict()
+				for key in location:
+					newAttribute = location[key]
+					locationAttributes[key] = newAttribute
+				reagent.addLocation(**locationAttributes)
+			self.ingredients.addReagent(reagent)
+
+		return self.ingredients
+
 
 	def parseInstructions(self):
 		'''
@@ -99,13 +217,13 @@ class Parser:
 		where Commands are Transfer, Distribute, Consolidate, Mix
 		and Actions are To:From pairs
 		'''
-		myInstructions = Instructions()
+		self.instructions = Instructions()
 
 		mySection = self.parsed_json['instructions']
 
 		#had to get creative with the terminology in here.......
 		for group in mySection: #loop through each group
-			temp = Group(myInstructions)
+			temp = Group(self.instructions)
 			temp.addTool(group['tool']) #add the tool to this group
 		
 			commands = group['groups'] #get the commands list
@@ -114,7 +232,7 @@ class Parser:
 					thisCommand = command[key]
 
 					if key == 'transfer':
-						act = Transfer(temp) #instantiate new transfer pointing to parent group
+						act = Transfer() #instantiate new transfer pointing to parent group
 						
 						for motion in thisCommand: #loop through transfer motion list
 							newMotion = Motion(act) #instantiate new motion with this transfer as parent
@@ -131,7 +249,7 @@ class Parser:
 						temp.addAction(act)
 
 					elif key == 'distribute':
-						act = Distribute(temp)
+						act = Distribute()
 
 						newMotion = Motion(act)
 
@@ -148,7 +266,7 @@ class Parser:
 						temp.addAction(act)
 
 					elif key == 'consolidate':
-						act = Consolidate(temp)
+						act = Consolidate()
 						newMotion = Motion(act)
 
 						for name in thisCommand: #go through dict
@@ -164,7 +282,7 @@ class Parser:
 						temp.addAction(act)
 
 					elif key == 'mix':
-						act = Mix(temp)
+						act = Mix()
 
 						for motion in thisCommand:
 							newMotion = Motion(act)
@@ -174,9 +292,7 @@ class Parser:
 							
 						temp.addAction(act)
 
-			myInstructions.addGroup(temp)
+			self.instructions.addGroup(temp)
 
-		return myInstructions
-
-
+		return self.instructions
 

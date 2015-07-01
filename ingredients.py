@@ -8,7 +8,9 @@ class Ingredients:
 	'''
 
 	def __init__(self):
-		self.ingrs = [] #make empty ingredient array
+		self.reagents = [] #make empty ingredient array
 
-	def addIngredient(self, ingredient):
-		self.ingrs.append(ingredient)
+	def addReagent(self, _reagent):
+		self.reagents.append(_reagent)
+
+	def getReagents(self): return self.reagents

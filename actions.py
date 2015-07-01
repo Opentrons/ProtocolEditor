@@ -10,8 +10,7 @@ class Action:
 	'''
 	myType = 'default'
 
-	def __init__(self, parentGroup):
-		self.group = parentGroup
+	def __init__(self):
 		self.myMotions = []
 
 	def getType(self):
