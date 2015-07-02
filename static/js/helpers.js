@@ -11,12 +11,12 @@ function collapse(elID, clicked) { //partially replaced by modals already, hopef
 	}
 }
 
-function removeDiv(elID, clicked) {
+function removeDiv(elClass, clicked) {
 	var alertString = "Are you sure you want to delete this element?";
 	alertString += "\n\nThis will delete this element and ALL dependent elements.";
 
 	if(confirm(alertString)){
-		var divList = document.getElementsByClassName(elID);
+		var divList = document.getElementsByClassName(elClass);
 		for(var i=0; i<divList.length; i++){ //go through each block with the name and delete it if it corresponds to the delete button clicked
 			if(divList[i].contains(clicked)){
 				divList[i].remove();
@@ -25,9 +25,10 @@ function removeDiv(elID, clicked) {
 	}
 }
 
-function showAddBox(elID, clicked) { //partially replaced by modals already, hopefully deprecated soon
-	document.getElementById(elID).style.display = 'block';
-	clicked.innerHTML = '';
+function toggleVisibility(toShowId, toHideEl) { //partially replaced by modals already, hopefully deprecated soon
+	document.getElementById(toShowId).style.display = 'block';
+//	clicked.innerHTML = '';
+	toHideEl.style.display = 'none';
 }
 
 function confirmProcess(proceedID) {
@@ -48,6 +49,22 @@ function confirmProcess(proceedID) {
 		}
 	}
 }
+
+/*
+function removeMotion(clicked) {
+	var alertString = "Are you sure you want to delete this Motion?";
+	alertString += "\n\nThis will delete this element and ALL dependent elements.";
+
+	if(confirm(alertString)){
+		var divList = document.getElementsByClassName(elID);
+		for(var i=0; i<divList.length; i++){ //go through each block with the name and delete it if it corresponds to the delete button clicked
+			if(divList[i].contains(clicked)){
+				divList[i].remove();
+			}
+		}
+	}
+}
+*/
 
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////

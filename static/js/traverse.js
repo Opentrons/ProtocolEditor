@@ -39,6 +39,8 @@ function checkEditing() { //check if there are unsaved changes
 }
 
 function sendOut(id, newText) {
+//	console.log(newText);
+//	console.log(id);
 	document.getElementById(id).value = newText;
 }
 
@@ -197,6 +199,7 @@ function addInstructions() { //piece the instructions back together as a JSON ob
 	var instrBlocks = document.getElementsByClassName("instrBlock");
 	
 	var moveBlocks = document.getElementsByClassName("moveBlock");
+	var motionBlocks = document.getElementsByClassName("motionBlock");
 
 	var fromBlocks = document.getElementsByClassName("fromBlock");
 	var fromLocKeys = document.getElementsByClassName("fromLocKey");
@@ -218,7 +221,7 @@ function addInstructions() { //piece the instructions back together as a JSON ob
 
 		var toolBlock = document.getElementsByClassName(tool);
 
-		console.log(moveBlocks.length); //TEST TEST TEST TEST
+//		console.log(moveBlocks.length); //TEST TEST TEST TEST
 
 		for(var j=0; j<moveBlocks.length; j++) {
 			if(toolBlock[0].contains(moveBlocks[j])){
@@ -226,6 +229,12 @@ function addInstructions() { //piece the instructions back together as a JSON ob
 
 				instrString += newLine('{', 4);
 				moveName = stripWhiteSpace(instrMoves[j].textContent); //add name
+
+				var logger = "instrMoves[" + j + "] : " + moveName;
+				console.log(logger);
+
+//				logger = "moveBlocks[" + j + "] : " + moveBlocks[j].textContent;
+//				console.log(logger);
 
 				if(moveName == "transfer"){
 					instrString += newLine('"transfer": [ ', 5);
@@ -240,15 +249,32 @@ function addInstructions() { //piece the instructions back together as a JSON ob
 					and add each block within that move sequentially.
 					*/
 
-					for(var k=0; k<fromBlocks.length; k++){
-						if (thisBlock.contains(fromBlocks[k])) {
+
+					for(var k=0; k<motionBlocks.length; k++){
+						if (thisBlock.contains(motionBlocks[k])) {
+//							console.log("contains: ", k);
+
 							instrString += newLine('{', 6);
-							instrString += newBlock("from", fromLocKeys, fromLocValues, fromBlocks[k], 6); //add from characteristics
-							instrString += newBlock("to", toLocKeys, toLocValues, toBlocks[k], 6); //add to characteristics
-							instrString += newAttrs(otherAttrKeys, otherAttrValues, attrBlocks[k], 6);
+							for(var n=0; n<fromBlocks.length; n++) {
+								if(motionBlocks[k].contains(fromBlocks[n])) {
+									instrString += newBlock("from", fromLocKeys, fromLocValues, fromBlocks[n], 6); //add from characteristics
+								}
+							}
+							for(var n=0; n<toBlocks.length; n++) {
+								if(motionBlocks[k].contains(toBlocks[n])) {
+									instrString += newBlock("to", toLocKeys, toLocValues, toBlocks[n], 6); //add to characteristics
+								}
+							}
+							for(var n=0; n<attrBlocks.length; n++) {
+								if(motionBlocks[k].contains(attrBlocks[n])) {
+									instrString += newAttrs(otherAttrKeys, otherAttrValues, attrBlocks[n], 6);
+								}
+							}
 							instrString += newLine('},', 6);
-						} //NOTE: we are able to do this in one move as such because transfers are always 1:1
+						}
 					}
+//					console.log(motionBlocks.length);
+
 					instrString = removeLast(instrString);
 					instrString += newLine(']', 5);
 
@@ -319,6 +345,7 @@ function addInstructions() { //piece the instructions back together as a JSON ob
 	instrString = removeLast(instrString);
 	instrString += newLine(']', 1);
 
+//	console.log(instrString);
 	return instrString;
 }
 

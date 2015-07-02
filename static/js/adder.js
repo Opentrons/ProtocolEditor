@@ -48,6 +48,8 @@ so that it will be picked up by the "traverse()" function called immediately aft
 */
 
 function addMotion(parent){ //set the appropriate class names for the attributes being added to be picked up by traverse.js
+	addClassName("motionBlock", document.getElementsByClassName("new_motionBlock"), parent);
+
 	addClassName("fromBlock", document.getElementsByClassName("new_fromBlock"), parent);
 	addClassName("toBlock", document.getElementsByClassName("new_toBlock"), parent);
 	addClassName("attrBlock", document.getElementsByClassName("new_attrBlock"), parent);
@@ -68,25 +70,12 @@ function addHeadItem(parent){ //add the proper class names
 	addClassName("pointValue", document.getElementsByClassName("new_pointValue"), parent);
 }
 
-/////////////////////////////////
-///////// NOT COMPLETED YET /////
-/////////////////////////////////
+function addInstruction(parent, type) {
+	var typeString = "new_" + type + "_moveBlock";
+	var instrMoveString = "instrMove_" + type;
 
-function addInstruction(parent) {
-//	console.log("add instruction");
-	addClassName("moveBlock", document.getElementsByClassName("new_transfer_moveBlock"), parent);
-/*	addClassName("fromBlock", document.getElementsByClassName("new_instr_from"), parent);
-	addClassName("toBlock", document.getElementsByClassName("new_instr_to"), parent);
-	addClassName("attrBlock", document.getElementsByClassName("new_instr_attr"), parent);
-
-	addClassName("fromLocKey", document.getElementsByClassName("new_instr_to"), parent);
-	addClassName("fromLocValue", document.getElementsByClassName("new_instr_attr"), parent);
-
-	addClassName("toLocKey", document.getElementsByClassName("new_instr_to"), parent);
-	addClassName("toLocValue", document.getElementsByClassName("new_instr_attr"), parent);
-
-	addClassName("otherAttrKey", document.getElementsByClassName("new_instr_to"), parent);
-	addClassName("otherAttrValue", document.getElementsByClassName("new_instr_attr"), parent);	*/
+	addClassName("instrMove", document.getElementsByClassName(instrMoveString), parent)
+	addClassName("moveBlock", document.getElementsByClassName(typeString), parent);
 }
 
 //////////////////////////////////////

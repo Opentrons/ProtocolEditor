@@ -40,8 +40,8 @@ Sugar.addModal('add-in-place', {
 			var input   = parentModal.find('input[type=text]');
 			input.value = parentModal.find('.value').innerHTML;
 
-			input.setFocus();
-			input.selectAll();
+//			input.setFocus();
+//			input.selectAll();
 		});
 	
 	},

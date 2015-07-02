@@ -50,7 +50,7 @@
         <div id="{{ group.tool }}_{{ instrIndex }}" style="display:none;"> <!-- to hide the moves | HIDDEN BY DEFAULT -->
           {% for motion in i.moves %}
           {% set motionIndex = loop.index %}
-          <div class="row padded-sides">
+          <div class="row padded-sides motionBlock">
             <div class="col-md-4">
               {% for location in motion.from %}
               <div class="UI-sub-block-white fromBlock">
@@ -134,10 +134,10 @@
               <div class="add-move-block">
                 <span class="padded-sides">New Instruction Type: </span>
                 <div class="btn-group">
-                  <button class="btn tron-white" onclick="showAddBox('addTransfer', this.parentNode.parentNode.parentNode);">Transfer</button>
-                  <button class="btn tron-white" onclick="showAddBox('addDistribute', this.parentNode.parentNode.parentNode);">Distribute</button>
-                  <button class="btn tron-white" onclick="showAddBox('addConsolidate', this.parentNode.parentNode.parentNode);">Consolidate</button>
-                  <button class="btn tron-white" onclick="showAddBox('addMix', this.parentNode.parentNode.parentNode);">Mix</button>
+                  <button class="btn tron-white" onclick="toggleVisibility('add_transfer_{{ groupIndex }}', this.parentNode.parentNode.parentNode);">Transfer</button>
+                  <button class="btn tron-white" onclick="toggleVisibility('add_distribute_{{ groupIndex }}', this.parentNode.parentNode.parentNode);">Distribute</button>
+                  <button class="btn tron-white" onclick="toggleVisibility('add_consolidate_{{ groupIndex }}', this.parentNode.parentNode.parentNode);">Consolidate</button>
+                  <button class="btn tron-white" onclick="toggleVisibility('add_mix_{{ groupIndex }}', this.parentNode.parentNode.parentNode);">Mix</button>
                 </div>
               </div>
             </div>
@@ -145,11 +145,11 @@
         </div>
       </div>
 
-      {{ new_instr.newTransfer(fileName, groupIndex) }}
-      {{ new_instr.newDistribute(fileName, groupIndex) }}  
-      {{ new_instr.newConsolidate(fileName, groupIndex) }}  
-      {{ new_instr.newMix(fileName, groupIndex) }}
-      
+      {{ new_instr.new("transfer", fileName, groupIndex) }}
+      {{ new_instr.new("distribute", fileName, groupIndex) }}
+      {{ new_instr.new("consolidate", fileName, groupIndex) }}
+      {{ new_instr.new("mix", fileName, groupIndex) }}
+
     </div>
 
   </div>
