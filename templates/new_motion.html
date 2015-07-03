@@ -1,6 +1,6 @@
 {% import 'edit.html' as editor %}
 
-{% macro new(fileName, type, index) %}
+{% macro new(fileName, type, index, groupIndex) %}
 
 <div class="add-in-place modalComponent mode-button">
   <div class="mode button">
@@ -81,7 +81,7 @@
         {% endif %}
       </div>
 
-      <form method="post" action="/refresh#Instructions" enctype="multipart/form-data" onsubmit="addMotion(this.parentNode);traverse('motion_fullJSON_{{ index }}');">
+      <form method="post" action="/refresh#Instructions" enctype="multipart/form-data" onsubmit="addMotion(this.parentNode);traverse('motion_fullJSON_{{ index }}_{{ groupIndex }}');">
         <div class="col-md-12">
           <div class="row">
             <div class="col-md-8">
@@ -95,7 +95,7 @@
           </div>
         </div>
         <input type="hidden" name="fileName" value="{{ fileName }}" />
-        <input type="hidden" name="fullJSON" value="json" id="motion_fullJSON_{{ index }}" />
+        <input type="hidden" name="fullJSON" value="json" id="motion_fullJSON_{{ index }}_{{ groupIndex }}" />
       </form>
 
     </div>

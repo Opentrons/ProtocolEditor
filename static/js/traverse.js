@@ -39,8 +39,8 @@ function checkEditing() { //check if there are unsaved changes
 }
 
 function sendOut(id, newText) {
-//	console.log(newText);
-//	console.log(id);
+	console.log(newText);
+	console.log(id);
 	document.getElementById(id).value = newText;
 }
 
