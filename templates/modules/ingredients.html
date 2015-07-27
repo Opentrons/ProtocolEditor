@@ -1,4 +1,4 @@
-{% import 'edit.html' as editor %}
+{% import 'helpers/edit.html' as editor %}
 
 {% macro ingredients(ingrList, fileName) %}
   <div class="row">
@@ -20,11 +20,11 @@
         {{ editor.edit(value=reagent.name, blockName="reagentName") }}
       </div>
       <div class="col-md-3 hide-delete">
-        <a href="javascript:void(0)" onclick="collapse('{{ reagent.name }}{{ loop.index }}', this);">hide</a> | 
+        <a href="javascript:void(0)" onclick="collapse('{{ reagent.name }}_{{ loop.index }}', this);">hide</a> | 
         <a href="javascript:void(0)" onclick="removeDiv('reagentBlock', this);">delete</a>
       </div>
     </div>
-    <div id="{{ reagent.name }}{{ loop.index }}">
+    <div id="{{ reagent.name }}_{{ loop.index }}">
     {% for location in reagent.locs %}
       <div class="UI-sub-block-gray reagentSubBlock">
         {% for key, value in location.items() %}

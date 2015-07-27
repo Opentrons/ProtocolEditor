@@ -1,6 +1,4 @@
-{% import 'edit.html' as editor %}
-{% import 'new_instructions.html' as new_instr %}
-{% import 'new_motion.html' as new_motion %}
+{% import 'helpers/edit.html' as editor %}
 
 {% macro instructions(instrList, fileName) %} 
   <div class="row">
@@ -19,11 +17,12 @@
       <div class="col-md-2">
         <img src="/static/images/tool.png" class="icon" />
       </div>
-      <div class="col-md-4">
+      <div class="col-md-8">
         {{ editor.edit(value=group.tool, blockName="instrTool") }}
       </div>
-      <div class="col-md-6 collapse-section">
-        <a href="javascript:void(0)" onclick="collapse('{{ group.tool }}', this);">hide</a>
+      <div class="col-md-2 hide-delete">
+        <a href="javascript:void(0)" onclick="collapse('{{ group.tool }}', this);">hide</a> | 
+        <a href="javascript:void(0)" onclick="removeDiv('instrBlock', this);">delete</a>
       </div>
     </div>
     <div id="{{ group.tool }}" class="{{ group.tool }}">

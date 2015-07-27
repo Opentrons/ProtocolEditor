@@ -1,18 +1,17 @@
 {% extends 'layout.html' %}
 
-<!-- import macros -->
-{% import 'deck.html' as d %}
-{% import 'ingredients.html' as ingr %}
-{% import 'head.html' as h %}
-{% import 'instructions.html' as instr %}
+<!-- import module macros -->
+{% import 'modules/deck.html' as d %}
+{% import 'modules/ingredients.html' as ingr %}
+{% import 'modules/head.html' as h %}
+{% import 'modules/instructions.html' as instr %}
 
 {% block body %}
-{% if fileName != '[empty]' %}
-
+{% if protocol is defined %}
 <div class="row">
   <div class="col-md-6">
 
-    <!-- sections use MODAL hide/show -->
+    {% if protocol.deck is defined %}
     <div class="UI-block center-block" id="deckItems"> <!-- START DECK -->
       <div class="collapse-in-place modalComponent mode-expanded">
 
@@ -33,7 +32,9 @@
 
       </div>
     </div> <!-- END DECK -->
-    
+    {% endif %}
+
+    {% if protocol.ingredients is defined %}
     <div class="UI-block center-block" id="Ingredients"> <!-- START INGREDIENTS -->
       <div class="collapse-in-place modalComponent mode-expanded">
 
@@ -54,9 +55,11 @@
         
       </div>
     </div> <!-- END INGREDIENTS -->
+    {% endif %}
 
   </div>
 
+  {% if protocol.head is defined %}
   <div class="col-md-6">
     <div class="UI-block center-block" id="heads"> <!-- START HEAD -->
       <div class="collapse-in-place modalComponent mode-expanded">
@@ -77,10 +80,13 @@
         </div>
         
       </div>
-    </div> <!-- END HEAD -->
-  </div>
+    </div>
+  </div> <!-- END HEAD -->
+  {% endif %}
+
 </div>
 
+{% if protocol.instructions is defined %}
 <div class="UI-block center-block" id="Instructions"> <!-- START INSTRUCTIONS -->
   <div class="collapse-in-place modalComponent mode-expanded">
 
@@ -101,6 +107,8 @@
     
   </div>
 </div> <!-- END INSTRUCTIONS -->
+{% endif %}
 
 {% endif %}
+
 {% endblock %}
