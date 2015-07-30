@@ -1,128 +1,81 @@
+{% import 'helpers/keyvalue.html' as kv %}
 {% import 'helpers/edit.html' as editor %}
 
-{% macro head(headList, fileName) %}
-  <div class="row">
-    <div class="col-md-6">
-      <h3 class="UI-Title">Head Items</h3>
-    </div>
-    <div class="col-md-6 collapse-section">
-      <span class="collapse-handle" style="cursor:pointer;">hide</span>
-    </div>
+{% macro render(section) %}
+
+<header>
+  <img class="icon" src="/static/images/head.png" />
+  <h3>Head</h3>
+</header>
+
+{% for tool in section %}
+<div class="content">
+
+  <div class="pipette">
+    <span class="pipette-name">{#{{ editor.edit(value=tool) }}#}{{ tool }}</span>
+    <img src="/static/images/pipette.png" class="pipette" />
   </div>
 
-  {% for h in headList %}
-  <div class="UI-sub-block-white headItem">
-    <div class="row padded-sides">
-      <div class="col-md-4">
-        <img src="/static/images/tool.png" class="icon" />
-      </div>
-      <div class="col-md-4">
-        {{ editor.edit(value=h.name, blockName="headName") }}
-      </div>
-      <div class="col-md-4 hide-delete">
-        <a href="javascript:void(0)" onclick="collapse('head_{{ h.name }}_{{ loop.index }}', this);">hide</a> | 
-        <a href="javascript:void(0)" onclick="removeDiv('headItem', this);">delete</a>
-      </div>
+  <div class="attr">
+    {% for attr in section[tool] %}
+
+    {% if ((loop.length/loop.index) < 2) and new_column is not defined %}
+    <!-- this loop puts the information on a new column when it's half through -->
+    {% set new_column = 1 %}
+    </div>
+    <div class="attr">
+    {% endif %}
+
+    {% if attr == 'tip-racks' %}
+    <div class="mini-block">{{ attr }}
+      {% for location in section[tool][attr] %}
+      {{ kv.pair(key='container', value=location.container) }}
+      {% endfor %}
     </div>
 
-    <div id="head_{{ h.name }}_{{ loop.index }}">
-      <div class="UI-sub-block-gray">
-        <div class="row">
-          <div class="col-md-1">
-            <img src="/static/images/pipette.png" class="pipette" />
-          </div>
-          <div class="col-md-11">
-            <div class="row padded-sides">
-              <div class="col-md-4">
-                <b><i>TYPE:</i></b>
-              </div>
-              <div class="col-md-8">
-                {{ editor.edit(value=h.type, blockName="headType") }}
-              </div>
-            </div>
-            <div class="row padded-sides">
-              <div class="col-md-4">
-                <b><i>TRASH:</i></b>
-              </div>
-              <div class="col-md-8">
-                {{ editor.edit(value=h.trash, blockName="headTrash") }}
-              </div>
-            </div>
-            <div class="row padded-sides">
-              <div class="col-md-4">
-                <b><i>TIP RACK(S):</i></b>
-              </div>
-              <div class="col-md-8">
-              {% for tiprack in h.tipRacks %}
-                <div>{{ editor.edit(value=tiprack, blockName="headTipRack") }}</div>
-              {% endfor %}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <br />
-      <div class="padded-sides">
-        <img src="/static/images/attributes.png" class="icon" />
-         
-        <div id="head_attributes_{{ h.name }}_{{ loop.index }}">  
-          {% for key, value in h.attr.items() %}
-          <div class="row zebra">
-            <div class="col-md-6">
-              {{ editor.edit(value=key, blockName="headAttrKey") }}
-            </div>
-            <div class="col-md-5">
-              {{ editor.edit(value=value, blockName="headAttrValue") }}
-            </div>
-            <div class="col-md-1 hide-delete">
-              <a href="javascript:void(0)" onclick="removeDiv('zebra', this);">&times;</a>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-        <a href="javascript:void(0)" class="add-button" onclick="addZebra('head_attributes_{{ h.name }}_{{ loop.index }}', 'headAttrKey', 'headAttrValue');">Add Attribute</a>
-
-        <br /><br />
-
-        {% if h.points|length > 0 %}
-        <div class="row">
-          <div class="col-md-10">
-            <img src="/static/images/points.png" class="icon" />
-          </div>
-          <div class="cold-md-2">
-            <a href="javascript:void(0)" onclick="collapse('points_wrapper_{{ loop.index }}', this);">show</a>
-          </div>
-        </div>
-        <div id="points_wrapper_{{ loop.index }}" style="display:none;">
-          <div id="points{{ loop.index }}">
-          {% for set in h.points %}
-            <div id="{{ h.name }}{{ loop.index }}" class="pointSet">
-              {% for key, value in set.items() %}
-              <div class="row zebra">
-                <div class="col-md-6">
-                  {{ editor.edit(value=key, blockName="pointName") }}
-                </div>
-                <div class="col-md-6">
-                  {{ editor.edit(value=value, blockName="pointValue") }}
-                </div>
-              </div>
-              {% endfor %}
-            </div>
-          {% endfor %}
-          </div>
-          <a href="javascript:void(0)" class="add-button" onclick="addPoint('points{{ loop.index }}', 'pointName', 'pointValue');">Add Point</a>
-        </div>
-        {% endif %}
-
-      </div>
+    {% elif attr == 'trash-container' %}
+    <div class="mini-block">{{ attr }}
+      {% for location in section[tool][attr] %}
+      {{ kv.pair(key='container', value=location.container) }}
+      {% endfor %}
     </div>
+
+    {% elif attr != 'points' %}
+    {{ kv.pair(key=attr, value=section[tool][attr]) }}
+    {% endif %}
+
+    {% endfor %}
   </div>
+
+</div>
 {% endfor %}
 
-<!-- add new head item button if there are fewer than two currently configured -->
-{% if headList|length < 2 %}
-  {{ new_head.new(fileName) }}
-{% endif %}
+{% endmacro %}
+
+<!-- 
+{#
+{% for tool in section %}
+<div class="content">
+  <span class="key">Name</span><span class="value">{{ tool }}</span>
+  <img src="/static/images/pipette.png" class="pipette" />
+
+  {% for attr in section[tool] %}
+
+  {% if attr == 'tip-racks' %}
+
+  {% elif attr == 'trash-container' %}
+
+  {% elif attr == 'points' %}
+
+  {% else %}
+  <span class="key">{{ attr }}</span><span class="value">{{ section[tool][attr] }}</span>
+  {% endif %}
+
+  {% endfor %}
+
+</div>
+{% endfor %}
 
 {% endmacro %}
+#}
+ -->

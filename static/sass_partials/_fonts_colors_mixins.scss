@@ -1,0 +1,77 @@
+$light: #FDFDFD;
+$gray: #F8F8F8;
+$darker-gray: #DDDDDD;
+$darkest-gray: #BBBBBB;
+$border-gray: #e7e7e7;
+
+$red: #fb3f0f;
+$blue: #0f3ffb;
+$white: #FFFFFF;
+
+$black: #000000;
+$fade-black: #222222;
+
+@mixin auto_margin {
+	margin-right: auto;
+	margin-left: auto;
+}
+
+@mixin block {
+	@include no_stretch;
+	
+	border-radius: 5px;
+
+	display: inline-block;
+	position: relative;
+
+	font-size: 1rem;
+}
+
+@mixin no_stretch {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box; 
+}
+
+@mixin transition($time){
+	transition: $time;
+	-webkit-transition: $time;
+	-moz-transition: $time;
+}
+
+@mixin round_corners {
+	border-radius: 5px;
+}
+
+@mixin border($color) {
+	border: 1px solid $color;
+}
+
+@mixin shadow {
+	box-shadow: 1px 1px 1px #888888;
+}
+
+@font-face {
+	font-family: "Tron-Normal";
+	src: url(fonts/Geogtq-Rg-webfont.woff2);
+}
+@font-face {
+	font-family: "Tron-Strong";
+	src: url(fonts/Geogtq-Sb-webfont.woff2);
+}
+@font-face {
+	font-family: "Tron-Light";
+	src: url(fonts/Geogtq-Ul-webfont.woff2);
+}
+
+.strong {
+	font-family: "Tron-Strong" !important;
+}
+
+.right {
+	float: right !important;
+}
+
+.left {
+	float: left !important;
+}

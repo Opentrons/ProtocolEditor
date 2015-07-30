@@ -21,7 +21,7 @@ cache = Cache(app, config={'CACHE_TYPE': 'simple'}) # initialize cache to store 
 
 @app.route('/')
 def landing_page():
-	return render_template('body.html', fileName=get_filename())
+	return render_template('body.html', filename='[empty]')
 
 
 @app.route('/process', methods=['GET', 'POST'])
@@ -34,29 +34,32 @@ def process_file():
 	returning a warning error message.
 	"""
 	if request.method == 'POST':
-		req = request.files['fileJSON'] # get file from POST
+		req = request.files['protocol'] # get file from POST
 
-		print req.filename
 		if req.filename != '': # a file has been uploaded
 			input_protocol = req.getvalue() # raw text of JSON
-			master = Master(input_protocol) # instantiate master with the JSON object
+			parsed_protocol = json.loads(input_protocol, object_pairs_hook=collections.OrderedDict)
 
-			if master.process() is not False: # Master() will return False if the JSON is not valid
-				print "success"
+			filename = get_filename(req.filename)
+			return render_template('body.html', protocol=parsed_protocol, filename=filename)
+#			master = Master(input_protocol) # instantiate master with the JSON object
+
+#			if master.process() is not False: # Master() will return False if the JSON is not valid
+#				print "success"
 #				print master
-				return items_page(protocol=master.protocol)
-			else:
-				return error_page(reason="Invalid JSON syntax") # processing master failed, JSON was not valid
+#				return items_page(protocol=master.protocol)
+#			else:
+#				return error_page(reason="Invalid JSON syntax") # processing master failed, JSON was not valid
 
-		return error_page(no_file=True)
+#		return error_page(no_file=True)
 	else:
 		return landing_page() #return landing page if the page was refreshed
 
 
 # HELPERS ==================================================================================
 
-def items_page(protocol):
-	return render_template('body.html', protocol=protocol, filename=get_filename())
+#def items_page(protocol):
+#	return render_template('body.html', protocol=protocol, filename=get_filename())
 
 
 def error_page(reason="", no_file=False):
@@ -71,16 +74,14 @@ def error_page(reason="", no_file=False):
 	return render_template('warnings/warning.html', message=message, reason=reason, fileName=get_filename()) 
 
 
-def get_filename():
+def get_filename(filename='[empty]'):
 	"""
 	Deals with the filename session variable. 
 	If a file has not been uploaded successfully, return '[empty]', else returns the filename without extension.
 	"""
-	try:
-		filename = session['filename']
-		filename = filename[0:len(filename)-5] # cut out the JSON
-	except KeyError: # filename has not been set yet, no file has been uploaded successfully
-		filename = '[empty]'
+	if filename != '[empty]':
+		filename = filename[0:len(filename)-5]
+		session['filename'] = filename
 
 	return filename
 
