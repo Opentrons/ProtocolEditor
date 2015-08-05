@@ -1,0 +1,231 @@
+/* GENERIC ELEMENTS */
+
+html {
+	font-family: "Tron-Normal";
+	font-size: 14px;
+
+	margin: 0;
+	padding: 0;
+
+	background: $light;
+}
+
+body {
+	margin: 0 auto;
+
+	display: block;
+
+	background: $white;
+	color: $fade-black;
+
+	font-size: 0;
+
+	height: 100%;
+	width: 1050px;
+
+	overflow: scroll;
+}
+
+section {
+	@include block;
+	@include border($border-gray);
+
+	padding: 10px;
+
+	background: $gray;
+	color: $fade-black;  
+
+	margin-top: 25px;
+
+	width: 100%;
+	height: auto;
+}
+
+section.block {
+	@include block;
+	@include border($border-gray);
+
+	display: none;
+
+	padding: 10px;
+	width: 100%;
+
+	background: $gray;
+	color: $fade-black;
+
+	&.active {
+		display: inline-block !important;
+	} 
+}
+
+header { /* this is being used for block headers */
+	width: 100%;
+	display: block;
+	float: right;
+}
+
+h3 {
+	display: inline-block;
+
+	margin: 0 0 10px 0;
+	padding: 0 10px;
+
+	font-size: 1.5rem;
+	font-family: "Tron-Normal";
+}
+
+img.icon {
+	display: inline-block;
+
+	margin: 0 0 0 25px;
+	padding: 0;
+
+	height: 1.5rem;
+}
+
+img.label {
+	display: inline-block;
+
+	margin: 0 0 0 25px;
+	padding: 0;
+
+	height: 1.2rem;
+}
+
+a.add-new {
+	@include round_corners;
+
+	margin: 0;
+	padding: 1rem 0;
+
+	display: block;
+	cursor: pointer;
+
+	text-align: center;
+	text-decoration: none;
+
+	color: $darkest-gray;
+	background: $light;
+
+	@include transition(0.25s);
+	&:hover {
+		background: $white;
+	}
+}
+
+a.add {
+	display: block;
+
+	text-align: center;
+	text-decoration: none;
+
+	color: $darkest-gray;
+
+	@include transition(0.25s);
+	&:hover, &:active {
+		text-decoration: none;
+		color: $darker-gray;
+	}
+}
+
+div.block {
+	overflow: auto;
+}
+
+/* CLASS BLOCKS */
+
+.content {
+	@include block;
+	@include border($border-gray);
+
+	width: 100%;
+
+	padding: 10px;
+	margin-bottom: 10px;
+
+	background: $white;
+	color: $fade-black;
+}
+
+.key-value {
+	@include no_stretch;
+	display: inline-block;
+
+	height: auto;
+	width: 100%;
+
+	margin: 1px 0;
+}
+
+.key {
+	@include no_stretch;
+	vertical-align: top;
+	float: left;
+
+	padding: 5px 10px;
+	display: inline-block;
+
+	width: 125px;
+	text-align: right;
+
+	background: $gray;
+	border-radius: 5px;
+}
+
+.value {
+	@include no_stretch;
+	vertical-align: top;
+	float: right;
+
+/*	padding: 2.5px 5px; /* smaller value for edit in place */
+	padding: 5px 10px; 
+	display: inline-block;
+
+	width: calc(100% - 125px);
+	text-align: left;
+
+	background: $white;
+	border-radius: 5px;
+}
+
+
+/***** INSTRUCTIONS *****/
+
+.action {
+	@include border($border-gray);
+	@include block;
+
+	padding: 10px;
+	margin-bottom: 10px;
+
+	width: 100%;
+	background: $gray;
+
+	display: block;
+	position: relative;
+}
+
+.action-title {
+	display: block;
+	width: 100%;
+}
+
+.action-attributes {
+	@include border($border-gray);
+	@include block;
+
+	padding: 10px;
+	margin: 0 10px 10px 10px;
+
+	width: calc(33% - 20px);
+	background: $white;
+
+	display: inline-block;
+	position: relative;
+	vertical-align: top;
+}
+
+
+
+
+

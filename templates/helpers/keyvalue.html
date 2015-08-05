@@ -1,0 +1,11 @@
+{% import 'helpers/edit.html' as editor %}
+
+{% macro pair(key, value) %}
+<div class="key-value">
+  <span class="key">{{ key }}</span><span class="value">{{ editor.edit(value=value) }}</span>
+</div>
+{% endmacro %}
+
+{% macro single(value) %}
+<span class="value">{{ editor.edit(value=value) }}</span>
+{% endmacro %}

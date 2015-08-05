@@ -1,3 +1,11 @@
+/*
+Main CSS file for the OpenTrons Protocol Editor. All style elements are contained in
+Sass subfiles located in the "sass_partials" folder.
+
+"fonts_colors_mixins" MUST be the first item imported.
+
+Gordon Hart, Jul 2015
+*/
 @font-face {
   font-family: "Tron-Normal";
   src: url(fonts/Geogtq-Rg-webfont.woff2); }
@@ -7,256 +15,541 @@
 @font-face {
   font-family: "Tron-Light";
   src: url(fonts/Geogtq-Ul-webfont.woff2); }
-html, body, .container {
-  font-family: "Tron-Normal";
-  width: 1050px !important;
-  margin-left: auto;
-  margin-right: auto; }
+.strong {
+  font-family: "Tron-Strong" !important; }
 
-a:link {
-  color: #DDDDDD;
-  text-decoration: none; }
+.right {
+  float: right !important; }
 
-a:visited, a:hover, a:active {
-  color: #BBBBBB;
-  text-decoration: none; }
+.left {
+  float: left !important; }
 
-button:disabled {
-  color: #BBBBBB;
-  background-color: #DDDDDD; }
-
-input[type="text"]:focus {
-  outline: none; }
-
-img {
-  margin-bottom: 5px; }
-
-img.icon {
-  height: 18px; }
-
-img.pipette {
-  height: 60px;
-  padding-left: 15px; }
-
-img.tipchange {
-  height: 18px;
-  text-align: center;
-  margin-bottom: 0px; }
+nav {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: inline-block;
+  position: relative;
+  font-size: 1rem;
+  height: 50px;
+  width: 100%;
+  padding: 10px 15px;
+  margin-top: 25px;
+  background: #222222;
+  color: #FDFDFD; }
 
 img.brand {
-  height: 100%; }
+  display: inline-block;
+  margin: 0 10px;
+  padding: 0;
+  height: 100%;
+  float: left; }
 
-.move-icon-bar {
-  width: 50px;
-  text-align: center; }
+a.nav {
+  text-decoration: none;
+  color: #BBBBBB;
+  cursor: pointer;
+  float: left;
+  position: relative;
+  display: inline-block;
+  line-height: 30px;
+  margin: 0 10px;
+  /*	NO TRANSITIONS CURRENTLY USED	
+  	transition: $time;
+  	-webkit-transition: $time;
+  	-moz-transition: $time; */ }
+  a.nav:hover {
+    color: #FDFDFD; }
 
-.hide-delete {
-  color: #DDDDDD;
+#Input {
+  width: 100%; }
+
+button {
+  border: 1px solid #e7e7e7;
+  border-radius: 5px;
+  display: inline-block;
+  width: auto;
+  height: auto;
+  padding: 10px;
+  margin: 0 10px;
+  font-size: 1rem;
+  font-family: "Tron-Normal";
+  color: #FDFDFD;
+  background: #0f3ffb;
+  cursor: pointer;
+  /*	NO TRANSITIONS CURRENTLY USED	
+  	transition: $time;
+  	-webkit-transition: $time;
+  	-moz-transition: $time; */ }
+  button:hover {
+    background: #4167fc; }
+  button:disabled {
+    cursor: default;
+    color: #DDDDDD;
+    background: #BBBBBB; }
+  button:focus {
+    outline: none; }
+
+input[type="file"] {
+  border-radius: 5px;
+  border: 1px solid #e7e7e7;
+  margin: 0 10px;
+  padding: 10px;
+  display: inline-block;
+  position: relative;
+  background: #FFFFFF;
+  color: #222222;
+  /*	NO TRANSITIONS CURRENTLY USED	
+  	transition: $time;
+  	-webkit-transition: $time;
+  	-moz-transition: $time; */ }
+  input[type="file"]:hover {
+    background: #e6e6e6; }
+  input[type="file"]:focus {
+    outline: none; }
+
+input.filename {
+  border-radius: 5px;
+  width: 400px;
+  vertical-align: middle;
+  font-size: 1.5rem;
+  font-family: "Tron-Normal";
   text-align: right;
-  font-style: italic; }
-
-.padded-sides {
-  padding-right: 20px;
-  padding-left: 20px; }
-
-.zebra:nth-of-type(odd) {
-  background: #F8F8F8; }
-
-.filename-block {
-  text-align: right;
-  margin-top: 2px;
-  display: inline;
-  float: right;
-  position: relative; }
-
-.filename-input {
-  text-align: right;
-  background: #F8F8F8;
-  border: none;
-  font-size: 18px;
-  width: 475px; }
-
-.filename-extension {
-  padding-right: 25px;
-  font-size: 18px; }
-
-.edit-input {
   border: none;
   background: transparent;
-  /*	background: rgba($blue, 0.1); */ }
+  cursor: pointer;
+  /*	NO TRANSITIONS CURRENTLY USED	
+  	transition: $time;
+  	-webkit-transition: $time;
+  	-moz-transition: $time; */ }
+  input.filename:focus {
+    outline: none; }
+  input.filename:hover {
+    background: #FDFDFD; }
 
-.move-number {
-  text-align: right;
-  color: #0f3ffb;
-  font-family: "Tron-Strong"; }
+span.filename {
+  font-size: 1.5rem;
+  vertical-align: middle; }
 
-.move-number-label {
-  color: #BBBBBB;
-  font-style: italic;
-  text-align: right;
-  font-family: "Tron-Light";
-  padding-right: 5px; }
+#Toggle {
+  width: 200px;
+  float: left; }
 
-.strong {
-  font-family: "Tron-Strong"; }
-
-.add-button {
-  color: #DDDDDD;
-  font-style: italic; }
-
-.submit-new {
+a.item-select {
+  border-radius: 5px;
+  border: 1px solid #e7e7e7;
   width: 100%;
-  margin-bottom: 10px; }
+  height: auto;
+  display: inline-block;
+  color: #222222;
+  background: #FDFDFD;
+  text-align: center;
+  text-decoration: none;
+  padding: 5px 0;
+  margin: 2.5px 0;
+  /*	NO TRANSITIONS CURRENTLY USED	
+  	transition: $time;
+  	-webkit-transition: $time;
+  	-moz-transition: $time; */ }
+  a.item-select:hover {
+    background: #e4e4e4; }
+  a.item-select:active {
+    background: #BBBBBB; }
+  a.item-select.active {
+    cursor: default;
+    color: #FDFDFD;
+    background: #0f3ffb; }
+  a.item-select:focus {
+    outline: none; }
 
-.add-motion-button {
-  color: #DDDDDD;
-  font-style: italic;
+#Item {
+  width: 825px;
+  float: right; }
+
+.grouping {
+  /* used for Containers, Reagents */
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid #e7e7e7;
+  border-radius: 5px;
+  height: auto;
+  width: calc(50% - 12px);
+  margin: 5px;
+  padding-top: 2.5px;
+  display: inline-block;
+  background: #F8F8F8; }
+
+img.pipette {
+  /* pipette image */
+  display: inline-block;
+  height: 200px;
+  margin: 0 25px;
+  /*	margin: 25px auto;
+  
+  	right: 0;
+  	left: 0; */ }
+
+/* pipette block stylings */
+div.attr {
+  width: 325px;
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 5px;
+  border-left: 1px solid #e7e7e7; }
+
+div.mini-block {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: inline-block;
+  position: relative;
+  font-size: 1rem;
+  border: 1px solid #e7e7e7;
+  width: calc(100% - 20px);
+  margin: 0 10px;
+  padding: 10px;
+  background: #F8F8F8; }
+
+span.pipette-name {
+  margin: 5px 0;
+  display: block;
+  font-size: 1.5rem; }
+
+div.pipette {
+  padding: 0;
+  margin: 0;
+  vertical-align: top;
+  text-align: center;
+  display: inline-block;
+  width: 110px; }
+
+div.attributes {
+  padding: 0;
+  margin: 0;
+  vertical-align: top;
+  display: inline-block;
+  width: calc(100% - 260px); }
+
+section#InstructionsToggle {
+  width: 200px;
+  float: left; }
+
+section#Instructions {
+  width: 825px;
+  float: right; }
+
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px; }
+
+div.action-nav {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: inline-block;
+  position: relative;
+  font-size: 1rem;
+  border: 1px solid #e7e7e7;
+  background: #FFFFFF;
+  color: #222222;
+  cursor: pointer;
+  width: 100%;
+  height: auto;
+  padding: 5px 0;
+  margin: 2.5px 0;
   text-align: center; }
+  div.action-nav.view {
+    background: #0f3ffb !important;
+    color: #FDFDFD !important; }
+  div.action-nav:hover {
+    background: #e4e4e4;
+    color: #222222; }
 
-.action-block, .action-block-gray, .action-block-white {
-  position: relative;
-  display: block;
-  padding: 10px 10px 0px 10px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  border: 1px solid #e7e7e7; }
+span.action-number {
+  float: left;
+  width: 25px;
+  font-family: "Tron-Strong"; }
 
-.action-block-gray {
-  background-color: #F8F8F8; }
+span.action-title {
+  float: right;
+  text-align: right;
+  width: calc(100% - 45px);
+  padding: 0 10px; }
 
-.action-block-white {
-  background-color: #FFFFFF; }
+img.action-icon {
+  height: 1rem;
+  vertical-align: top;
+  background: #FFFFFF;
+  border-radius: 5px; }
 
-.navbar-pad {
-  margin-top: 20px;
-  margin-bottom: 30px; }
+h5.action-tool {
+  width: 100%;
+  font-size: 1.2rem;
+  text-align: center;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #e7e7e7;
+  margin: 15px 0 5px 0; }
 
-.UI-block {
-  position: relative;
-  display: block;
-  background-color: #F8F8F8;
-  margin-bottom: 30px;
-  padding: 10px 10px 10px 10px;
-  border-radius: 4px;
-  border: 1px solid #e7e7e7; }
+a.item-select {
+  border-radius: 5px;
+  border: 1px solid #e7e7e7;
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  color: #222222;
+  background: #FDFDFD;
+  text-align: center;
+  text-decoration: none;
+  padding: 5px 0;
+  margin: 2.5px 0;
+  /*	NO TRANSITIONS CURRENTLY USED	
+  	transition: $time;
+  	-webkit-transition: $time;
+  	-moz-transition: $time; */ }
+  a.item-select:hover {
+    background: #e4e4e4; }
+  a.item-select:active {
+    background: #BBBBBB; }
+  a.item-select.active {
+    cursor: default;
+    color: #FDFDFD;
+    background: #0f3ffb; }
+  a.item-select:focus {
+    outline: none; }
 
-.UI-sub-block-white {
-  position: relative;
-  display: block;
-  background-color: #FFFFFF;
-  margin-bottom: 10px;
-  padding: 10px 10px 10px 10px;
-  border-radius: 4px;
-  border: 1px solid #e7e7e7; }
+input.save-edit {
+  border-radius: 5px;
+  border: 1px solid #e7e7e7;
+  background: #fb3f0f;
+  color: #FDFDFD;
+  vertical-align: top;
+  height: 1.2rem;
+  width: 40px;
+  margin: 0;
+  padding: 0;
+  /*	NO TRANSITIONS CURRENTLY USED	
+  	transition: $time;
+  	-webkit-transition: $time;
+  	-moz-transition: $time; */ }
+  input.save-edit:hover {
+    background: #fc6741; }
+  input.save-edit:focus {
+    outline: none; }
 
-.UI-sub-block-gray {
-  position: relative;
-  display: block;
-  background-color: #F8F8F8;
-  margin-bottom: 10px;
-  padding: 10px 10px 10px 10px;
-  border-radius: 4px;
-  border: 1px solid #e7e7e7; }
-
-.UI-sub-block-dark-gray {
-  position: relative;
-  display: block;
-  background-color: #BBBBBB;
-  margin-bottom: 10px;
-  padding: 10px 10px 10px 10px;
-  border-radius: 4px;
-  border: 1px solid #e7e7e7; }
-
-.UI-sub-block-black {
-  position: relative;
-  display: block;
-  background-color: #000000;
-  margin-bottom: 10px;
-  padding: 10px 10px 10px 10px;
-  border-radius: 4px;
-  border: 1px solid #e7e7e7; }
-
-.UI-Title {
-  margin-top: 0px;
-  padding-left: 10px;
+input.edit-input {
   font-family: "Tron-Normal";
+  font-size: 1rem;
+  border: none;
+  background: transparent;
+  width: calc(100% - 50px); }
+  input.edit-input:focus {
+    outline: none; }
+
+span.edit-handle {
+  padding: 1px !important;
+  width: 100%; }
+
+/* GENERIC ELEMENTS */
+html {
+  font-family: "Tron-Normal";
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+  background: #FDFDFD; }
+
+body {
+  margin: 0 auto;
+  display: block;
+  background: #FFFFFF;
+  color: #222222;
+  font-size: 0;
+  height: 100%;
+  width: 1050px;
+  overflow: scroll; }
+
+section {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: inline-block;
+  position: relative;
+  font-size: 1rem;
+  border: 1px solid #e7e7e7;
+  padding: 10px;
+  background: #F8F8F8;
+  color: #222222;
+  margin-top: 25px;
+  width: 100%;
+  height: auto; }
+
+section.block {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: inline-block;
+  position: relative;
+  font-size: 1rem;
+  border: 1px solid #e7e7e7;
+  display: none;
+  padding: 10px;
+  width: 100%;
+  background: #F8F8F8;
+  color: #222222; }
+  section.block.active {
+    display: inline-block !important; }
+
+header {
+  /* this is being used for block headers */
+  width: 100%;
+  display: block;
+  float: right; }
+
+h3 {
+  display: inline-block;
+  margin: 0 0 10px 0;
+  padding: 0 10px;
+  font-size: 1.5rem;
+  font-family: "Tron-Normal"; }
+
+img.icon {
+  display: inline-block;
+  margin: 0 0 0 25px;
+  padding: 0;
+  height: 1.5rem; }
+
+img.label {
+  display: inline-block;
+  margin: 0 0 0 25px;
+  padding: 0;
+  height: 1.2rem; }
+
+a.add-new {
+  border-radius: 5px;
+  margin: 0;
+  padding: 1rem 0;
+  display: block;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  color: #BBBBBB;
+  background: #FDFDFD;
+  /*	NO TRANSITIONS CURRENTLY USED	
+  	transition: $time;
+  	-webkit-transition: $time;
+  	-moz-transition: $time; */ }
+  a.add-new:hover {
+    background: #FFFFFF; }
+
+a.add {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  color: #BBBBBB;
+  /*	NO TRANSITIONS CURRENTLY USED	
+  	transition: $time;
+  	-webkit-transition: $time;
+  	-moz-transition: $time; */ }
+  a.add:hover, a.add:active {
+    text-decoration: none;
+    color: #DDDDDD; }
+
+div.block {
+  overflow: auto; }
+
+/* CLASS BLOCKS */
+.content {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: inline-block;
+  position: relative;
+  font-size: 1rem;
+  border: 1px solid #e7e7e7;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #FFFFFF;
   color: #222222; }
 
-.add-move-block {
-  position: relative;
-  display: block;
-  background-color: #F8F8F8;
-  margin-bottom: 10px;
-  padding: 10px 10px 10px 10px;
-  border-radius: 4px;
-  border: 1px solid #e7e7e7;
-  text-align: center; }
+.key-value {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  height: auto;
+  width: 100%;
+  margin: 1px 0; }
 
-.tip-change-block {
-  position: relative;
-  display: block;
-  background-color: #FFFFFF;
-  margin-bottom: 10px;
-  padding: 10px 10px 10px 10px;
-  border-radius: 4px;
-  border: 1px solid #e7e7e7;
-  text-align: center;
-  margin-left: 20px;
-  margin-right: 20px; }
-
-.collapse-section {
-  color: #DDDDDD;
-  font-style: italic;
+.key {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  vertical-align: top;
+  float: left;
+  padding: 5px 10px;
+  display: inline-block;
+  width: 125px;
   text-align: right;
-  padding-right: 30px; }
+  background: #F8F8F8;
+  border-radius: 5px; }
 
-/* BUTTON STYLINGS */
-.btn {
-  border: 1px solid #ccc; }
+.value {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  vertical-align: top;
+  float: right;
+  /*	padding: 2.5px 5px; /* smaller value for edit in place */
+  padding: 5px 10px;
+  display: inline-block;
+  width: calc(100% - 125px);
+  text-align: left;
+  background: #FFFFFF;
+  border-radius: 5px; }
 
-.tron-blue {
-  background-color: #0f3ffb;
-  color: #FDFDFD; }
+/***** INSTRUCTIONS *****/
+.action {
+  border: 1px solid #e7e7e7;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: inline-block;
+  position: relative;
+  font-size: 1rem;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  background: #F8F8F8;
+  display: block;
+  position: relative; }
 
-.tron-blue:hover, .tron-blue:active, .tron-blue:focus {
-  color: white;
-  font-weight: bold;
-  box-shadow: 1px 1px 1px #888888; }
+.action-title {
+  display: block;
+  width: 100%; }
 
-.tron-red {
-  background-color: #fb3f0f;
-  color: #FDFDFD; }
-
-.tron-red:hover, .tron-red:active, .tron-red:focus {
-  color: white;
-  font-weight: bold;
-  box-shadow: 1px 1px 1px #888888; }
-
-.tron-black {
-  background-color: #222;
-  color: #FDFDFD; }
-
-.tron-black:hover, .tron-black:active, .tron-black:focus {
-  color: white;
-  font-weight: bold;
-  box-shadow: 1px 1px 1px #888888; }
-
-.tron-white {
-  background-color: #FFFFFF;
-  color: #000000; }
-
-.tron-white:hover, .tron-white:active, .tron-white:focus {
-  color: #000000;
-  font-weight: bold;
-  box-shadow: 1px 1px 1px #888888; }
-
-.tron-grey {
-  background-color: #aaa;
-  color: #FDFDFD; }
-
-.tron-grey:hover, .tron-grey:active, .tron-grey:focus {
-  color: #FDFDFD;
-  font-weight: bold;
-  box-shadow: 1px 1px 1px #888888; }
+.action-attributes {
+  border: 1px solid #e7e7e7;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: inline-block;
+  position: relative;
+  font-size: 1rem;
+  padding: 10px;
+  margin: 0 10px 10px 10px;
+  width: calc(33% - 20px);
+  background: #FFFFFF;
+  display: inline-block;
+  position: relative;
+  vertical-align: top; }
 
 /*# sourceMappingURL=main.css.map */

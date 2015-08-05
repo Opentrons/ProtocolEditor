@@ -1,0 +1,21 @@
+{% import 'helpers/keyvalue.html' as kv %}
+
+{% macro draw(name, block) %}
+
+{{ kv.pair(key='Name', value=name) }}
+
+{% for location in block %}
+{{ reagent_location(location) }}
+{% endfor %}
+
+{% endmacro %}
+
+
+
+{% macro reagent_location(location) %}
+<div class="grouping">
+	{% for attr in location %}
+	{{ kv.pair(key=attr, value=location[attr]) }}
+	{% endfor %}
+</div>
+{% endmacro %}

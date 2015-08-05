@@ -1,0 +1,48 @@
+{
+	"section": "info",
+	"edit_function": "copy",
+	"data": {
+		"uid": "A72X90PB",
+	}
+}
+
+
+{
+	"section": "instructions",
+	"edit_function": "paste",
+	"data": {
+		"insert_type": "transfer",
+		"location": "17"
+	}
+}
+
+
+{
+	"section": "head",
+	"edit_function": "insert",
+	"data": {
+		"insert_type": "tool",
+		"location": "17",
+	}
+}
+
+
+{
+	"section": "ingredients",
+	"edit_function": "modify",
+	"data": {
+		"uid": "A72X90PB",
+		"attributes": {
+			"key": "value",
+		}
+	}
+}
+
+
+{
+	"section": "deck",
+	"edit_function": "delete",
+	"data": {
+		"uid": "A72X90PB"
+	}
+}

@@ -1,0 +1,22 @@
+{% import 'helpers/keyvalue.html' as kv %}
+
+{% macro render(section) %}
+
+<header>
+	<img class="icon" src="/static/images/info.png" />
+	<h3>Information</h3>
+</header>
+
+{% for attr in section %}
+{{ kv.pair(key=attr, value=section[attr]) }}
+{% endfor %}
+
+{% endmacro %}
+
+<!-- 
+{# ATTEMPT TO SET THE INFORMATION VARIABLES IF UNSET 
+{% if section is not  defined %}
+{% set section.name = '[ Protocol Name ]' %}
+{% endif %}
+#}
+ -->

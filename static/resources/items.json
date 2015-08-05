@@ -1,0 +1,19 @@
+{
+    "container": {
+        "Container name": {
+            "labware": "Container type",
+            "slot": "Deck slot"
+        }
+    },
+
+	"reagent": {
+        "Reagent name": 
+        [
+			{
+				"container": "Container name",
+				"location": "Well in container",
+				"volume": 0
+			}
+        ] 
+    }
+}

@@ -1,0 +1,80 @@
+#Item {
+	width: 825px;
+	float: right;
+}
+
+.grouping { /* used for Containers, Reagents */
+	@include no_stretch;
+	@include border($border-gray);
+	border-radius: 5px;
+
+	height: auto;
+	width: calc(50% - 12px);
+	margin: 5px;
+	padding-top: 2.5px;
+
+	display: inline-block;
+	background: $gray;
+}
+
+img.pipette { /* pipette image */
+	display: inline-block;
+
+	height: 200px;
+	margin: 0 25px;
+/*	margin: 25px auto;
+
+	right: 0;
+	left: 0; */
+}
+
+/* pipette block stylings */
+
+div.attr {
+	width: 325px;
+	display: inline-block;
+	vertical-align: top;
+
+	padding-left: 5px;
+	border-left: 1px solid $border-gray;
+}
+
+div.mini-block {
+	@include block;
+	@include border($border-gray);
+
+	width: calc(100% - 20px);
+
+	margin: 0 10px;
+	padding: 10px;
+
+	background: $gray;
+}
+
+span.pipette-name {
+	margin: 5px 0;
+	display: block;
+
+	font-size: 1.5rem;
+}
+
+div.pipette {
+	padding: 0;
+	margin: 0;
+
+	vertical-align: top;
+	text-align: center;
+
+	display: inline-block;
+	width: 110px;
+}
+
+div.attributes {
+	padding: 0;
+	margin: 0;
+
+	vertical-align: top;
+
+	display: inline-block;
+	width: calc(100% - 260px);
+}

@@ -1,114 +1,48 @@
 {% extends 'layout.html' %}
 
 <!-- import module macros -->
-{% import 'modules/deck.html' as d %}
+{% import 'modules/information.html' as info %}
+{% import 'modules/deck.html' as deck %}
 {% import 'modules/ingredients.html' as ingr %}
-{% import 'modules/head.html' as h %}
+{% import 'modules/head.html' as head %}
 {% import 'modules/instructions.html' as instr %}
 
-{% block body %}
-{% if protocol is defined %}
-<div class="row">
-  <div class="col-md-6">
+{% block content %}
 
-    {% if protocol.deck is defined %}
-    <div class="UI-block center-block" id="deckItems"> <!-- START DECK -->
-      <div class="collapse-in-place modalComponent mode-expanded">
+<div class="block">
+  
+  <section id="Toggle">
+<!--     <img class="icon" src="/static/images/ingredients.png" /><h3>Items</h3> -->
+    <a class="item-select active" href="#" onclick="toggle(this, 'Information');">Information</a>
+    <a class="item-select" href="#" onclick="toggle(this, 'Deck');">Deck</a>
+    <a class="item-select" href="#" onclick="toggle(this, 'Head');">Head</a>
+    <a class="item-select" href="#" onclick="toggle(this, 'Ingredients');">Ingredients</a>
+  </section>
 
-        <div class="mode collapsed">
-          <div class="row">
-            <div class="col-md-6">
-              <h3 class="UI-Title">Deck Items</h3>
-            </div>
-            <div class="col-md-6 collapse-section">
-              <span class="collapse-handle" style="cursor:pointer;">show</span>
-            </div>
-          </div>
-        </div>
+  <div id="Item">
+    <section id="Information" class="block active">
+    {{ info.render(protocol.info) }}
+    </section>
 
-        <div class="mode expanded">
-          {{ d.deck(deckList, fileName) }}
-        </div>
+    <section id="Deck" class="block">
+    {{ deck.render(protocol.deck) }}
+    </section>
 
-      </div>
-    </div> <!-- END DECK -->
-    {% endif %}
+    <section id="Head" class="block">
+    {{ head.render(protocol.head) }}
+    </section>
 
-    {% if protocol.ingredients is defined %}
-    <div class="UI-block center-block" id="Ingredients"> <!-- START INGREDIENTS -->
-      <div class="collapse-in-place modalComponent mode-expanded">
-
-        <div class="mode collapsed">
-          <div class="row">
-            <div class="col-md-6">
-              <h3 class="UI-Title">Ingredients</h3>
-            </div>
-            <div class="col-md-6 collapse-section">
-              <span class="collapse-handle" style="cursor:pointer;">show</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="mode expanded">
-          {{ ingr.ingredients(ingrList, fileName) }}
-        </div>
-        
-      </div>
-    </div> <!-- END INGREDIENTS -->
-    {% endif %}
-
+    <section id="Ingredients" class="block">
+    {{ ingr.render(protocol.ingredients) }}
+    </section>
   </div>
-
-  {% if protocol.head is defined %}
-  <div class="col-md-6">
-    <div class="UI-block center-block" id="heads"> <!-- START HEAD -->
-      <div class="collapse-in-place modalComponent mode-expanded">
-
-        <div class="mode collapsed">
-          <div class="row">
-            <div class="col-md-6">
-              <h3 class="UI-Title">Head Items</h3>
-            </div>
-            <div class="col-md-6 collapse-section">
-              <span class="collapse-handle" style="cursor:pointer;">show</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="mode expanded">
-          {{ h.head(headList, fileName) }}
-        </div>
-        
-      </div>
-    </div>
-  </div> <!-- END HEAD -->
-  {% endif %}
 
 </div>
 
-{% if protocol.instructions is defined %}
-<div class="UI-block center-block" id="Instructions"> <!-- START INSTRUCTIONS -->
-  <div class="collapse-in-place modalComponent mode-expanded">
-
-    <div class="mode collapsed">
-      <div class="row">
-        <div class="col-md-6">
-          <h3 class="UI-Title">Instructions</h3>
-        </div>
-        <div class="col-md-6 collapse-section">
-          <span class="collapse-handle" style="cursor:pointer;">show</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="mode expanded">
-      {{ instr.instructions(instrList, fileName) }}
-    </div>
-    
-  </div>
-</div> <!-- END INSTRUCTIONS -->
-{% endif %}
-
-{% endif %}
+<!-- <section id="Instructions"> -->
+<div class="block">
+  {{ instr.render(protocol.instructions) }}
+</div>
+<!-- </section> -->
 
 {% endblock %}
