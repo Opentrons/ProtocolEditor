@@ -9,33 +9,40 @@
 
 {% block content %}
 
-<section id="Toggle">
-  <a class="item-select active" href="#" onclick="toggle(this, 'Information');">Information</a>
-  <a class="item-select" href="#" onclick="toggle(this, 'Deck');">Deck</a>
-  <a class="item-select" href="#" onclick="toggle(this, 'Head');">Head</a>
-  <a class="item-select" href="#" onclick="toggle(this, 'Ingredients');">Ingredients</a>
-</section>
-
-<div id="Item">
-  <section id="Information" class="block active">
-  {{ info.render(protocol.info) }}
+<div class="block">
+  
+  <section id="Toggle">
+<!--     <img class="icon" src="/static/images/ingredients.png" /><h3>Items</h3> -->
+    <a class="item-select active" href="#" onclick="toggle(this, 'Information');">Information</a>
+    <a class="item-select" href="#" onclick="toggle(this, 'Deck');">Deck</a>
+    <a class="item-select" href="#" onclick="toggle(this, 'Head');">Head</a>
+    <a class="item-select" href="#" onclick="toggle(this, 'Ingredients');">Ingredients</a>
   </section>
 
-  <section id="Deck" class="block">
-  {{ deck.render(protocol.deck) }}
-  </section>
+  <div id="Item">
+    <section id="Information" class="block active">
+    {{ info.render(protocol.info) }}
+    </section>
 
-  <section id="Head" class="block">
-  {{ head.render(protocol.head) }}
-  </section>
+    <section id="Deck" class="block">
+    {{ deck.render(protocol.deck) }}
+    </section>
 
-  <section id="Ingredients" class="block">
-  {{ ingr.render(protocol.ingredients) }}
-  </section>
+    <section id="Head" class="block">
+    {{ head.render(protocol.head) }}
+    </section>
+
+    <section id="Ingredients" class="block">
+    {{ ingr.render(protocol.ingredients) }}
+    </section>
+  </div>
+
 </div>
 
-<section id="Instructions">
+<!-- <section id="Instructions"> -->
+<div class="block">
   {{ instr.render(protocol.instructions) }}
-</section>
+</div>
+<!-- </section> -->
 
 {% endblock %}

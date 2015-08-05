@@ -1,23 +1,18 @@
-{% import 'helpers/keyvalue.html' as kv %}
+{% import 'items/reagent.html' as r %}
 
 {% macro render(section) %}
 
 <img class="icon" src="/static/images/ingredients.png" />
 <h3>Ingredients</h3>
 
-{% for ingredient in section %}
-<div class="content">
-  {{ kv.pair(key='Name', value=ingredient) }}
-
-  {% for location in section[ingredient] %}
-  <div class="grouping">
-    {% for attr in location %}
-    {{ kv.pair(key=attr, value=location[attr]) }}
-    {% endfor %}
-  </div>
-  {% endfor %}
-
+<div id="reagents">
+	{% for ingredient in section %}
+	<div class="content">
+		{{ r.draw(ingredient, section[ingredient]) }}
+	</div>
+	{% endfor %}
 </div>
-{% endfor %}
+
+<a type="reagent" href="#" id="NewReagent" class="add">New Reagent</a> 
 
 {% endmacro %}

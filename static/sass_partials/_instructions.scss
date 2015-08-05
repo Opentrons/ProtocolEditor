@@ -1,0 +1,113 @@
+section#InstructionsToggle {
+	width: 200px;
+	float: left;
+}
+
+section#Instructions {
+	width: 825px;
+	float: right;
+}
+
+input[type="checkbox"] {
+	width: 16px;
+	height: 16px;
+}
+
+div.action-nav {
+	@include block;
+	@include border($border-gray);
+
+	background: $white;
+	color: $fade-black;
+
+	cursor: pointer;
+
+	width: 100%;
+	height: auto;
+
+	padding: 5px 0;
+	margin: 2.5px 0;
+
+	text-align: center;
+
+	&.view {
+		background: $blue !important;
+		color: $light !important;
+	}
+
+	&:hover {
+		background: darken( $light, 10% );
+		color: $fade-black;
+	}
+}
+
+span.action-number {
+	float: left;
+	width: 25px;
+
+	font-family: "Tron-Strong";
+}
+
+span.action-title {
+	float: right;
+	text-align: right;
+	
+	width: calc(100% - 45px);
+	padding: 0 10px;
+}
+
+img.action-icon {
+	height: 1rem;
+	vertical-align: top;
+
+	background: $white;
+	border-radius: 5px;
+}
+
+h5.action-tool {
+	width: 100%;
+	font-size: 1.2rem;
+
+	text-align: center;
+
+	padding-bottom: 5px;
+	border-bottom: 1px solid $border-gray;
+	margin: 15px 0 5px 0;
+}
+
+a.item-select {
+	@include round_corners;
+	@include border($border-gray);
+
+	width: 100%;
+	height: auto;
+
+	display: inline-block;
+
+	color: $fade-black;
+	background: $light;
+
+	text-align: center;
+	text-decoration: none;
+
+	padding: 5px 0;
+	margin: 2.5px 0;
+
+	@include transition(0.25s);
+	&:hover {
+		background: darken( $light, 10% );
+	}
+	&:active {
+		background: $darkest-gray;
+	}
+
+	&.active {
+		cursor: default;
+		color: $light;
+		background: $blue;
+	} 
+
+	&:focus {
+		outline: none;
+	}
+}

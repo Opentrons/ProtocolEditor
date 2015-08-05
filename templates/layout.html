@@ -14,7 +14,10 @@
 
     <link rel="stylesheet" href="/static/main.css">
 
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
     <script type="text/javascript" src="/static/js/toggle.js"></script>
+    <script type="text/javascript" src="/static/js/sender.js"></script>
   </head>
     
   <body>
@@ -39,7 +42,7 @@
 
       <form class="right">
         <input class="filename" type="text" name="filename" value='{{ filename }}' onclick="this.select();" />
-        <span class="filename">.json</span>
+        <span class="filename">. json</span>
         <button type="submit" {% if filename == '[empty]' %}disabled{% endif %}>Save</button>
       </form>
     </section>

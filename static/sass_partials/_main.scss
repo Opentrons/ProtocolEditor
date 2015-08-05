@@ -83,6 +83,15 @@ img.icon {
 	height: 1.5rem;
 }
 
+img.label {
+	display: inline-block;
+
+	margin: 0 0 0 25px;
+	padding: 0;
+
+	height: 1.2rem;
+}
+
 a.add-new {
 	@include round_corners;
 
@@ -104,10 +113,23 @@ a.add-new {
 	}
 }
 
-/* ID BLOCKS */
+a.add {
+	display: block;
 
-#Instructions {
-	width: 1050px;
+	text-align: center;
+	text-decoration: none;
+
+	color: $darkest-gray;
+
+	@include transition(0.25s);
+	&:hover, &:active {
+		text-decoration: none;
+		color: $darker-gray;
+	}
+}
+
+div.block {
+	overflow: auto;
 }
 
 /* CLASS BLOCKS */
@@ -127,16 +149,18 @@ a.add-new {
 
 .key-value {
 	@include no_stretch;
+	display: inline-block;
 
 	height: auto;
 	width: 100%;
 
-	margin: 5px 0;
+	margin: 1px 0;
 }
 
 .key {
 	@include no_stretch;
 	vertical-align: top;
+	float: left;
 
 	padding: 5px 10px;
 	display: inline-block;
@@ -151,6 +175,7 @@ a.add-new {
 .value {
 	@include no_stretch;
 	vertical-align: top;
+	float: right;
 
 /*	padding: 2.5px 5px; /* smaller value for edit in place */
 	padding: 5px 10px; 
@@ -162,3 +187,45 @@ a.add-new {
 	background: $white;
 	border-radius: 5px;
 }
+
+
+/***** INSTRUCTIONS *****/
+
+.action {
+	@include border($border-gray);
+	@include block;
+
+	padding: 10px;
+	margin-bottom: 10px;
+
+	width: 100%;
+	background: $gray;
+
+	display: block;
+	position: relative;
+}
+
+.action-title {
+	display: block;
+	width: 100%;
+}
+
+.action-attributes {
+	@include border($border-gray);
+	@include block;
+
+	padding: 10px;
+	margin: 0 10px 10px 10px;
+
+	width: calc(33% - 20px);
+	background: $white;
+
+	display: inline-block;
+	position: relative;
+	vertical-align: top;
+}
+
+
+
+
+

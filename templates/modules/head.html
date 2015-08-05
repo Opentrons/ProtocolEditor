@@ -1,5 +1,4 @@
 {% import 'helpers/keyvalue.html' as kv %}
-{% import 'helpers/edit.html' as editor %}
 
 {% macro render(section) %}
 
@@ -12,7 +11,7 @@
 <div class="content">
 
   <div class="pipette">
-    <span class="pipette-name">{#{{ editor.edit(value=tool) }}#}{{ tool }}</span>
+    <span class="pipette-name">{{ tool }}{#{{ kv.single(value=tool) }}#}</span>
     <img src="/static/images/pipette.png" class="pipette" />
   </div>
 
@@ -26,20 +25,19 @@
     <div class="attr">
     {% endif %}
 
+    
     {% if attr == 'tip-racks' %}
-    <div class="mini-block">{{ attr }}
+    
+    <div class="key-value">
+      <span class="key">{{ attr }}</span>
       {% for location in section[tool][attr] %}
-      {{ kv.pair(key='container', value=location.container) }}
+      {{ kv.single(value=location.container) }}
       {% endfor %}
     </div>
 
     {% elif attr == 'trash-container' %}
-    <div class="mini-block">{{ attr }}
-      {% for location in section[tool][attr] %}
-      {{ kv.pair(key='container', value=location.container) }}
-      {% endfor %}
-    </div>
-
+    {{ kv.pair(key=attr, value=section[tool][attr].container)}}
+  
     {% elif attr != 'points' %}
     {{ kv.pair(key=attr, value=section[tool][attr]) }}
     {% endif %}
@@ -51,31 +49,3 @@
 {% endfor %}
 
 {% endmacro %}
-
-<!-- 
-{#
-{% for tool in section %}
-<div class="content">
-  <span class="key">Name</span><span class="value">{{ tool }}</span>
-  <img src="/static/images/pipette.png" class="pipette" />
-
-  {% for attr in section[tool] %}
-
-  {% if attr == 'tip-racks' %}
-
-  {% elif attr == 'trash-container' %}
-
-  {% elif attr == 'points' %}
-
-  {% else %}
-  <span class="key">{{ attr }}</span><span class="value">{{ section[tool][attr] }}</span>
-  {% endif %}
-
-  {% endfor %}
-
-</div>
-{% endfor %}
-
-{% endmacro %}
-#}
- -->

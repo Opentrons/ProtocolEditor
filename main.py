@@ -1,10 +1,11 @@
-from flask import Flask, request, session, redirect, url_for, abort, render_template, flash, Response, make_response
+from flask import Flask, request, session, jsonify, redirect, url_for, abort, render_template, flash, Response, make_response
 from flask.ext.cache import Cache
 
-import collections
+from collections import OrderedDict
 import json
 
 from protocol.master import Master
+from item_factory import ItemFactory
 
 
 # CONFIG ===================================================================================
@@ -13,6 +14,11 @@ app = Flask(__name__) #APPLICATION
 app.config.from_object(__name__)
 
 app.secret_key = "protocol_editor" # encryption key for session variable, security isn't really an issue
+
+# configure Jinja template engine
+app.jinja_env.add_extension('jinja2.ext.do')
+app.jinja_env.lstrip_blocks = True # strip the whitespace from jinja template lines
+app.jinja_env.trim_blocks = True
 
 cache = Cache(app, config={'CACHE_TYPE': 'simple'}) # initialize cache to store objects
 
@@ -38,29 +44,54 @@ def process_file():
 
 		if req.filename != '': # a file has been uploaded
 			input_protocol = req.getvalue() # raw text of JSON
-			parsed_protocol = json.loads(input_protocol, object_pairs_hook=collections.OrderedDict)
+			parsed_protocol = json.loads(input_protocol, object_pairs_hook=OrderedDict)
 
 			filename = get_filename(req.filename)
 			return render_template('body.html', protocol=parsed_protocol, filename=filename)
-#			master = Master(input_protocol) # instantiate master with the JSON object
 
-#			if master.process() is not False: # Master() will return False if the JSON is not valid
-#				print "success"
-#				print master
-#				return items_page(protocol=master.protocol)
-#			else:
-#				return error_page(reason="Invalid JSON syntax") # processing master failed, JSON was not valid
-
-#		return error_page(no_file=True)
 	else:
 		return landing_page() #return landing page if the page was refreshed
 
 
+@app.route('/edit')
+def make_edit():
+	"""
+	This function is the point of communications between the client and server 
+	side using AJAX as a communications pipeline.
+
+	Returns a response of the new HTML for the section that was edited.
+	"""
+	section='info'
+	edit_function='add'
+	data = {}
+
+	return jsonify(section=section, edit_function=edit_function, data=data)
+
+
+@app.route('/add')
+def add_item():
+	"""
+	Function receives a request for a new object of type specified in the AJAX call,
+	and returns the HTML of the object to be added.
+	"""
+	i = ItemFactory()
+
+	new_type = request.args.get('type')
+
+	if new_type == 'container':
+		item_html = i.get_container()
+	elif new_type == 'reagent':
+		item_html = i.get_reagent()
+#	elif new_type == 'reagent_location':
+#		item_html = i.get_reagent_location()
+	elif new_type == 'pipette':
+		item_html = i.get_pipette()
+
+#	print item_html
+	return jsonify(html=item_html)
+
+
 # HELPERS ==================================================================================
-
-#def items_page(protocol):
-#	return render_template('body.html', protocol=protocol, filename=get_filename())
-
 
 def error_page(reason="", no_file=False):
 	"""
@@ -84,6 +115,15 @@ def get_filename(filename='[empty]'):
 		session['filename'] = filename
 
 	return filename
+
+
+def get_defaults():
+	defaults_file = open('/static/resources/protocol_defaults.json', 'r')
+	defaults_text = defaults_file.read()
+	defaults_text.close()
+
+	defaults_json = json.loads(defaults_text, object_pairs_hook=OrderedDict)
+	return defaults_json()
 
 
 # RUN ======================================================================================

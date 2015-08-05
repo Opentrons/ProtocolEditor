@@ -27,3 +27,12 @@ function editValue(clicked) {
 	clicked.
 }
 */
+
+function view(clicked) {
+	if(clicked.classList.contains("view")){
+		clicked.classList.remove("view");
+	} else {
+		clicked.classList.add("view");
+	}
+}
+

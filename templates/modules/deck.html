@@ -1,4 +1,4 @@
-{% import 'helpers/keyvalue.html' as kv %}
+{% import 'items/container.html' as c %}
 
 {% macro render(section) %}
 
@@ -7,14 +7,16 @@
   <h3>Deck</h3>
 </header>
 
-{% for deck in section %}
-<div class="grouping">
-  {{ kv.pair(key='Name', value=deck) }}
+<div id="containers">
+	{% for container in section %}
+	<div class="grouping">
+		{{ c.draw(container, section[container]) }}
 
-  {% for attr in section[deck] %}
-  {{ kv.pair(key=attr, value=section[deck][attr]) }}
-  {% endfor %}
+<!-- 		<div></div> -->
+	</div>
+	{% endfor %}
 </div>
-{% endfor %}
+
+<a type="container" href="#" id="NewContainer" class="add">New Container</a> 
 
 {% endmacro %}

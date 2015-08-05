@@ -5,3 +5,7 @@
   <span class="key">{{ key }}</span><span class="value">{{ editor.edit(value=value) }}</span>
 </div>
 {% endmacro %}
+
+{% macro single(value) %}
+<span class="value">{{ editor.edit(value=value) }}</span>
+{% endmacro %}

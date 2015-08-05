@@ -1,9 +1,51 @@
+{% import 'helpers/keyvalue.html' as kv %}
+
 {% macro render(section) %}
 
-<img class="icon" src="/static/images/instructions.png" />
-<h3>Instructions</h3>
-<div class="content">
-  Block
-</div>
+<section id="InstructionsToggle">
+	<img class="icon" src="/static/images/instructions.png" /><h3>Instructions</h3>
+
+	{% set moves = [] %}
+
+	{% for group in section %} 
+<!-- 	<div class="content">
+		{{ group.tool }}
+	</div> -->
+	<h5 class="action-tool">
+<!-- 		<img class="icon" src="/static/images/head.png" /> -->
+		tool: {{ group.tool }}
+	</h5>
+	
+	{% for tip in group.groups %}
+
+	{% for attr in tip %}
+	{% do moves.append(attr) %}
+	{% endfor %}
+
+	<div class="action-nav" onclick="view(this)">
+		<span class="action-number">{{ moves|length }}</span>
+		<span class="action-title">
+			{{ moves[(moves|length) - 1] }}
+			<img class="action-icon" src="/static/images/{{ moves[(moves|length) - 1] }}.png" />
+		</span>
+	</div>
+	{% endfor %}
+
+	{% endfor %}
+</section>
+
+<section id="Instructions">
+	{% for move in moves %}
+
+	<div class="action-nav">
+		<span class="action-number">{{ loop.index }}</span>
+		<span class="action-title">
+			<img class="action-icon" src="/static/images/{{ moves[(loop.index) - 1] }}.png" />
+			{{ move }}
+		</span>
+	</div>
+
+	{% endfor %}
+</section>
 
 {% endmacro %}

@@ -34,9 +34,10 @@ $fade-black: #222222;
 }
 
 @mixin transition($time){
+/*	NO TRANSITIONS CURRENTLY USED	
 	transition: $time;
 	-webkit-transition: $time;
-	-moz-transition: $time;
+	-moz-transition: $time; */
 }
 
 @mixin round_corners {
