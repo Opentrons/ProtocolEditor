@@ -1,4 +1,5 @@
 {% import 'helpers/keyvalue.html' as kv %}
+{% import 'helpers/deleter.html' as d %}
 
 {% macro draw(name, block) %}
 
@@ -7,5 +8,7 @@
 {% for attr in block %}
 {{ kv.pair(key=attr, value=block[attr]) }}
 {% endfor %}
+
+{{ d.draw() }}
 
 {% endmacro %}

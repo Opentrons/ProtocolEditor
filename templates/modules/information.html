@@ -8,7 +8,8 @@
 </header>
 
 {% for attr in section %}
-{{ kv.pair(key=attr, value=section[attr]) }}
+{% set id="info." + attr %}
+{{ kv.id_pair(id=id, key=attr, value=section[attr]) }}
 {% endfor %}
 
 {% endmacro %}

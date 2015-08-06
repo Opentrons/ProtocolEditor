@@ -1,4 +1,5 @@
 {% import 'helpers/keyvalue.html' as kv %}
+{% import 'helpers/deleter.html' as d %}
 
 {% macro draw(name, block) %}
 
@@ -7,6 +8,8 @@
 {% for location in block %}
 {{ reagent_location(location) }}
 {% endfor %}
+
+{{ d.draw() }}
 
 {% endmacro %}
 
@@ -17,5 +20,7 @@
 	{% for attr in location %}
 	{{ kv.pair(key=attr, value=location[attr]) }}
 	{% endfor %}
+
+	{{ d.draw() }}
 </div>
 {% endmacro %}

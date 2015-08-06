@@ -4,7 +4,7 @@ from flask.ext.cache import Cache
 from collections import OrderedDict
 import json
 
-from protocol.master import Master
+from protocol.protocol import Protocol
 from item_factory import ItemFactory
 
 
@@ -30,6 +30,25 @@ def landing_page():
 	return render_template('body.html', filename='[empty]')
 
 
+@app.route('/save', methods=['GET', 'POST'])
+def save_file():
+	"""
+	Retrieve the JSON from the Protocol object and stream it directly onto 
+	the user's computer.
+	"""
+	m = cache.get('master') # get the protocol from the cache
+
+	filename = request.form['filename'] # get the filename from the submitted form
+
+	out = m.get_protocol() # get the JSON from the protocol object 
+
+	response = make_response(out)
+	response.headers["Content-Disposition"] = "attachment; filename=%s.json" % filename 
+
+	cache.set('master', m) # put the protocol object back into the cache
+	return response # stream the object back to the user's computer
+
+
 @app.route('/process', methods=['GET', 'POST'])
 def process_file():
 	"""
@@ -47,13 +66,17 @@ def process_file():
 			parsed_protocol = json.loads(input_protocol, object_pairs_hook=OrderedDict)
 
 			filename = get_filename(req.filename)
+
+			master = Protocol(parsed_protocol) # instantiate the master protocol object 
+			cache.set('master', master) # store the protocol object in the cache
+
 			return render_template('body.html', protocol=parsed_protocol, filename=filename)
 
 	else:
 		return landing_page() #return landing page if the page was refreshed
 
 
-@app.route('/edit')
+@app.route('/edit', methods=['GET', 'POST'])
 def make_edit():
 	"""
 	This function is the point of communications between the client and server 
@@ -61,11 +84,23 @@ def make_edit():
 
 	Returns a response of the new HTML for the section that was edited.
 	"""
-	section='info'
-	edit_function='add'
-	data = {}
+	m = cache.get('master') # retrieve the protocol object from the cache
+	print m.deck.render_as_json()
 
-	return jsonify(section=section, edit_function=edit_function, data=data)
+	changes = request.args.get('changes') # read the changes variable from the postback
+	changes = json.loads(changes) # parse changes variable to JSON
+	print changes
+
+	protocol_response = m.process_edit_msg(changes) # send the changes back to the protocol module for processing
+	protocol_response = m.deck.render_as_json() # shouldn't need to do this--new JSON should come from the process_edit_msg method
+	print protocol_response
+	print m.deck.render_as_json()
+
+#	if protocol_response is not None: # still need to somehow rerender the deck section
+#		i.get_deck()
+
+	cache.set('master', m) # put master back into the cache
+	return jsonify(html=str(protocol_response)) # Flask mandates having a return response
 
 
 @app.route('/add')
@@ -89,6 +124,14 @@ def add_item():
 
 #	print item_html
 	return jsonify(html=item_html)
+
+
+# @app.route('/delete')
+# def delete_item():
+# 	print request.args.get('type')
+# 	print request.args.get('id')
+
+# 	return jsonify(test='delete')
 
 
 # HELPERS ==================================================================================

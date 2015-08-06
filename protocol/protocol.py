@@ -40,8 +40,8 @@ class Protocol():
     #export json
     #import json
     #assemble
-    
-    
+
+
     #method for processing edit methods from ajax
     def process_edit_msg(self, msg_dict):
         """method to process editing message
@@ -52,16 +52,21 @@ class Protocol():
         4.  edit_data_dict is a dict of editing data ex: { 'plate-1":{"labware":"96-flat", "slot":"C1"}}
         
         """
-        id_parts = msg_dict["id"].split("-")
+        id_parts = msg_dict["id"].split(".")
         ef = msg_dict["ef"]
         data = msg_dict["data"]
-        
+
+
         section =   id_parts[0]     #get the leading section of the id
-        idx1 = int(id_parts[1])
-        
+
+        try:
+            idx1 = int(id_parts[1])
+        except Exception, e:
+            print e
+
         if section == 'info':
             if ef == 'modify':
-                self.info.modify_by_key(idx1)      #get the index
+                self.info.modify_by_key(data)      #get the index
                 #nothing to return
                 
         elif section == 'deck':
@@ -93,4 +98,19 @@ class Protocol():
             
             return retVal
             
+
+    # method for returning the protocol object
+    def get_protocol(self):
+        out = '"info": %s,' % self.info.render_as_json()
+        out += '"deck": %s' % self.deck.render_as_json()
+        # out += "%s,\n\n" % self.head.render_as_json()
+        # out += "%s,\n\n" % self.ingredients.render_as_json()
+        # out += self.instructions.render_as_json()
+
+        out = json.loads("{%s}" % out, object_pairs_hook=OrderedDict) # load into JSON object, preserving order
+        
+        # export as nicely spaced and indented JSON object (false is ordered, true is not..?)
+        return json.dumps(out, indent=4, sort_keys=False)
+
+    
     

@@ -9,10 +9,8 @@
 
 <div id="containers">
 	{% for container in section %}
-	<div class="grouping">
+	<div id="deck.{{ loop.index0 }}" class="grouping">
 		{{ c.draw(container, section[container]) }}
-
-<!-- 		<div></div> -->
 	</div>
 	{% endfor %}
 </div>
