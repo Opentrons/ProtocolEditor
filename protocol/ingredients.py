@@ -77,18 +77,21 @@ class Ingredients():
 			# return {'ingredients' : {key:msg}}	# section temporarily commented pending error response requirement
 			return self.render_as_json()
 		
-	def add(self, new_ingredient_dict):
+	def add(self):
 		"""append an ingredient value/object to the ordered ingredients dict
-		1.  new_ingredient_dict is the ingredient dict containing the new ingredient key and attributes
-		2.  new_ingredient_dict is of the form:
+		1.  new_ingredient_dict is an OrderedDict of the form:
 				{"ingredient_name" : [{"container" : string, "location" : string, "volume":integer}]}
-		3.  the dict for the revised ingredients_section is returned
+		2.  the dict for the revised ingredients_section is returned
 		
 		"""
 		try:
-			name = new_ingredient_dict.keys()[0]
-			attr = new_ingredient_dict[name]	#list containing 1 dict
-			self.ingredients_section[name] = attr
+			
+			name = "ingredient_name"
+			c = ("container","container_name")
+			l = ("location","A1")
+			v = ("volume",0)
+			new_ingredient_dict = OrderedDict([c,l,v])
+			self.ingredients_section[name] = new_ingredient_dict
 			msg = 'OK'
 		except Exception as e:
 			msg = e.strerror
