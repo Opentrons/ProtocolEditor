@@ -1,3 +1,5 @@
+/*
+
 $(document).ready(function(){
 
 	$('a#NewContainer').click(function(){ // on "NewContainer" anchor click
@@ -30,6 +32,8 @@ $(document).ready(function(){
 
 });
 
+*/
+
 //////////////////////////////////////
 //////////////////////////////////////
 //////////////////////////////////////
@@ -47,7 +51,6 @@ function edit_modify(id, key, value) {
 	data[key] = value;
 
 	var changes = { // this is the information that goes along with the changes
-//		"section": "info",
 		"ef": "modify",
 		"id": id,
 		"data": data
@@ -56,6 +59,7 @@ function edit_modify(id, key, value) {
 	var out = {};
 	out['changes'] = JSON.stringify(changes); // send over stringify'd version to avoid MultiDict (flattened) headache
 
+	console.log(changes);
 	$.getJSON('/edit', out, function(data) { // return HTML for new container
 		console.log("new values: (" + key + " --> " + value + ")");
 	});
@@ -78,15 +82,39 @@ function edit_delete(id) {
 	out['changes'] = JSON.stringify(changes); // this is how we're doing it, every time
 
 	$.getJSON('/edit', out, function(data) { // must re-render entire section because the indeces have changed
-//		var new_deck = document.createElement('div');
-//		new_deck.innerHTML = data.html;
-
 		document.getElementById("Deck").innerHTML = data.html; // reset html
-//		console.log($("div#containers").innerHTML);
+		
 		console.log(data.html);
-
 		console.log("item " + id + " deleted.");
 	});
+}
+
+function edit_add(id) {
+	var data = {};
+	if(id == 'deck'){
+		data = {
+			"container name": {
+				"labware": "container type",
+				"slot": "deck slot"
+			}
+		};
+	}
+
+
+	var changes = {
+		"ef": "add",
+		"id": id,
+		"data": data
+	};
+
+	if(id == 'deck'){
+		var out = {};
+		out['changes'] = JSON.stringify(changes);
+
+		$.getJSON('/edit', out, function(data) { // return HTML for new container
+			document.getElementById("Deck").innerHTML = data.html; // reset html
+		});
+	}
 }
 
 function edit_copy() {
@@ -94,10 +122,6 @@ function edit_copy() {
 }
 
 function edit_paste() {
-
-}
-
-function edit_add() {
 
 }
 

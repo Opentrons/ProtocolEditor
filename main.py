@@ -5,7 +5,8 @@ from collections import OrderedDict
 import json
 
 from protocol.protocol import Protocol
-from item_factory import ItemFactory
+import item_factory
+#from item_factory import get_html
 
 
 # CONFIG ===================================================================================
@@ -72,8 +73,11 @@ def process_file():
 
 			return render_template('body.html', protocol=parsed_protocol, filename=filename)
 
-	else:
-		return landing_page() #return landing page if the page was refreshed
+		else: 
+			# LANDING PAGE NOT WORKING FOR NOW, FIX IT LATER
+			return error_page(no_file=True)
+	else: 
+		return error_page(no_file=True) #return landing page if the page was refreshed
 
 
 @app.route('/edit', methods=['GET', 'POST'])
@@ -85,53 +89,24 @@ def make_edit():
 	Returns a response of the new HTML for the section that was edited.
 	"""
 	m = cache.get('master') # retrieve the protocol object from the cache
-	print m.deck.render_as_json()
 
 	changes = request.args.get('changes') # read the changes variable from the postback
 	changes = json.loads(changes) # parse changes variable to JSON
-	print changes
+#	print changes
 
 	protocol_response = m.process_edit_msg(changes) # send the changes back to the protocol module for processing
-	protocol_response = m.deck.render_as_json() # shouldn't need to do this--new JSON should come from the process_edit_msg method
-	print protocol_response
-	print m.deck.render_as_json()
+#	print protocol_response
 
-#	if protocol_response is not None: # still need to somehow rerender the deck section
-#		i.get_deck()
+	html_response = '' # this is where we get the response, if there is any
+	if protocol_response is not None: # still need to somehow rerender the deck section
+		edit_section = changes['id'].split('.')[0] # grab first piece of id before dot (this is the section)
+		protocol_response = json.loads(protocol_response, object_pairs_hook=OrderedDict) # parse response string into json
+
+		html_response = item_factory.get_html(edit_section, protocol_response)
+
 
 	cache.set('master', m) # put master back into the cache
-	return jsonify(html=str(protocol_response)) # Flask mandates having a return response
-
-
-@app.route('/add')
-def add_item():
-	"""
-	Function receives a request for a new object of type specified in the AJAX call,
-	and returns the HTML of the object to be added.
-	"""
-	i = ItemFactory()
-
-	new_type = request.args.get('type')
-
-	if new_type == 'container':
-		item_html = i.get_container()
-	elif new_type == 'reagent':
-		item_html = i.get_reagent()
-#	elif new_type == 'reagent_location':
-#		item_html = i.get_reagent_location()
-	elif new_type == 'pipette':
-		item_html = i.get_pipette()
-
-#	print item_html
-	return jsonify(html=item_html)
-
-
-# @app.route('/delete')
-# def delete_item():
-# 	print request.args.get('type')
-# 	print request.args.get('id')
-
-# 	return jsonify(test='delete')
+	return jsonify(html=str(html_response)) # return the new HTML if there is any to be sent
 
 
 # HELPERS ==================================================================================
@@ -142,10 +117,10 @@ def error_page(reason="", no_file=False):
 	with given reason for failure.
 	"""
 	if no_file:
-		return render_template('warnings/nofile.html', fileName=get_filename())
+		return render_template('warnings/nofile.html', filename=get_filename())
 
 	message = "%s.json could not be loaded." % get_filename()
-	return render_template('warnings/warning.html', message=message, reason=reason, fileName=get_filename()) 
+	return render_template('warnings/warning.html', message=message, reason=reason, filename=get_filename()) 
 
 
 def get_filename(filename='[empty]'):

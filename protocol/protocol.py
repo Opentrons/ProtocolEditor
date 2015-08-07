@@ -56,8 +56,9 @@ class Protocol():
         ef = msg_dict["ef"]
         data = msg_dict["data"]
 
-
         section =   id_parts[0]     #get the leading section of the id
+
+        retVal = None # set to None so it won't raise an error if unassigned
 
         try:
             idx1 = int(id_parts[1])
@@ -73,6 +74,7 @@ class Protocol():
             if  ef == 'delete':
                 retVal = self.deck.delete_by_index(idx1)
             elif ef == 'add':
+                print 'add deck'
                 retVal = self.deck.add(data)
             elif ef == 'modify':
                 self.deck.modify_by_index(idx1,data)
@@ -96,16 +98,16 @@ class Protocol():
             elif ef == 'delete':
                 inst.delete(data)
             
-            return retVal
+        return retVal
             
 
     # method for returning the protocol object
     def get_protocol(self):
         out = '"info": %s,' % self.info.render_as_json()
         out += '"deck": %s' % self.deck.render_as_json()
-        # out += "%s,\n\n" % self.head.render_as_json()
-        # out += "%s,\n\n" % self.ingredients.render_as_json()
-        # out += self.instructions.render_as_json()
+        # out += '"head": %s,' % self.head.render_as_json()
+        # out += '"ingredients": %s,' % self.ingredients.render_as_json()
+        # out += '"instructions": %s' % self.instructions.render_as_json()
 
         out = json.loads("{%s}" % out, object_pairs_hook=OrderedDict) # load into JSON object, preserving order
         

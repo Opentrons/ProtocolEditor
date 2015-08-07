@@ -180,7 +180,8 @@ a.item-select {
   padding-top: 2.5px;
   display: inline-block;
   background: #F8F8F8;
-  position: relative; }
+  position: relative;
+  vertical-align: top; }
 
 .delete-button {
   -webkit-box-sizing: border-box;
