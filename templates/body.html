@@ -13,26 +13,26 @@
   
   <section id="Toggle">
 <!--     <img class="icon" src="/static/images/ingredients.png" /><h3>Items</h3> -->
-    <a class="item-select active" href="#" onclick="toggle(this, 'Information');">Information</a>
-    <a class="item-select" href="#" onclick="toggle(this, 'Deck');">Deck</a>
-    <a class="item-select" href="#" onclick="toggle(this, 'Head');">Head</a>
-    <a class="item-select" href="#" onclick="toggle(this, 'Ingredients');">Ingredients</a>
+    <a class="item-select active" href="#" onclick="toggle(this, 'information');">Information</a>
+    <a class="item-select" href="#" onclick="toggle(this, 'deck');">Deck</a>
+    <a class="item-select" href="#" onclick="toggle(this, 'head');">Head</a>
+    <a class="item-select" href="#" onclick="toggle(this, 'ingredients');">Ingredients</a>
   </section>
 
   <div id="Item">
-    <section id="Information" class="block active">
+    <section id="information" class="block active">
     {{ info.render(protocol.info) }}
     </section>
 
-    <section id="Deck" class="block">
+    <section id="deck" class="block">
     {{ deck.render(protocol.deck) }}
     </section>
 
-    <section id="Head" class="block">
+    <section id="head" class="block">
     {{ head.render(protocol.head) }}
     </section>
 
-    <section id="Ingredients" class="block">
+    <section id="ingredients" class="block">
     {{ ingr.render(protocol.ingredients) }}
     </section>
   </div>

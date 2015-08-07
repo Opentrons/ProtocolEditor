@@ -22,7 +22,7 @@
 	{% do moves.append(attr) %}
 	{% endfor %}
 
-	<div class="action-nav" onclick="view(this)">
+	<div id="instructions.{{ moves|length - 1 }}.nav" class="action-nav {% if moves|length == 1 %}view{% endif %}" onclick="view(this)">
 		<span class="action-number">{{ moves|length }}</span>
 		<span class="action-title">
 			{{ moves[(moves|length) - 1] }}
@@ -37,10 +37,10 @@
 <section id="Instructions">
 	{% for move in moves %}
 
-	<div class="action-nav">
+	<div id="instructions.{{ loop.index0 }}" class="action-block {% if loop.index == 1 %}view{% endif %}" onclick="view(this)">
 		<span class="action-number">{{ loop.index }}</span>
 		<span class="action-title">
-			<img class="action-icon" src="/static/images/{{ moves[(loop.index) - 1] }}.png" />
+			<img class="action-icon" src="/static/images/{{ moves[loop.index0] }}.png" />
 			{{ move }}
 		</span>
 	</div>

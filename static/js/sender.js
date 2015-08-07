@@ -1,42 +1,9 @@
-/*
+/*	
+CORE EDITING FUNCTIONS
 
-$(document).ready(function(){
-
-	$('a#NewContainer').click(function(){ // on "NewContainer" anchor click
-		$.getJSON('/add', {
-			type: $('a#NewContainer').attr('type') // send request for new container to app
-		}, function(data) { // return HTML for new container
-			var new_container = document.createElement('div');
-
-			new_container.classList.add('grouping');
-			new_container.innerHTML = data.html;
-
-			$('#containers').append(new_container); // add to list of containers
-		});
-
-	});
-
-	$('a#NewReagent').click(function(){ // on "NewContainer" anchor click
-		$.getJSON('/add', {
-			type: $('a#NewReagent').attr('type') // send request for new container to app
-		}, function(data) { // return HTML for new container
-			var new_reagent = document.createElement('div');
-
-			new_reagent.classList.add('content');
-			new_reagent.innerHTML = data.html;
-
-			$('#reagents').append(new_reagent); // add to list of containers
-		});
-
-	});
-
-});
-
+AJAX functions corresponding to the six main editing functions:
+	Modify Delete Copy Paste Add Insert
 */
-
-//////////////////////////////////////
-//////////////////////////////////////
-//////////////////////////////////////
 
 function edit_modify(id, key, value) {
 	/*
@@ -82,7 +49,8 @@ function edit_delete(id) {
 	out['changes'] = JSON.stringify(changes); // this is how we're doing it, every time
 
 	$.getJSON('/edit', out, function(data) { // must re-render entire section because the indeces have changed
-		document.getElementById("Deck").innerHTML = data.html; // reset html
+		var section = id.split('.')[0];
+		document.getElementById(section).innerHTML = data.html; // reset html
 		
 		console.log(data.html);
 		console.log("item " + id + " deleted.");
@@ -90,29 +58,26 @@ function edit_delete(id) {
 }
 
 function edit_add(id) {
-	var data = {};
-	if(id == 'deck'){
-		data = {
-			"container name": {
-				"labware": "container type",
-				"slot": "deck slot"
-			}
-		};
-	}
-
-
+	/*
+	CORE EDITING FUNCTIONS: Modify Delete Copy Paste [Add] Insert
+	
+	Sends the id of the type of object to be added and gets the HTML for the 
+	new object in return, rewriting the section in question to show the new
+	addition.
+	*/
 	var changes = {
 		"ef": "add",
 		"id": id,
-		"data": data
+		"data": {}
 	};
 
-	if(id == 'deck'){
-		var out = {};
-		out['changes'] = JSON.stringify(changes);
+	var out = {};
+	out['changes'] = JSON.stringify(changes);
 
+	if(id == 'deck'){
 		$.getJSON('/edit', out, function(data) { // return HTML for new container
-			document.getElementById("Deck").innerHTML = data.html; // reset html
+			var section = id.split('.')[0];
+			document.getElementById(section).innerHTML = data.html; // reset html
 		});
 	}
 }
