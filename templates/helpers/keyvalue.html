@@ -1,11 +1,38 @@
-{% import 'helpers/edit.html' as editor %}
+{# <!-- {% import 'helpers/edit.html' as editor %} --> #}
 
 {% macro pair(key, value) %}
 <div class="key-value">
-  <span class="key">{{ key }}</span><span class="value">{{ editor.edit(value=value) }}</span>
+  <span class="key">{{ key }}</span><span class="value">{{ edit(key=key, value=value) }}</span>
 </div>
 {% endmacro %}
 
+
+{% macro id_pair(id, key, value) %}
+<div id="{{ id }}" class="key-value">
+  <span class="key">{{ key }}</span><span class="value">{{ edit(key=key, value=value) }}</span>
+</div>
+{% endmacro %}
+
+
 {% macro single(value) %}
-<span class="value">{{ editor.edit(value=value) }}</span>
+<span class="value">{{ edit(value=value) }}</span>
+{% endmacro %}
+
+
+<!--
+EDIT IN PLACE
+-->
+{% macro edit(key, value) %}
+  <div class="edit-in-place modalComponent mode-display">
+    <div class="mode display">
+      <span class="edit-handle value" style="cursor:pointer;">{{ value }}</span>
+    </div>
+    <div class="mode edit">
+      <form action="/user/1/edit" method="post">
+        <input type="text" value="{{ value }}" name="name" class="edit-input" onblur="clickSubmit('{{ key }}', this.parentNode);" />
+{#        <!-- this element hidden but must still be here because it is used by modals --> #}
+        <input type="submit" value="Save" class="save-edit hidden" />
+      </form>
+    </div>
+  </div>
 {% endmacro %}
