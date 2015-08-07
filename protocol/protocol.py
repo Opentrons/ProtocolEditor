@@ -4,8 +4,8 @@ from info import Info
 from deck import Deck
 # import info
 # import deck
-# from head import Head
-# from ingredients import Ingredients
+from head import Head
+from ingredients import Ingredients
 #from instructions import Instructions
 #import Instructions
 
@@ -30,9 +30,12 @@ class Protocol():
         #info object
         self.info = Info(self.prot_dict['info'])
         #head object
+        self.head = Head(self.prot_dict['head'])
         #deck object
         self.deck = Deck(self.prot_dict['deck'])
         #ingredients object
+        self.ingredients = Ingredients(self.prot_dict['ingredients'])
+
         #instructions object - list
         #inst = Instructions()
     
@@ -68,35 +71,64 @@ class Protocol():
         if section == 'info':
             if ef == 'modify':
                 self.info.modify_by_key(data)      #get the index
+        
+        
+        # # print 'section=',section, '  idx1=',idx1, '  ef=', ef
+        # 
+        # if section == 'info':
+        #     if ef == 'modify':
+        #         idx1 = int(id_parts[1])
+        #         self.info.modify_by_key(idx1)      #get the index
                 #nothing to return
                 
         elif section == 'deck':
             if  ef == 'delete':
+                idx1 = int(id_parts[1])
                 retVal = self.deck.delete_by_index(idx1)
             elif ef == 'add':
                 print 'add deck'
-                retVal = self.deck.add(data)
+                # retVal = self.deck.add(data)
+                retVal = self.deck.add()
             elif ef == 'modify':
+                idx1 = int(id_parts[1])
                 self.deck.modify_by_index(idx1,data)
                 retVal = None   #nothing to return
             
         elif section == 'head':
-            pass
+            #id has form "head.0.1.volume" for 1st pipette, 
+            if ef == 'delete':
+                idx1 = int(id_parts[1])
+                retVal = self.head.delete_by_index(idx1)
+            elif ef == 'add':
+                retVal = self.head.add(data)
+            elif ef == 'modify':
+                idx1 = int(id_parts[1])
+                idx2 = int(id_parts[2])
+                self.head.modify_by_index_index_key(idx1, idx2, data)
         
         elif section == 'ingredients':
-            pass
-        
+            #id has form "ingredients.2.1.volume" for 3rd reagent, 1st list element, volume attribute
+            if ef == 'delete':
+                idx1 = int(id_parts[1])
+                retVal = self.ingredients.delete_by_index(idx1)
+            elif ef == 'add':
+                retVal = self.ingredients.add(data)
+            elif ef == 'modify':
+                idx1 = int(id_parts[1])
+                idx2 = int(id_parts[2])
+                self.ingredients.modify_by_index_index_key(idx1, idx2, data)
+                
         elif section == 'instructions':
             if ef == 'copy':
-                inst.copy(data)
+                pass
             elif ef == 'paste':
-                inst.paste(data)
+                pass
             elif ef == 'modify':
-                inst.modify(data)
+                pass
             elif ef == 'insert':
-                inst.insert(data)
+                pass
             elif ef == 'delete':
-                inst.delete(data)
+                pass
             
         return retVal
             

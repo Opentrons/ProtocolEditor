@@ -99,7 +99,8 @@ class Deck():
 			# return {'deck' : {key:msg}}	# section temporarily commented pending error response requirement
 			return self.render_as_json()
 		
-	def add(self, new_container_dict):
+	# def add(self, new_container_dict):
+	def add(self):
 		"""append a container object to the ordered containers dict
 		1.  new_container_dict is the container dict containing the new key and attributes
 		2.  new_container_dict is of the form {"container_name" : {"labware" : string, "slot" : string}}
@@ -107,11 +108,12 @@ class Deck():
 		
 		"""
 		try:
-			name = new_container_dict.keys()[0]
-			attr = new_container_dict[name]
-			new_container = Container(name, attr)
-			self.containers[new_container.name] = new_container
-			self.deck_section[name] = attr
+			# name = new_container_dict.keys()[0]
+			# attr = new_container_dict[name]
+			# new_container = Container(name, attr)
+			# self.containers[new_container.name] = new_container
+			new_container_dict = OrderedDict([("labware","container type"),("slot","A1")])
+			self.deck_section["container_name"] = new_container_dict
 			msg = 'OK'
 		except Exception as e:
 			msg = e.strerror
