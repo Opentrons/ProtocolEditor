@@ -112,7 +112,7 @@ class Protocol():
                 idx1 = int(id_parts[1])
                 retVal = self.ingredients.delete_by_index(idx1)
             elif ef == 'add':
-                retVal = self.ingredients.add(data)
+                retVal = self.ingredients.add()
             elif ef == 'modify':
                 idx1 = int(id_parts[1])
                 idx2 = int(id_parts[2])
