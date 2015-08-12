@@ -63,7 +63,7 @@ class Head():
 	#note that this rendering does not add "head" prefix
 	def render_as_json(self):
 		return json.dumps(self.head_section, indent=2)
-	
+
 
 	#editing methods
 	

@@ -28,7 +28,8 @@ class Protocol():
 
         #aggregate objects
         #info object
-        self.info = Info(self.prot_dict['info'])
+        if self.prot_dict.has_key('info'):
+            self.info = Info(self.prot_dict['info'])
         #head object
         self.head = Head(self.prot_dict['head'])
         #deck object
