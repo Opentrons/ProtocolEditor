@@ -146,4 +146,28 @@ class Deck():
 		finally:
 			# return {'deck' : {key:msg}}	# section temporarily commented pending error response requirement
 			pass
+		
+	def modify_by_index_key(self, idx, key, new_container_dict):
+		"""modify an attribute, selected by key, in a deck container, selected by index, in the deck_section dict
+		idx is an integer
+		1.  idx is returned from ajax using html id of the form "deck-idx"  ex: "deck-3"
+		2.  idx is converted into the key of the deck container to be modified
+		3.  new_container_dict is the container dict containing the new attributes
+		4.  new_container_dict is of the form {"container_name" : {"labware" : string, "slot" : string}}
+		5.  nothing is returned since the GUI already contains the changes
+		
+		"""
+		try:
+			old_key = self.deck_section.keys()[idx]		#get the old_key from the index
+			new_key = new_container_dict.keys()[0]	#get the new key from the new_container_dict
+			attr = new_container_dict[new_key]		#get the attributes from the new_container_dict
+			if new_key != old_key:
+				self.deck_section[new_key] = self.deck_section.pop(old_key)	#change to the new key value
+			self.deck_section[new_key] = attr	#set the attributes
+			msg = 'OK'
+		except Exception as e:
+			msg = e.strerror
+		finally:
+			# return {'deck' : {key:msg}}	# section temporarily commented pending error response requirement
+			pass
 	

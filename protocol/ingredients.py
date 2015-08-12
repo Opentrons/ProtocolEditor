@@ -58,7 +58,7 @@ class Ingredients():
 		pass
 	
 	def delete_by_index(self, idx):
-		"""deletes an item in the ingredients section
+		"""deletes an item in the ingredients section at Level 1
 		idx is an integer
 		1.  idx is returned from ajax using html id of the form "ingredients-idx"  ex: "ingredients-3"
 		2.  idx is converted into the key of the ingredients value/object to be deleted
@@ -77,8 +77,28 @@ class Ingredients():
 			# return {'ingredients' : {key:msg}}	# section temporarily commented pending error response requirement
 			return self.render_as_json()
 		
+	def delete_by_index_index(self, idx1, idx2):
+		"""deletes an item in the ingredients section at Level 2
+		idx1 and idx2 are integers
+		1.  idx1 and idx2 are returned from ajax using html id of the form "ingredients.idx1.idx2"  ex: "ingredients.3.1"
+		2.  idx1 and id2 are converted into the keys of the corresponding ingredient and ingredient location to be deleted
+		3.  the dict for the revised ingredients_section is returned
+		
+		"""
+		try:
+			key = self.ingredients_section.keys()[idx1]		#get the key from the index
+			if self.ingredients_section.has_key(key):
+				del self.ingredients_section[key][idx2]		#delete the dict with index idx2 from the list
+			msg = 'OK'
+		except Exception as e:
+			msg = e.strerror
+			# print 'errmsg=',msg
+		finally:
+			# return {'ingredients' : {key:msg}}	# section temporarily commented pending error response requirement
+			return self.render_as_json()
+		
 	def add(self):
-		"""append an ingredient value/object to the ordered ingredients dict
+		"""append an ingredient value/object to the ordered ingredients dict at Level 1
 		1.  new_ingredient_dict is an OrderedDict of the form:
 				{"ingredient_name" : [{"container" : string, "location" : string, "volume":integer}]}
 		2.  the dict for the revised ingredients_section is returned
@@ -92,6 +112,32 @@ class Ingredients():
 			v = ("volume",0)
 			new_ingredient_dict = OrderedDict([c,l,v])
 			self.ingredients_section[name] = new_ingredient_dict
+			msg = 'OK'
+		except Exception as e:
+			msg = e.strerror
+		finally:
+			# return {'ingredients' : {key:msg}}	#need error requirments
+			return self.render_as_json()
+		
+		
+	def add_by_index(self,idx1):
+		"""append an ingredient location object to the list of a specified ingredients at Level 2
+		1.  new_ingredient_dict is an OrderedDict of the form:
+				{"ingredient_name" : [{"container" : string, "location" : string, "volume":integer}]}
+		2.  idx1 is the index of the ingredient in the ingredients dict
+		3.  the dict for the entire revised ingredients_section is returned
+		
+		"""
+		try:
+			key1 = self.ingredients_section.keys()[idx1]	#get the key for idx1
+			#generate a default entry
+			c = ("container","container_name")
+			l = ("location","A1")
+			v = ("volume",0)
+			new_ingredient_dict = OrderedDict([c,l,v])
+			
+			#append the new location dict object to the list
+			self.ingredients_section[key1].append(new_ingredient_dict)
 			msg = 'OK'
 		except Exception as e:
 			msg = e.strerror

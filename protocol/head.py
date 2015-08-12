@@ -71,7 +71,7 @@ class Head():
 		pass
 	
 	def delete_by_index(self, idx):
-		"""deletes an item in the head section
+		"""deletes an item in the head section at Level 1
 		idx is an integer
 		1.  idx is returned from ajax using html id of the form "head-idx"  ex: "head-0"
 		2.  idx is converted into the key of the head value/object to be deleted
@@ -90,8 +90,8 @@ class Head():
 			# return {'head' : {key:msg}}	# section temporarily commented pending error response requirement
 			return self.render_as_json()
 		
-	def add(self, new_head_dict):
-		"""append an head value/object to the ordered head dict
+	def add(self):
+		"""append an head value/object to the ordered head dict at Level 1
 		1.  new_head_dict is the head dict containing the new head key and attributes
 		2.  new_head_dict is of the form:
 				{"P200" :
@@ -119,9 +119,26 @@ class Head():
 		
 		"""
 		try:
-			name = new_head_dict.keys()[0]
-			attr = new_head_dict[name]	#list containing 1 dict
-			self.head_section[name] = attr
+			name = "tool_name"
+			t = ("tool", "pipette")
+			tr = ("tip-racks",[{"container" : "tiprack_name"}])
+			tc = ("trash-container","trash_container_name")
+			mc = ("multi-channel", True)
+			a = ("axis", "a")
+			v = ("volume", 250)
+			dps = ("down-plunger-speed", 300)
+			ups = ("up-plunger-speed", 500)
+			tp = ("tip-plunge", 8)
+			epv = ("extra-pull-volume", 20)
+			epd = ("extra-pull-delay", 200)
+			dp = ("distribute-percentage", 0.1)
+			p = ("points",[{"f1" : 10,"f2" : 6},
+						{"f1" : 25,"f2" : 23},
+						{"f1" : 50,"f2" : 49},
+						{"f1" : 200,"f2" : 200}])
+			
+			new_head_dict = OrderedDict([t,tr,tc,mc,a,v,dps,ups,tp,epv,epd,dp,p])
+			self.head_section[name] = new_head_dict
 			msg = 'OK'
 		except Exception as e:
 			msg = e.strerror
