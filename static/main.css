@@ -318,6 +318,33 @@ div.action-nav {
     background: #e4e4e4;
     color: #222222; }
 
+div.action-block {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: inline-block;
+  position: relative;
+  font-size: 1rem;
+  border: 1px solid #e7e7e7;
+  background: #FFFFFF;
+  color: #222222;
+  cursor: pointer;
+  width: 100%;
+  height: auto;
+  padding: 5px 0;
+  margin: 2.5px 0;
+  text-align: center; }
+  div.action-block.view {
+    height: 200px !important;
+    /* just for now */ }
+    div.action-block.view:hover {
+      background: #FFFFFF;
+      color: #222222; }
+  div.action-block:hover {
+    background: #e4e4e4;
+    color: #222222; }
+
 span.action-number {
   float: left;
   width: 25px;

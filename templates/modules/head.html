@@ -9,7 +9,7 @@
 </header>
 
 {% for tool in section %}
-<div class="content">
+<div id="head.{{ loop.index0 }}" class="content">
 
   <div class="pipette">
     <span class="pipette-name">{{ tool }}{#{{ kv.single(value=tool) }}#}</span>

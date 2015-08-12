@@ -27,10 +27,18 @@ function toggle(clicked, showID) {
 ////////////////////////////////////////////
 
 function view(clicked) {
+	var clicked_id = clicked.id;
+	var id_parts = clicked_id.split('.'); // split ID based on period
+
+	var id_main = id_parts[0] + "." + id_parts[1];
+	var id_nav = id_main + ".nav";
+
 	if(clicked.classList.contains("view")){
-		clicked.classList.remove("view");
+		document.getElementById(id_main).classList.remove("view");
+		document.getElementById(id_nav).classList.remove("view");
 	} else {
-		clicked.classList.add("view");
+		document.getElementById(id_main).classList.add("view");
+		document.getElementById(id_nav).classList.add("view");
 	}
 }
 

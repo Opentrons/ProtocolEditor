@@ -41,6 +41,38 @@ div.action-nav {
 	}
 }
 
+div.action-block {
+	@include block;
+	@include border($border-gray);
+
+	background: $white;
+	color: $fade-black;
+
+	cursor: pointer;
+
+	width: 100%;
+	height: auto;
+
+	padding: 5px 0;
+	margin: 2.5px 0;
+
+	text-align: center;
+
+	&.view {
+		height: 200px !important; /* just for now */
+
+		&:hover {
+			background: $white;
+			color: $fade-black;
+		}
+	}
+
+	&:hover {
+		background: darken( $light, 10% );
+		color: $fade-black;
+	}
+}
+
 span.action-number {
 	float: left;
 	width: 25px;
