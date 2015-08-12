@@ -1,6 +1,16 @@
 #Toggle {
 	width: 200px;
 	float: left;
+
+	&.sticky {
+		position: fixed;
+		top: 0px;
+	}
+
+	&.stuck {
+		position: absolute;
+		bottom: 0;
+	}
 }
 
 a.item-select {

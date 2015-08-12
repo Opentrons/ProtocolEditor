@@ -135,6 +135,12 @@ span.filename {
 #Toggle {
   width: 200px;
   float: left; }
+  #Toggle.sticky {
+    position: fixed;
+    top: 0px; }
+  #Toggle.stuck {
+    position: absolute;
+    bottom: 0; }
 
 a.item-select {
   border-radius: 5px;
@@ -284,7 +290,13 @@ div.attributes {
 
 section#InstructionsToggle {
   width: 200px;
+  height: auto;
+  max-height: calc(100% - 50px);
+  overflow-y: scroll;
   float: left; }
+  section#InstructionsToggle.sticky {
+    position: fixed;
+    top: 0px; }
 
 section#Instructions {
   width: 825px;
@@ -294,7 +306,7 @@ input[type="checkbox"] {
   width: 16px;
   height: 16px; }
 
-div.action-nav {
+div.instruction-group-nav {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -303,7 +315,29 @@ div.action-nav {
   position: relative;
   font-size: 1rem;
   border: 1px solid #e7e7e7;
+  padding: 10px;
+  margin: 5px 0;
+  width: 100%;
+  height: auto;
   background: #FFFFFF;
+  color: #222222; }
+
+div.action-block-nav {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: inline-block;
+  position: relative;
+  font-size: 1rem;
+  border: 1px solid #e7e7e7;
+  background: #F8F8F8;
   color: #222222;
   cursor: pointer;
   width: 100%;
@@ -311,12 +345,28 @@ div.action-nav {
   padding: 5px 0;
   margin: 2.5px 0;
   text-align: center; }
-  div.action-nav.view {
+  div.action-block-nav.view {
     background: #0f3ffb !important;
     color: #FDFDFD !important; }
-  div.action-nav:hover {
+  div.action-block-nav:hover {
     background: #e4e4e4;
     color: #222222; }
+
+div.instruction-group {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: inline-block;
+  position: relative;
+  font-size: 1rem;
+  border: 1px solid #e7e7e7;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  height: auto;
+  background: #FFFFFF;
+  color: #222222; }
 
 div.action-block {
   -webkit-box-sizing: border-box;
@@ -327,33 +377,58 @@ div.action-block {
   position: relative;
   font-size: 1rem;
   border: 1px solid #e7e7e7;
-  background: #FFFFFF;
+  background: #F8F8F8;
   color: #222222;
-  cursor: pointer;
   width: 100%;
-  height: auto;
+  height: 2rem;
+  overflow: hidden;
   padding: 5px 0;
   margin: 2.5px 0;
   text-align: center; }
   div.action-block.view {
-    height: 200px !important;
+    height: auto !important;
     /* just for now */ }
     div.action-block.view:hover {
-      background: #FFFFFF;
+      background: #F8F8F8;
       color: #222222; }
   div.action-block:hover {
     background: #e4e4e4;
     color: #222222; }
 
+div.action-header {
+  display: block;
+  height: 1rem;
+  padding-bottom: 0.5rem;
+  cursor: pointer; }
+
+div.action-header-nav {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+  display: block;
+  height: 1rem;
+  padding-bottom: 0.5rem; }
+
 span.action-number {
   float: left;
-  width: 25px;
+  width: 35px;
+  margin-left: 5px;
+  text-align: left;
   font-family: "Tron-Strong"; }
+
+span.action-tool {
+  float: left;
+  width: auto;
+  font-style: italic; }
 
 span.action-title {
   float: right;
   text-align: right;
-  width: calc(100% - 45px);
+  width: auto;
   padding: 0 10px; }
 
 img.action-icon {
@@ -369,6 +444,41 @@ h5.action-tool {
   padding-bottom: 5px;
   border-bottom: 1px solid #e7e7e7;
   margin: 15px 0 5px 0; }
+
+/***** INSTRUCTIONS *****/
+div.action {
+  border: 1px solid #e7e7e7;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: inline-block;
+  position: relative;
+  font-size: 1rem;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  background: #F8F8F8;
+  display: block;
+  position: relative; }
+
+div.action-attributes {
+  border: 1px solid #e7e7e7;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: inline-block;
+  position: relative;
+  font-size: 1rem;
+  padding: 10px;
+  margin: 0 10px 10px 10px;
+  width: calc(33% - 20px);
+  background: #FFFFFF;
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+  text-align: left; }
 
 a.item-select {
   border-radius: 5px;
@@ -421,7 +531,8 @@ input.edit-input {
   font-size: 1rem;
   border: none;
   background: transparent;
-  width: calc(100% - 50px); }
+  /*	width: calc(100% - 50px);  used to be -50px because of 'save' button */
+  width: 100%; }
   input.edit-input:focus {
     outline: none; }
 
@@ -438,7 +549,7 @@ html {
   background: #FDFDFD; }
 
 body {
-  margin: 0 auto;
+  margin: 0 auto 25px auto;
   display: block;
   background: #FFFFFF;
   color: #222222;
@@ -536,7 +647,8 @@ a.add {
     color: #DDDDDD; }
 
 div.block {
-  overflow: auto; }
+  overflow: auto;
+  position: relative; }
 
 /* CLASS BLOCKS */
 .content {
@@ -571,7 +683,7 @@ div.block {
   float: left;
   padding: 5px 10px;
   display: inline-block;
-  width: 125px;
+  width: 100px;
   text-align: right;
   background: #F8F8F8;
   border-radius: 5px; }
@@ -585,47 +697,9 @@ div.block {
   /*	padding: 2.5px 5px; /* smaller value for edit in place */
   padding: 5px 10px;
   display: inline-block;
-  width: calc(100% - 125px);
+  width: calc(100% - 100px);
   text-align: left;
   background: #FFFFFF;
   border-radius: 5px; }
-
-/***** INSTRUCTIONS *****/
-.action {
-  border: 1px solid #e7e7e7;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  border-radius: 5px;
-  display: inline-block;
-  position: relative;
-  font-size: 1rem;
-  padding: 10px;
-  margin-bottom: 10px;
-  width: 100%;
-  background: #F8F8F8;
-  display: block;
-  position: relative; }
-
-.action-title {
-  display: block;
-  width: 100%; }
-
-.action-attributes {
-  border: 1px solid #e7e7e7;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  border-radius: 5px;
-  display: inline-block;
-  position: relative;
-  font-size: 1rem;
-  padding: 10px;
-  margin: 0 10px 10px 10px;
-  width: calc(33% - 20px);
-  background: #FFFFFF;
-  display: inline-block;
-  position: relative;
-  vertical-align: top; }
 
 /*# sourceMappingURL=main.css.map */

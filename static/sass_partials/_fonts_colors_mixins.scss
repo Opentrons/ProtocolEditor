@@ -33,6 +33,15 @@ $fade-black: #222222;
 	box-sizing: border-box; 
 }
 
+@mixin no_highlight {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
 @mixin transition($time){
 /*	NO TRANSITIONS CURRENTLY USED	
 	transition: $time;

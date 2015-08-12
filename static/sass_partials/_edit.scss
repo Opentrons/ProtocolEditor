@@ -30,7 +30,8 @@ input.edit-input {
 	border: none;
 	background: transparent;
 
-	width: calc(100% - 50px);
+/*	width: calc(100% - 50px);  used to be -50px because of 'save' button */
+	width: 100%;
 
 	&:focus {
 		outline: none;

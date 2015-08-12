@@ -11,7 +11,7 @@ html {
 }
 
 body {
-	margin: 0 auto;
+	margin: 0 auto 25px auto;
 
 	display: block;
 
@@ -130,6 +130,7 @@ a.add {
 
 div.block {
 	overflow: auto;
+	position: relative;
 }
 
 /* CLASS BLOCKS */
@@ -165,7 +166,7 @@ div.block {
 	padding: 5px 10px;
 	display: inline-block;
 
-	width: 125px;
+	width: 100px;
 	text-align: right;
 
 	background: $gray;
@@ -181,50 +182,12 @@ div.block {
 	padding: 5px 10px; 
 	display: inline-block;
 
-	width: calc(100% - 125px);
+	width: calc(100% - 100px);
 	text-align: left;
 
 	background: $white;
 	border-radius: 5px;
 }
-
-
-/***** INSTRUCTIONS *****/
-
-.action {
-	@include border($border-gray);
-	@include block;
-
-	padding: 10px;
-	margin-bottom: 10px;
-
-	width: 100%;
-	background: $gray;
-
-	display: block;
-	position: relative;
-}
-
-.action-title {
-	display: block;
-	width: 100%;
-}
-
-.action-attributes {
-	@include border($border-gray);
-	@include block;
-
-	padding: 10px;
-	margin: 0 10px 10px 10px;
-
-	width: calc(33% - 20px);
-	background: $white;
-
-	display: inline-block;
-	position: relative;
-	vertical-align: top;
-}
-
 
 
 

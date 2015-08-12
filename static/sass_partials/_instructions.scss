@@ -1,6 +1,15 @@
 section#InstructionsToggle {
 	width: 200px;
+	height: auto;
+	max-height: calc(100% - 50px);
+
+	overflow-y: scroll;
 	float: left;
+
+	&.sticky {
+		position: fixed;
+		top: 0px;
+	}
 }
 
 section#Instructions {
@@ -13,11 +22,26 @@ input[type="checkbox"] {
 	height: 16px;
 }
 
-div.action-nav {
+div.instruction-group-nav {
 	@include block;
 	@include border($border-gray);
 
+	padding: 10px;
+	margin: 5px 0;
+
+	width: 100%;
+	height: auto;
+
 	background: $white;
+	color: $fade-black;	
+}
+
+div.action-block-nav {
+	@include no_highlight;
+	@include block;
+	@include border($border-gray);
+
+	background: $gray;
 	color: $fade-black;
 
 	cursor: pointer;
@@ -41,17 +65,31 @@ div.action-nav {
 	}
 }
 
+div.instruction-group {
+	@include block;
+	@include border($border-gray);
+
+	padding: 10px;
+	margin-bottom: 10px;
+
+	width: 100%;
+	height: auto;
+
+	background: $white;
+	color: $fade-black;
+}
+
 div.action-block {
 	@include block;
 	@include border($border-gray);
 
-	background: $white;
+	background: $gray;
 	color: $fade-black;
 
-	cursor: pointer;
-
 	width: 100%;
-	height: auto;
+	height: 2rem;
+
+	overflow: hidden;
 
 	padding: 5px 0;
 	margin: 2.5px 0;
@@ -59,10 +97,10 @@ div.action-block {
 	text-align: center;
 
 	&.view {
-		height: 200px !important; /* just for now */
+		height: auto !important; /* just for now */
 
 		&:hover {
-			background: $white;
+			background: $gray;
 			color: $fade-black;
 		}
 	}
@@ -73,18 +111,45 @@ div.action-block {
 	}
 }
 
+div.action-header {
+	display: block;
+	height: 1rem;
+	padding-bottom: 0.5rem;
+
+	cursor: pointer;
+}
+
+div.action-header-nav {
+	@include no_highlight;
+	cursor: default;
+
+	display: block;
+	height: 1rem;
+	padding-bottom: 0.5rem;
+}
+
 span.action-number {
 	float: left;
-	width: 25px;
+	width: 35px;
 
+	margin-left: 5px;
+
+	text-align: left;
 	font-family: "Tron-Strong";
+}
+
+span.action-tool {
+	float: left;
+	width: auto;
+
+	font-style: italic;
 }
 
 span.action-title {
 	float: right;
 	text-align: right;
 	
-	width: calc(100% - 45px);
+	width: auto;
 	padding: 0 10px;
 }
 
@@ -106,6 +171,41 @@ h5.action-tool {
 	border-bottom: 1px solid $border-gray;
 	margin: 15px 0 5px 0;
 }
+
+
+/***** INSTRUCTIONS *****/
+
+div.action {
+	@include border($border-gray);
+	@include block;
+
+	padding: 10px;
+	margin-bottom: 10px;
+
+	width: 100%;
+	background: $gray;
+
+	display: block;
+	position: relative;
+}
+
+div.action-attributes {
+	@include border($border-gray);
+	@include block;
+
+	padding: 10px;
+	margin: 0 10px 10px 10px;
+
+	width: calc(33% - 20px);
+	background: $white;
+
+	display: inline-block;
+	position: relative;
+	vertical-align: top;
+
+	text-align: left;
+}
+
 
 a.item-select {
 	@include round_corners;
