@@ -6,7 +6,7 @@ from deck import Deck
 # import deck
 from head import Head
 from ingredients import Ingredients
-#from instructions import Instructions
+from instructions import Instructions
 #import Instructions
 
 from collections import OrderedDict
@@ -39,7 +39,7 @@ class Protocol():
 
         #instructions object - list
         #inst = Instructions()
-    
+        self.instructions = Instructions(self.prot_dict['instructions'])
     
     #export json
     #import json
@@ -135,8 +135,13 @@ class Protocol():
                 pass
             elif ef == 'insert':
                 pass
+            elif ef == 'add_transfer':
+                idx1 = int(id_parts[1])
+                retVal = self.instructions.add_transfer(idx1)
             elif ef == 'delete':
-                pass
+                idx1 = int(id_parts[1])
+                idx2 = int(id_parts[2])
+                retVal = self.instructions.delete_by_index(idx1,idx2)
             
         return retVal
             

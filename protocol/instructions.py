@@ -144,7 +144,7 @@ class Instructions():
             # return {'instructions' : {key:msg}}	# section temporarily commented pending error response requirement
             return self.render_as_json()
 
-    def add(self, idx1):
+    def add_transfer(self, idx1):
         """append an instructions value/object to the ordered instructions dict at Level 1
         
         1. idx1 gives the tool object
