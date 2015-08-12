@@ -100,7 +100,7 @@ class Protocol():
                 idx1 = int(id_parts[1])
                 retVal = self.head.delete_by_index(idx1)
             elif ef == 'add':
-                retVal = self.head.add(data)
+                retVal = self.head.add()
             elif ef == 'modify':
                 idx1 = int(id_parts[1])
                 idx2 = int(id_parts[2])
@@ -113,7 +113,14 @@ class Protocol():
                 retVal = self.ingredients.delete_by_index(idx1)
             elif ef == 'add':
                 retVal = self.ingredients.add()
-            elif ef == 'modify':
+            elif ef == 'delete_loc':
+                idx1 = int(id_parts[1])
+                idx2 = int(id_parts[2])
+                retVal = self.ingredients.delete_by_index_index(idx1,idx2)
+            elif ef == 'add_loc':
+                idx1 = int(id_parts[1])
+                retVal = self.ingredients.add_by_index(idx1)
+            elif ef == 'modify_loc':
                 idx1 = int(id_parts[1])
                 idx2 = int(id_parts[2])
                 self.ingredients.modify_by_index_index_key(idx1, idx2, data)
