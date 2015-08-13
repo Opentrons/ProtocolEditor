@@ -27,10 +27,15 @@ function toggle(clicked, showID) {
 ////////////////////////////////////////////
 
 function view(clicked) {
+	/*
+	ID of form: "instruction.0.1"
+		- first number refers to tool number
+		- second number refers to move number for that tool
+	*/
 	var clicked_id = clicked.id;
 	var id_parts = clicked_id.split('.'); // split ID based on period
 
-	var id_main = id_parts[0] + "." + id_parts[1];
+	var id_main = id_parts[0] + "." + id_parts[1] + '.' + id_parts[2];
 	var id_nav = id_main + ".nav";
 
 	if(clicked.classList.contains("view")){
@@ -41,6 +46,54 @@ function view(clicked) {
 		document.getElementById(id_nav).classList.add("view");
 	}
 }
+
+////////////////////////////////////////////
+////////////////////////////////////////////
+////////////////////////////////////////////
+
+// this is to keep the instructions toggle menu stuck to the top of the page
+$(window).scroll(function(e){ 
+	var screen_to_top = $(window).scrollTop() + 25;
+
+	//INSTRUCTIONS TOGGLE
+	var instr_toggler = $("#InstructionsToggle");
+	var instr_block = $("#InstructionsDisplay");
+
+	var instr_toggle_to_top = instr_toggler.offset().top;
+	var instr_block_to_top = instr_block.offset().top;
+
+	if(instr_toggle_to_top < screen_to_top) {
+		instr_toggler.addClass('sticky');
+	} else if(instr_block_to_top > screen_to_top) {
+		instr_toggler.removeClass('sticky');
+	}
+
+	//ITEMS BLOCK TOGGLE --- fuck it for now
+	// var items_toggler = $("#Toggle");
+	// var items_block = $("#Item");
+
+	// var items_toggle_to_top = items_toggler.offset().top;
+	// var items_block_to_top = items_block.offset().top;
+
+	// var items_block_bottom_to_top = items_block.offset().top + items_block.outerHeight();
+	// var items_toggle_bottom_to_top = items_toggler.offset().top + items_toggler.outerHeight();
+
+	// console.log("screen to top: " + screen_to_top);
+	// console.log("toggle to top: " + items_toggle_to_top);
+	// console.log("block to top: " + items_block_to_top);
+	// console.log("toggle bottom to top: " + items_toggle_bottom_to_top);
+	// console.log("block bottom to top: " + items_block_bottom_to_top);
+
+	// if(items_block_to_top > screen_to_top - 25) { // 
+	// 	items_toggler.removeClass('sticky');
+	// } else if(items_toggle_distance_to_top < screen_distance_to_top) {
+	// 	items_toggler.addClass('sticky');
+	// 	items_toggler.removeClass('stuck');
+	// } else if(items_toggle_bottom_to_top > items_block_bottom_to_top) {
+	// 	items_toggler.addClass('stuck');
+	// 	items_toggler.removeClass('sticky');
+	// }
+});
 
 ////////////////////////////////////////////
 ////////////////////////////////////////////

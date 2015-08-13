@@ -76,8 +76,14 @@ function edit_add(id) {
 
 	if(id == 'deck'){
 		$.getJSON('/edit', out, function(data) { // return HTML for new container
-			var section = id.split('.')[0];
-			document.getElementById(section).innerHTML = data.html; // reset html
+//			var section = id.split('.')[0];
+			document.getElementById(id).innerHTML = data.html; // reset html
+		});
+	} else if (id == 'instructions') {
+		$.getJSON('/edit', out, function(data) { // return HTML for new container
+//			var section = id.split('.')[0];
+			console.log(data.html);
+			document.getElementById(id).innerHTML = data.html; // reset html
 		});
 	}
 }

@@ -1,0 +1,30 @@
+{% macro render(section) %}
+
+{% for group in section %}
+<div class="instruction-group-nav">
+
+	{% set outer = loop.index0 %}
+	<div class="action-header-nav">
+		<img class="action-icon" src="/static/images/tool.png" />&nbsp;
+		{{ group.tool }}
+	</div>
+
+	{% for tip in group.groups %}
+	{% set movenumber = loop.index %}
+
+	{% for movetype in tip %}
+	<div id="instructions.{{ outer }}.{{ movenumber - 1 }}.nav" class="action-block-nav {% if outer == 0 and movenumber == 1 %}view{% endif %}" onclick="view(this)">
+		<span class="action-number">{{ movenumber }}</span>
+		<span class="action-title">
+			{{ movetype }}
+			<img class="action-icon" src="/static/images/{{ movetype }}.png" />
+		</span>
+	</div>
+	{% endfor %}
+
+	{% endfor %}
+
+</div>
+{% endfor %}
+
+{% endmacro %}
