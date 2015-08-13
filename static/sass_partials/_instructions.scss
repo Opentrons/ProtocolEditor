@@ -1,20 +1,35 @@
-section#InstructionsToggle {
-	width: 200px;
-	height: auto;
-	max-height: calc(100% - 50px);
-
-	overflow-y: scroll;
-	float: left;
-
-	&.sticky {
-		position: fixed;
-		top: 0px;
-	}
-}
-
 section#InstructionsDisplay {
 	width: 825px;
 	float: right;
+}
+
+
+section#InstructionsToggle {
+	width: 200px;
+	height: auto;
+	max-height: calc(100vh - 170px);
+
+	overflow-y: scroll;
+}
+
+section#InstructionsActions {
+	width: 200px;
+	height: 95px;
+
+	overflow-y: scroll;
+}
+
+div#InstructionsLeft {
+	width: 200px;
+	max-height: 100vh;
+
+	float: left;
+	display: inline-block;
+
+	&.sticky {
+		position: fixed;
+		top: 0;
+	}
 }
 
 input[type="checkbox"] {
@@ -244,4 +259,58 @@ a.item-select {
 	&:focus {
 		outline: none;
 	}
+}
+
+div.add-instruction {
+	display: block;
+	text-align: center;
+	margin-top: 5px;
+}
+
+button.add-instruction {
+	width: 15%;
+	background: $blue;
+	color: $light;
+
+	&:hover {
+		background: lighten($blue, 10%);
+	}
+
+	&.cancel {
+		background: $light;
+		color: $fade-black;
+
+		&:hover {
+			background: darken($light, 10%);
+		}
+	}
+}
+
+a.add-instruction {
+	@include round_corners;
+	@include border($border-gray);
+
+	width: 100%;
+	height: auto;
+
+	display: inline-block;
+
+	color: $fade-black;
+	background: $light;
+
+	text-align: center;
+	text-decoration: none;
+
+	padding: 5px 0;
+	margin: 5px 0;
+
+	&:hover {
+		background: darken( $light, 10% );
+	}
+
+	&.active {
+		cursor: default;
+		color: $light;
+		background: $blue;
+	} 
 }

@@ -18,6 +18,10 @@
 
 	position: relative;
 	vertical-align: top;
+
+	&.editing {
+		border: 1px solid $darkest-gray;
+	}
 }
 
 .delete-button {
@@ -149,4 +153,14 @@ div.attributes {
 
 	display: inline-block;
 	width: calc(100% - 260px);
+}
+
+div.insert-block {
+	height: 0px;
+	overflow: hidden;
+
+	&.view {
+		height: auto;
+		margin-bottom: 5px;
+	}
 }

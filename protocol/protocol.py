@@ -60,7 +60,7 @@ class Protocol():
         ef = msg_dict["ef"]
         data = msg_dict["data"]
 
-        section =   id_parts[0]     #get the leading section of the id
+        section = id_parts[0]     #get the leading section of the id
 
         retVal = None # set to None so it won't raise an error if unassigned
 

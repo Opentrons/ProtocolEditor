@@ -6,10 +6,6 @@
 		<button class="del" onclick="removeSection(this.parentNode.parentNode)">Delete</button>
 		<button class="del cancel" onclick="cancelRemove(this.parentNode.parentNode)">Cancel</button> 
 	</div>
-<!-- 	<form action="/edit" method="get" class="hidden">
-		<input type="submit" class="del" value="Delete" onclick="removeSection(this.parentNode.parentNode)" />
-		<a class="del cancel" onclick="cancelRemove(this.parentNode.parentNode)">Cancel</a> 
-	</form> -->
 </div>
 
 {% endmacro %}
@@ -18,7 +14,7 @@
 {% macro draw_right() %}
 
 <div class="delete-button right">
-	<img class="del" src="/static/images/x.png" onclick="removeSection(this.parentNode);" />
+	<img class="del" src="/static/images/x.png" onclick="removeSection(this.parentNode); showInstruction(this.parentNode.parentNode);" />
 	<div class="hidden">
 		<button class="del" onclick="removeSection(this.parentNode.parentNode)">Delete</button>
 		<button class="del cancel" onclick="cancelRemove(this.parentNode.parentNode)">Cancel</button> 

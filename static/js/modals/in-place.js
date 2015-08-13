@@ -4,7 +4,7 @@ Sugar.addModal('edit-in-place', {
 	
 		// '.edit' -> '.edit-in-place.modal .mode-display .edit'	
 		mode.listen('.edit-handle', 'click', function(evt, parentMode, parentModal) {
-			evt.stop();
+//			evt.stop();
 			parentModal.setMode('edit');
 			var input   = parentModal.find('input[type=text]');
 			input.value = parentModal.find('.value').innerHTML;

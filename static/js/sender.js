@@ -39,22 +39,31 @@ function edit_delete(id) {
 	Receives an ID of the object being deleted and informs the backend via AJAX
 	that the item in question has been removed.
 	*/
+	var section = id.split('.')[0];
+	
 	var changes = {
 		"ef": "delete",
 		"id": id,
 		"data": {}
 	}
 
+	if(section == 'instructions') {
+		var instr_expand = getExpandStructure();
+	}
+
 	var out = {}
 	out['changes'] = JSON.stringify(changes); // this is how we're doing it, every time
 
 	$.getJSON('/edit', out, function(data) { // must re-render entire section because the indeces have changed
-		var section = id.split('.')[0];
 		document.getElementById(section).innerHTML = data.html; // reset html
 		
-		console.log(data.html);
-		console.log("item " + id + " deleted.");
+//		console.log(data.html);
+//		console.log("item " + id + " deleted.");
 	});
+
+	if(section == 'instructions') {
+		applyExpandStructure(instr_expand);
+	}
 }
 
 function edit_add(id) {
@@ -71,21 +80,55 @@ function edit_add(id) {
 		"data": {}
 	};
 
+	var section = id.split('.')[0];
+
 	var out = {};
 	out['changes'] = JSON.stringify(changes);
 
-	if(id == 'deck'){
-		$.getJSON('/edit', out, function(data) { // return HTML for new container
-//			var section = id.split('.')[0];
-			document.getElementById(id).innerHTML = data.html; // reset html
-		});
-	} else if (id == 'instructions') {
-		$.getJSON('/edit', out, function(data) { // return HTML for new container
-//			var section = id.split('.')[0];
-			console.log(data.html);
-			document.getElementById(id).innerHTML = data.html; // reset html
-		});
-	}
+	$.getJSON('/edit', out, function(data) { // return HTML for new container
+		document.getElementById(section).innerHTML = data.html; // reset html
+	});
+}
+
+function edit_add_instruction(id, moveType) {
+	/*
+	CORE EDITING FUNCTIONS: Modify Delete Copy Paste [Add] Insert
+	
+	Sends the id of the type of object to be added and gets the HTML for the 
+	new object in return, rewriting the section in question to show the new
+	addition.
+	*/
+	var changes = {
+		"ef": "add_" + moveType,
+		"id": id,
+		"data": {}
+	};
+
+	var section = id.split('.')[0];
+
+	var out = {};
+	out['changes'] = JSON.stringify(changes);
+
+	$.getJSON('/edit', out, function(data) { // return HTML for new container
+		document.getElementById(section).innerHTML = data.html; // reset html
+	});
+}
+
+function edit_insert(id, moveType) {
+	var changes = {
+		"ef": "insert_" + moveType,
+		"id": id,
+		"data": {}
+	};
+
+	var section = id.split('.')[0];
+
+	var out = {};
+	out['changes'] = JSON.stringify(changes);
+
+	$.getJSON('/edit', out, function(data) { // return HTML for new container
+		document.getElementById(section).innerHTML = data.html; // reset html
+	});
 }
 
 function edit_copy() {
@@ -93,9 +136,5 @@ function edit_copy() {
 }
 
 function edit_paste() {
-
-}
-
-function edit_insert() {
 
 }

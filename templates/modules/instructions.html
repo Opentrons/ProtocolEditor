@@ -3,12 +3,20 @@
 
 {% macro render(section) %}
 <div id="instructions">
-	<section id="InstructionsToggle">
-		{{ it.render(section) }}
-	</section>
+	<div id="InstructionsLeft">
+		<section id="InstructionsToggle">
+			{{ it.render(section) }}
+		</section>
+
+		<section id="InstructionsActions">
+			<a class="add-instruction" href="javascript:void(0);" onclick="showInserts(this);">Add Instruction</a>
+			<a class="add-instruction" href="javascript:void(0);" onclick="">Add Motion to Instruction</a>
+		</section>
+	</div>
 
 	<section id="InstructionsDisplay">
 		{{ id.render(section) }}
 	</section>
+
 </div>
 {% endmacro %}

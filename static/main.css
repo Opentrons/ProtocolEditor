@@ -188,6 +188,8 @@ a.item-select {
   background: #F8F8F8;
   position: relative;
   vertical-align: top; }
+  .grouping.editing {
+    border: 1px solid #BBBBBB; }
 
 .delete-button {
   -webkit-box-sizing: border-box;
@@ -289,19 +291,36 @@ div.attributes {
   display: inline-block;
   width: calc(100% - 260px); }
 
-section#InstructionsToggle {
-  width: 200px;
-  height: auto;
-  max-height: calc(100% - 50px);
-  overflow-y: scroll;
-  float: left; }
-  section#InstructionsToggle.sticky {
-    position: fixed;
-    top: 0px; }
+div.insert-block {
+  height: 0px;
+  overflow: hidden; }
+  div.insert-block.view {
+    height: auto;
+    margin-bottom: 5px; }
 
 section#InstructionsDisplay {
   width: 825px;
   float: right; }
+
+section#InstructionsToggle {
+  width: 200px;
+  height: auto;
+  max-height: calc(100vh - 170px);
+  overflow-y: scroll; }
+
+section#InstructionsActions {
+  width: 200px;
+  height: 95px;
+  overflow-y: scroll; }
+
+div#InstructionsLeft {
+  width: 200px;
+  max-height: 100vh;
+  float: left;
+  display: inline-block; }
+  div#InstructionsLeft.sticky {
+    position: fixed;
+    top: 0; }
 
 input[type="checkbox"] {
   width: 16px;
@@ -509,6 +528,42 @@ a.item-select {
   a.item-select:focus {
     outline: none; }
 
+div.add-instruction {
+  display: block;
+  text-align: center;
+  margin-top: 5px; }
+
+button.add-instruction {
+  width: 15%;
+  background: #0f3ffb;
+  color: #FDFDFD; }
+  button.add-instruction:hover {
+    background: #4167fc; }
+  button.add-instruction.cancel {
+    background: #FDFDFD;
+    color: #222222; }
+    button.add-instruction.cancel:hover {
+      background: #e4e4e4; }
+
+a.add-instruction {
+  border-radius: 5px;
+  border: 1px solid #e7e7e7;
+  width: 100%;
+  height: auto;
+  display: inline-block;
+  color: #222222;
+  background: #FDFDFD;
+  text-align: center;
+  text-decoration: none;
+  padding: 5px 0;
+  margin: 5px 0; }
+  a.add-instruction:hover {
+    background: #e4e4e4; }
+  a.add-instruction.active {
+    cursor: default;
+    color: #FDFDFD;
+    background: #0f3ffb; }
+
 input.save-edit {
   border-radius: 5px;
   border: 1px solid #e7e7e7;
@@ -683,7 +738,7 @@ div.block {
   box-sizing: border-box;
   vertical-align: top;
   float: left;
-  padding: 5px 10px;
+  padding: 6px 10px;
   display: inline-block;
   width: 100px;
   text-align: right;

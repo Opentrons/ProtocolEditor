@@ -47,52 +47,83 @@ function view(clicked) {
 	}
 }
 
+function showInstruction(clicked) { // always shows the block
+	var clicked_id = clicked.id;
+	var id_parts = clicked_id.split('.'); // split ID based on period
+
+	var id_main = id_parts[0] + "." + id_parts[1] + '.' + id_parts[2];
+	var id_nav = id_main + ".nav";
+
+	if(!clicked.classList.contains("view")){
+		document.getElementById(id_main).classList.add("view");
+		document.getElementById(id_nav).classList.add("view");
+	}
+}
+
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 
-// this is to keep the instructions toggle menu stuck to the top of the page
+document.addEventListener('click', function(event){
+	/*
+	Highlights the group currently being edited on click, unhighlights when
+	something other than it is clicked.
+
+	Will eventually be used to save entire blocks of modifications when the block
+	is clicked away from. For not it is just for display.
+	*/
+	var clicked = event.srcElement;
+	var editing = document.getElementsByClassName('editing');
+
+	for(var i=0; i<editing.length; i++) {
+		editing[i].classList.remove('editing');
+	}
+
+	var current = clicked;
+	var parents = [ current ];
+	while(current.parentNode.nodeName != 'SECTION') {
+		parents.push(current.parentNode);
+		current = current.parentNode;
+	}
+
+	for(var i=0; i<parents.length; i++) {
+		console.log(parents[i].classList);
+		if(parents[i].classList.contains('grouping')) {
+			parents[i].classList.add('editing');
+		}
+	}
+});
+
+////////////////////////////////////////////
+////////////////////////////////////////////
+////////////////////////////////////////////
+
 $(window).scroll(function(e){ 
+	/*
+	JQuery listener to keep the instructions toggle menu stuck to the top of the page
+	and the instructions edits to the bottom of the page.
+	*/
 	var screen_to_top = $(window).scrollTop() + 25;
 
 	//INSTRUCTIONS TOGGLE
 	var instr_toggler = $("#InstructionsToggle");
 	var instr_block = $("#InstructionsDisplay");
 
+	var instr_left = $("#InstructionsLeft");
+//	var instr_actions = $("#InstructionsActions");
+
 	var instr_toggle_to_top = instr_toggler.offset().top;
 	var instr_block_to_top = instr_block.offset().top;
 
 	if(instr_toggle_to_top < screen_to_top) {
-		instr_toggler.addClass('sticky');
+		instr_left.addClass('sticky');
+//		instr_toggler.addClass('sticky');
+//		instr_actions.addClass('sticky');
 	} else if(instr_block_to_top > screen_to_top) {
-		instr_toggler.removeClass('sticky');
+		instr_left.removeClass('sticky');
+//		instr_toggler.removeClass('sticky');
+//		instr_actions.removeClass('sticky');
 	}
-
-	//ITEMS BLOCK TOGGLE --- fuck it for now
-	// var items_toggler = $("#Toggle");
-	// var items_block = $("#Item");
-
-	// var items_toggle_to_top = items_toggler.offset().top;
-	// var items_block_to_top = items_block.offset().top;
-
-	// var items_block_bottom_to_top = items_block.offset().top + items_block.outerHeight();
-	// var items_toggle_bottom_to_top = items_toggler.offset().top + items_toggler.outerHeight();
-
-	// console.log("screen to top: " + screen_to_top);
-	// console.log("toggle to top: " + items_toggle_to_top);
-	// console.log("block to top: " + items_block_to_top);
-	// console.log("toggle bottom to top: " + items_toggle_bottom_to_top);
-	// console.log("block bottom to top: " + items_block_bottom_to_top);
-
-	// if(items_block_to_top > screen_to_top - 25) { // 
-	// 	items_toggler.removeClass('sticky');
-	// } else if(items_toggle_distance_to_top < screen_distance_to_top) {
-	// 	items_toggler.addClass('sticky');
-	// 	items_toggler.removeClass('stuck');
-	// } else if(items_toggle_bottom_to_top > items_block_bottom_to_top) {
-	// 	items_toggler.addClass('stuck');
-	// 	items_toggler.removeClass('sticky');
-	// }
 });
 
 ////////////////////////////////////////////
@@ -150,3 +181,74 @@ function cancelRemove(div_to_cancel) {
 	div_to_cancel.children[0].classList.remove('hidden');
 	div_to_cancel.children[1].classList.add('hidden');
 }
+
+////////////////////////////////////////////
+////////////////////////////////////////////
+////////////////////////////////////////////
+
+function showAddInstruction(buttonDiv) {
+	var hideLink = buttonDiv.children[0];
+	var buttonGroup = buttonDiv.children[1];
+
+	if(hideLink.classList.contains('hidden')) {
+		hideLink.classList.remove('hidden');
+		buttonGroup.classList.add('hidden');
+	} else {
+		hideLink.classList.add('hidden');
+		buttonGroup.classList.remove('hidden');
+	}
+}
+
+////////////////////////////////////////////
+////////////////////////////////////////////
+////////////////////////////////////////////
+
+function getExpandStructure() {
+	var instructions = document.getElementsByClassName('action-block-nav');
+	var expands = [];
+
+	for(var i=0; i<instructions.length; i++) {
+		if(instructions[i].classList.contains('view')) {
+			expands.push(true);
+		} else {
+			expands.push(false);
+		}
+	}
+
+	return expands;
+}
+
+function applyExpandStructure(structure) {
+	var instructions = document.getElementsByClassName('action-block-nav');
+
+	for(var i=0; i<instructions.length; i++) {
+		if(structure[i]) {
+			view(instructions[i]);
+		}
+	}
+}
+
+////////////////////////////////////////////
+////////////////////////////////////////////
+////////////////////////////////////////////
+
+function showInserts(clicked) {
+//	var instrID = 'instructions.' + String(instr_num);
+//	var toolChildren = document.getElementById(instrID).children;
+	if(clicked.classList.contains('active')) {
+		clicked.classList.remove('active');
+	} else {
+		clicked.classList.add('active');
+	}
+
+	var inserts = document.getElementsByClassName('insert-block');
+	for(var i=0; i<inserts.length; i++) {
+		if(inserts[i].classList.contains('view')) {
+			inserts[i].classList.remove('view');
+		} else {
+			inserts[i].classList.add('view');
+		}
+	}
+}
+
+

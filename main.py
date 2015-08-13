@@ -92,10 +92,10 @@ def make_edit():
 
 	changes = request.args.get('changes') # read the changes variable from the postback
 	changes = json.loads(changes) # parse changes variable to JSON
-#	print changes
+	print "changes: %s" % changes
 
 	protocol_response = m.process_edit_msg(changes) # send the changes back to the protocol module for processing
-#	print protocol_response
+	print "response: %s" % protocol_response
 
 	html_response = '' # this is where we get the response, if there is any
 	if protocol_response is not None: # still need to somehow rerender the deck section
@@ -103,7 +103,6 @@ def make_edit():
 		protocol_response = json.loads(protocol_response, object_pairs_hook=OrderedDict) # parse response string into json
 
 		html_response = item_factory.get_html(edit_section, protocol_response)
-
 
 	cache.set('master', m) # put master back into the cache
 	return jsonify(html=str(html_response)) # return the new HTML if there is any to be sent
