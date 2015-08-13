@@ -57,7 +57,7 @@ $(window).scroll(function(e){
 
 	//INSTRUCTIONS TOGGLE
 	var instr_toggler = $("#InstructionsToggle");
-	var instr_block = $("#Instructions");
+	var instr_block = $("#InstructionsDisplay");
 
 	var instr_toggle_to_top = instr_toggler.offset().top;
 	var instr_block_to_top = instr_block.offset().top;

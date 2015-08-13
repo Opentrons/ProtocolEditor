@@ -12,7 +12,7 @@ section#InstructionsToggle {
 	}
 }
 
-section#Instructions {
+section#InstructionsDisplay {
 	width: 825px;
 	float: right;
 }
@@ -142,11 +142,13 @@ span.action-tool {
 	float: left;
 	width: auto;
 
+	margin-right: 15px;
+
 	font-style: italic;
 }
 
 span.action-title {
-	float: right;
+	float: left;
 	text-align: right;
 	
 	width: auto;
