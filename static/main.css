@@ -310,8 +310,7 @@ section#InstructionsToggle {
 
 section#InstructionsActions {
   width: 200px;
-  height: 95px;
-  overflow-y: scroll; }
+  height: 95px; }
 
 div#InstructionsLeft {
   width: 200px;

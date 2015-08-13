@@ -110,8 +110,9 @@ class Ingredients():
 			c = ("container","container_name")
 			l = ("location","A1")
 			v = ("volume",0)
-			new_ingredient_dict = OrderedDict([c,l,v])
+			new_ingredient_dict = [ OrderedDict([c,l,v]) ]
 			self.ingredients_section[name] = new_ingredient_dict
+			print self.ingredients_section
 			msg = 'OK'
 		except Exception as e:
 			msg = e.strerror

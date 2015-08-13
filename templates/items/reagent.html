@@ -1,26 +1,22 @@
 {% import 'helpers/keyvalue.html' as kv %}
 {% import 'helpers/deleter.html' as d %}
 
-{% macro draw(name, block) %}
+{% macro draw(name, block, ingrNum) %}
 
 {{ kv.pair(key='Name', value=name) }}
 
 {% for location in block %}
-{{ reagent_location(location) }}
-{% endfor %}
-
-{{ d.draw() }}
-
-{% endmacro %}
-
-
-
-{% macro reagent_location(location) %}
-<div class="grouping">
+<div id="ingredients.{{ ingrNum }}.{{ loop.index0 }}" class="grouping">
 	{% for attr in location %}
 	{{ kv.pair(key=attr, value=location[attr]) }}
 	{% endfor %}
 
 	{{ d.draw() }}
 </div>
+{% endfor %}
+
+<a href="javascript:void(0);" class="add" onclick="edit_add('ingredients.{{ ingrNum }}');">New Location</a> 
+
+{{ d.draw() }}
+
 {% endmacro %}

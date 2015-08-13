@@ -81,15 +81,17 @@ document.addEventListener('click', function(event){
 
 	var current = clicked;
 	var parents = [ current ];
-	while(current.parentNode.nodeName != 'SECTION') {
+	while(current.parentNode != null && current.parentNode.nodeName != 'SECTION') {
 		parents.push(current.parentNode);
 		current = current.parentNode;
 	}
 
 	for(var i=0; i<parents.length; i++) {
-		console.log(parents[i].classList);
-		if(parents[i].classList.contains('grouping')) {
-			parents[i].classList.add('editing');
+//		console.log(parents[i].classList);
+		if(parents[i].classList != null) {
+			if(parents[i].classList.contains('grouping')) {
+				parents[i].classList.add('editing');
+			}
 		}
 	}
 });
@@ -203,6 +205,13 @@ function showAddInstruction(buttonDiv) {
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 
+/* 
+Functions to preserve the expanded structure of the instructions
+upon an edit action that will overwrite the entire section.
+
+NON-FUNCTIONAL CURRENTLY 
+*/
+
 function getExpandStructure() {
 	var instructions = document.getElementsByClassName('action-block-nav');
 	var expands = [];
@@ -220,7 +229,6 @@ function getExpandStructure() {
 
 function applyExpandStructure(structure) {
 	var instructions = document.getElementsByClassName('action-block-nav');
-
 	for(var i=0; i<instructions.length; i++) {
 		if(structure[i]) {
 			view(instructions[i]);

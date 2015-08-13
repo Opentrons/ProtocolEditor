@@ -15,7 +15,7 @@
 	{#<!-- INSERT INSTRUCTION IN LIST -->#}
 	<div class="insert-block">
 		<div class="add-instruction">
-			<a type="instructions" href="javascript:void(0);" class="add" onclick="showAddInstruction(this.parentNode);">Insert New Instruction Here</a> 
+			<a href="javascript:void(0);" class="add" onclick="showAddInstruction(this.parentNode);">Insert New Instruction Here</a> 
 			<div class="hidden">
 				<button class="add-instruction" onclick="edit_insert('instructions.{{ groupnumber }}.{{ movenumber - 1 }}', 'transfer')">Transfer</button>
 				<button class="add-instruction" onclick="edit_insert('instructions.{{ groupnumber }}.{{ movenumber - 1 }}', 'distribute')">Distribute</button>
@@ -137,7 +137,7 @@
 
 		{% endif %}
 
-		{{ d.draw_right() }}
+		{{ d.del_ingredient() }}
 
 	</div>
 	{% endfor %}
@@ -145,7 +145,7 @@
 	{#<!-- ADD INSTRUCTION TO END OF LIST -->#}
 	<div class="insert-block">
 		<div class="add-instruction">
-			<a type="instructions" href="javascript:void(0);" class="add" onclick="showAddInstruction(this.parentNode);">Add New Instruction to End</a> 
+			<a href="javascript:void(0);" class="add" onclick="showAddInstruction(this.parentNode);">Add New Instruction to End</a> 
 			<div class="hidden">
 				<button class="add-instruction" onclick="edit_add_instruction('instructions.{{ loop.index0 }}', 'transfer')">Transfer</button>
 				<button class="add-instruction" onclick="edit_add_instruction('instructions.{{ loop.index0 }}', 'distribute')">Distribute</button>

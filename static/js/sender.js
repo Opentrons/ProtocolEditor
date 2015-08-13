@@ -39,7 +39,8 @@ function edit_delete(id) {
 	Receives an ID of the object being deleted and informs the backend via AJAX
 	that the item in question has been removed.
 	*/
-	var section = id.split('.')[0];
+	var id_parts = id.split('.');
+	var section = id_parts[0];
 	
 	var changes = {
 		"ef": "delete",
@@ -47,9 +48,14 @@ function edit_delete(id) {
 		"data": {}
 	}
 
-	if(section == 'instructions') {
-		var instr_expand = getExpandStructure();
+	if(section == 'ingredients' && id_parts.length == 3) { 
+		// if it's an ingredient and the ID is of form 'ingredients.0.2' then it is a location
+		changes['ef'] = 'delete_loc';
 	}
+
+//	if(section == 'instructions') {
+//		var instr_expand = getExpandStructure();
+//	}
 
 	var out = {}
 	out['changes'] = JSON.stringify(changes); // this is how we're doing it, every time
@@ -61,9 +67,9 @@ function edit_delete(id) {
 //		console.log("item " + id + " deleted.");
 	});
 
-	if(section == 'instructions') {
-		applyExpandStructure(instr_expand);
-	}
+//	if(section == 'instructions') {
+//		applyExpandStructure(instr_expand);
+//	}
 }
 
 function edit_add(id) {
@@ -74,13 +80,19 @@ function edit_add(id) {
 	new object in return, rewriting the section in question to show the new
 	addition.
 	*/
+	var id_parts = id.split('.');
+	var section = id_parts[0];
+
 	var changes = {
 		"ef": "add",
 		"id": id,
 		"data": {}
 	};
 
-	var section = id.split('.')[0];
+	if(section == 'ingredients' && id_parts.length == 2) { 
+		// if it's an ingredient and the ID is of form 'ingredients.0.2' then it is a location
+		changes['ef'] = 'add_loc';
+	}
 
 	var out = {};
 	out['changes'] = JSON.stringify(changes);

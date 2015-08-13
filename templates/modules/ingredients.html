@@ -8,11 +8,11 @@
 <div id="reagents">
 	{% for ingredient in section %}
 	<div id="ingredients.{{ loop.index0 }}" class="content">
-		{{ r.draw(ingredient, section[ingredient]) }}
+		{{ r.draw(ingredient, section[ingredient], loop.index0) }}
 	</div>
 	{% endfor %}
 </div>
 
-<a type="reagent" href="#" id="NewReagent" class="add">New Reagent</a> 
+<a href="javascript:void(0);" class="add" onclick="edit_add('ingredients');">New Ingredient</a> 
 
 {% endmacro %}

@@ -174,8 +174,8 @@ class Protocol():
         out = '"info": %s,' % self.info.render_as_json()
         out += '"deck": %s,' % self.deck.render_as_json()
         out += '"head": %s,' % self.head.render_as_json()
-        out += '"ingredients": %s' % self.ingredients.render_as_json()
-        # out += '"instructions": %s' % self.instructions.render_as_json()
+        out += '"ingredients": %s,' % self.ingredients.render_as_json()
+        out += '"instructions": %s' % self.instructions.render_as_json()
 
         out = json.loads("{%s}" % out, object_pairs_hook=OrderedDict) # load into JSON object, preserving order
         
