@@ -121,6 +121,107 @@ class Instructions():
     #note that this rendering does not add "instructions" prefix
     def render_as_json(self):
         return json.dumps(self.instructions_section, indent=2)
+    
+    
+    #function to generate default objects
+    def get_default_move(self, obj_type):
+        """default move object factory by object type
+        
+        obj_type is a string with values: 'transfer', 'distribute', 'consolidate' or 'mix'
+        
+        """
+        if obj_type == 'transfer':
+            #generate from_dict object
+            #make into a list
+            fc = ('container','from_container_name')
+            fl = ('location','A1')
+            fto = ('tip-offset', -2)
+            fd = ('delay', 2000)
+            ftt = ('touch-tip', True)
+            from_dict = OrderedDict([fc,fl,fto,fd,ftt])
+            from_list = []
+            from_list.extend([from_dict,from_dict,from_dict])
+            
+            #generate to_dict object
+            #make into a list
+            tc = ('container','to_container_name')
+            tl = ('location','A1')
+            ttt = ('touch-tip', True)
+            to_dict = OrderedDict([tc,tl,ttt])
+            to_list = []
+            to_list.extend([to_dict,to_dict,to_dict])
+            
+            #define attributes
+            v = ('volume',100)
+            b = ('blowout', True)
+            ep = ('extra-pull', True)
+            
+            #aggregate into complete group object
+            move_element = OrderedDict([('from',from_dict),('to',to_dict),v,b,ep])
+            group_obj = {'transfer' : [move_element,move_element,move_element]}
+            
+        elif obj_type == 'distribute':
+            #generate from_dict object
+            fc = ('container','from_container_name')
+            fl = ('location','A1')
+            # fto = ('tip-offset', -2)
+            # fd = ('delay', 2000)
+            # ftt = ('touch-tip', True)
+            # from_dict = OrderedDict([fc,fl,fto,fd,ftt])
+            from_dict = OrderedDict([fc,fl])
+            
+            #generate to_dict object
+            #make into a list
+            tc = ('container','to_container_name')
+            tl = ('location','A1')
+            v = ('volume',100)  #added to transfer
+            ttt = ('touch-tip', True)
+            # to_dict = OrderedDict([tc,tl,ttt])
+            to_dict = OrderedDict([tc,tl,v,ttt])
+            to_list = []
+            to_list.extend([to_dict,to_dict,to_dict])
+            
+            #define attributes
+            #v = ('volume',100)
+            b = ('blowout', True)
+            #ep = ('extra-pull', True)
+            
+            #aggregate into complete group object
+            # group_obj = OrderedDict([('From',from_dict),('To',to_dict),v,b,ep])
+            group_obj = OrderedDict([('From',from_dict),('To',to_list),b])
+            
+        elif obj_type == 'consolidate':
+            #generate from_dict object
+            #make into a list
+            fc = ('container','from_container_name')
+            fl = ('location','A1')
+            # fto = ('tip-offset', -2)
+            # fd = ('delay', 2000)
+            v = ('volume',100)  #added to transfer
+            ftt = ('touch-tip', True)
+            # from_dict = OrderedDict([fc,fl,fto,fd,ftt])
+            from_dict = OrderedDict([fc,fl,v,ftt])
+            from_list = []
+            from_list.extend([from_dict,from_dict,from_dict])
+            
+            #generate to_dict object
+            tc = ('container','to_container_name')
+            tl = ('location','A1')
+            ttt = ('touch-tip', True)
+            to_dict = OrderedDict([tc,tl,ttt])
+            
+            #define attributes
+            #v = ('volume',100)
+            b = ('blowout', True)
+            #ep = ('extra-pull', True)
+            
+            #aggregate into complete group object
+            # group_obj = OrderedDict([('From',from_dict),('To',to_dict),v,b,ep])
+            group_obj = OrderedDict([('From',from_list),('To',to_dict),b])
+        elif obj_type == 'mix':
+            pass
+        
+        return group_obj
 
 
     #editing methods
@@ -173,6 +274,63 @@ class Instructions():
             }
         3.  the dict for the revised instructions_section is returned
         """
+        # #generate from_dict object
+        # fc = ('container','from_container_name')
+        # fl = ('location','A1')
+        # fto = ('tip-offset', -2)
+        # fd = ('delay', 2000)
+        # ftt = ('touch-tip', True)
+        # from_dict = OrderedDict([fc,fl,fto,fd,ftt])
+        # 
+        # #generate to_dict object
+        # tc = ('container','to_container_name')
+        # tl = ('location','A1')
+        # ttt = ('touch-tip', True)
+        # to_dict = OrderedDict([tc,tl,ttt])
+        # 
+        # #define attributes
+        # v = ('volume',100)
+        # b = ('blowout', True)
+        # ep = ('extra-pull', True)
+        # 
+        # #aggregate into complete group object
+        # group_obj = OrderedDict([('From',from_dict),('To',to_dict),v,b,ep])
+        group_obj = self.get_default_move('transfer')
+        
+        #add to instructions section and return rendered section
+        self.instructions_section[idx1]['groups'].append(group_obj)
+        return self.render_as_json()
+    
+    def insert_transfer(self, idx1, idx2):
+        """append an instructions value/object to the ordered instructions dict at Level 1
+        
+        1. idx1 gives the tool object index.
+        2. idx2 gives the insertion point in the groups list, with new transfer inserted before idx2
+        3.  new_instructions_dict is the instructions dict containing the new instructions key and attributes
+        4.  new_instructions_dict is of the form (for a transfer):
+            {
+              "transfer": [
+                {
+                  "from": {
+                    "container": "trough",
+                    "location": "A1",
+                    "tip-offset": -2,
+                    "delay" : 2000,
+                    "touch-tip" : true
+                  },
+                  "to": {
+                    "container": "plate-1",
+                    "location": "A1",
+                    "touch-tip" : true
+                  },
+                  "volume": 100,
+                  "blowout" : true,
+                  "extra-pull" : true
+                }
+              ]
+            }
+        3.  the dict for the revised instructions_section is returned
+        """
         #generate from_dict object
         fc = ('container','from_container_name')
         fl = ('location','A1')
@@ -195,8 +353,8 @@ class Instructions():
         #aggregate into complete group object
         group_obj = OrderedDict([('From',from_dict),('To',to_dict),v,b,ep])
         
-        #add to instructions section and return rendered section
-        self.instructions_section[idx1]['groups'].append(group_obj)
+        #insert into instructions section and return rendered section
+        self.instructions_section[idx1]['groups'].insert(idx2, group_obj)
         return self.render_as_json()
 
             
