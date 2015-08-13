@@ -133,11 +133,34 @@ class Protocol():
                 pass
             elif ef == 'modify':
                 pass
-            elif ef == 'insert':
-                pass
+            elif ef == 'insert_transfer':
+                idx1 = int(id_parts[1])
+                idx2 = int(id_parts[2])
+                retVal = self.instructions.insert_transfer(idx1, idx2)
+            elif ef == 'insert_distribute':
+                idx1 = int(id_parts[1])
+                idx2 = int(id_parts[2])
+                retVal = self.instructions.insert_distribute(idx1, idx2)
+            elif ef == 'insert_consolidate':
+                idx1 = int(id_parts[1])
+                idx2 = int(id_parts[2])
+                retVal = self.instructions.insert_consolidate(idx1, idx2)
+            elif ef == 'insert_mix':
+                idx1 = int(id_parts[1])
+                idx2 = int(id_parts[2])
+                retVal = self.instructions.insert_mix(idx1, idx2)
             elif ef == 'add_transfer':
                 idx1 = int(id_parts[1])
                 retVal = self.instructions.add_transfer(idx1)
+            elif ef == 'add_distribute':
+                idx1 = int(id_parts[1])
+                retVal = self.instructions.add_distribute(idx1)
+            elif ef == 'add_consolidate':
+                idx1 = int(id_parts[1])
+                retVal = self.instructions.add_consolidate(idx1)
+            elif ef == 'add_mix':
+                idx1 = int(id_parts[1])
+                retVal = self.instructions.add_mix(idx1)
             elif ef == 'delete':
                 idx1 = int(id_parts[1])
                 idx2 = int(id_parts[2])

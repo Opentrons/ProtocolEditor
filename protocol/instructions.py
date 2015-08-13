@@ -133,7 +133,7 @@ class Instructions():
         if obj_type == 'transfer':
             #generate from_dict object
             #make into a list
-            fc = ('container','from_container_name')
+            fc = ('container','from container name')
             fl = ('location','A1')
             fto = ('tip-offset', -2)
             fd = ('delay', 2000)
@@ -144,7 +144,7 @@ class Instructions():
             
             #generate to_dict object
             #make into a list
-            tc = ('container','to_container_name')
+            tc = ('container','to container name')
             tl = ('location','A1')
             ttt = ('touch-tip', True)
             to_dict = OrderedDict([tc,tl,ttt])
@@ -162,7 +162,7 @@ class Instructions():
             
         elif obj_type == 'distribute':
             #generate from_dict object
-            fc = ('container','from_container_name')
+            fc = ('container','from container name')
             fl = ('location','A1')
             # fto = ('tip-offset', -2)
             # fd = ('delay', 2000)
@@ -172,7 +172,7 @@ class Instructions():
             
             #generate to_dict object
             #make into a list
-            tc = ('container','to_container_name')
+            tc = ('container','to container name')
             tl = ('location','A1')
             v = ('volume',100)  #added to transfer
             ttt = ('touch-tip', True)
@@ -188,12 +188,16 @@ class Instructions():
             
             #aggregate into complete group object
             # group_obj = OrderedDict([('From',from_dict),('To',to_dict),v,b,ep])
-            group_obj = OrderedDict([('From',from_dict),('To',to_list),b])
+            # group_obj = OrderedDict([('from',from_dict),('to',to_list),b])
+            
+            move_element = OrderedDict([('from',from_dict),('to',to_list),b])
+            group_obj = {'distribute' : move_element}
+            
             
         elif obj_type == 'consolidate':
             #generate from_dict object
             #make into a list
-            fc = ('container','from_container_name')
+            fc = ('container','from container name')
             fl = ('location','A1')
             # fto = ('tip-offset', -2)
             # fd = ('delay', 2000)
@@ -205,7 +209,7 @@ class Instructions():
             from_list.extend([from_dict,from_dict,from_dict])
             
             #generate to_dict object
-            tc = ('container','to_container_name')
+            tc = ('container','to container name')
             tl = ('location','A1')
             ttt = ('touch-tip', True)
             to_dict = OrderedDict([tc,tl,ttt])
@@ -217,9 +221,23 @@ class Instructions():
             
             #aggregate into complete group object
             # group_obj = OrderedDict([('From',from_dict),('To',to_dict),v,b,ep])
-            group_obj = OrderedDict([('From',from_list),('To',to_dict),b])
+            # group_obj = OrderedDict([('from',from_list),('to',to_dict),b])
+            
+            move_element = OrderedDict([('from',from_list),('to',to_dict),b])
+            group_obj = {'consolidate' : move_element}
+            
         elif obj_type == 'mix':
-            pass
+            fc = ('container','from container name')
+            fl = ('location','A1')
+            v = ('volume',100)  #added to transfer
+            r = ('repititions', 5)
+            b = ('blowout', True)
+            lt = ('liquid-tracking',True)
+            
+            mix_dict = OrderedDict([fc,fl,v,r,b,lt])
+            mix_list = [mix_dict,mix_dict]
+            
+            group_obj = {'mix' : mix_list}
         
         return group_obj
 
@@ -274,28 +292,29 @@ class Instructions():
             }
         3.  the dict for the revised instructions_section is returned
         """
-        # #generate from_dict object
-        # fc = ('container','from_container_name')
-        # fl = ('location','A1')
-        # fto = ('tip-offset', -2)
-        # fd = ('delay', 2000)
-        # ftt = ('touch-tip', True)
-        # from_dict = OrderedDict([fc,fl,fto,fd,ftt])
-        # 
-        # #generate to_dict object
-        # tc = ('container','to_container_name')
-        # tl = ('location','A1')
-        # ttt = ('touch-tip', True)
-        # to_dict = OrderedDict([tc,tl,ttt])
-        # 
-        # #define attributes
-        # v = ('volume',100)
-        # b = ('blowout', True)
-        # ep = ('extra-pull', True)
-        # 
-        # #aggregate into complete group object
-        # group_obj = OrderedDict([('From',from_dict),('To',to_dict),v,b,ep])
+
         group_obj = self.get_default_move('transfer')
+        
+        #add to instructions section and return rendered section
+        self.instructions_section[idx1]['groups'].append(group_obj)
+        return self.render_as_json()
+    
+    def add_distribute(self, idx1):
+        group_obj = self.get_default_move('distribute')
+        
+        #add to instructions section and return rendered section
+        self.instructions_section[idx1]['groups'].append(group_obj)
+        return self.render_as_json()
+        
+    def add_consolidate(self, idx1):
+        group_obj = self.get_default_move('consolidate')
+        
+        #add to instructions section and return rendered section
+        self.instructions_section[idx1]['groups'].append(group_obj)
+        return self.render_as_json()
+        
+    def add_mix(self, idx1):
+        group_obj = self.get_default_move('mix')
         
         #add to instructions section and return rendered section
         self.instructions_section[idx1]['groups'].append(group_obj)
@@ -331,30 +350,38 @@ class Instructions():
             }
         3.  the dict for the revised instructions_section is returned
         """
-        #generate from_dict object
-        fc = ('container','from_container_name')
-        fl = ('location','A1')
-        fto = ('tip-offset', -2)
-        fd = ('delay', 2000)
-        ftt = ('touch-tip', True)
-        from_dict = OrderedDict([fc,fl,fto,fd,ftt])
         
-        #generate to_dict object
-        tc = ('container','to_container_name')
-        tl = ('location','A1')
-        ttt = ('touch-tip', True)
-        to_dict = OrderedDict([tc,tl,ttt])
-        
-        #define attributes
-        v = ('volume',100)
-        b = ('blowout', True)
-        ep = ('extra-pull', True)
-        
-        #aggregate into complete group object
-        group_obj = OrderedDict([('From',from_dict),('To',to_dict),v,b,ep])
+        group_obj = self.get_default_move('transfer')
         
         #insert into instructions section and return rendered section
         self.instructions_section[idx1]['groups'].insert(idx2, group_obj)
         return self.render_as_json()
 
-            
+    def insert_distribute(self, idx1, idx2):
+        group_obj = self.get_default_move('distribute')
+        
+        #insert into instructions section and return rendered section
+        self.instructions_section[idx1]['groups'].insert(idx2, group_obj)
+        return self.render_as_json()
+        
+    def insert_consolidate(self, idx1, idx2):
+        group_obj = self.get_default_move('consolidate')
+        
+        #insert into instructions section and return rendered section
+        self.instructions_section[idx1]['groups'].insert(idx2, group_obj)
+        return self.render_as_json()
+        
+    def insert_mix(self, idx1, idx2):
+        group_obj = self.get_default_move('mix')
+        
+        #insert into instructions section and return rendered section
+        self.instructions_section[idx1]['groups'].insert(idx2, group_obj)
+        return self.render_as_json()
+        
+        
+        
+        
+        
+        
+        
+        
