@@ -1,12 +1,11 @@
 from flask import Flask, request, session, jsonify, redirect, url_for, abort, render_template, flash, Response, make_response
 from flask.ext.cache import Cache
 
+from jinja2 import Environment, PackageLoader, FileSystemLoader
 from collections import OrderedDict
-import json
+import os, json
 
 from protocol.protocol import Protocol
-import item_factory
-#from item_factory import get_html
 
 
 # CONFIG ===================================================================================
@@ -102,7 +101,7 @@ def make_edit():
 		edit_section = changes['id'].split('.')[0] # grab first piece of id before dot (this is the section)
 		protocol_response = json.loads(protocol_response, object_pairs_hook=OrderedDict) # parse response string into json
 
-		html_response = item_factory.get_html(edit_section, protocol_response)
+		html_response = get_html(edit_section, protocol_response)
 
 	cache.set('master', m) # put master back into the cache
 	return jsonify(html=str(html_response)) # return the new HTML if there is any to be sent
@@ -120,6 +119,33 @@ def error_page(reason="", no_file=False):
 
 	message = "%s.json could not be loaded." % get_filename()
 	return render_template('warnings/warning.html', message=message, reason=reason, filename=get_filename()) 
+
+
+def get_html(section, input_json):
+	"""
+	Utility function that takes a section and JSON block and returns
+	the proper HTML for the item(s) in question.
+	"""
+	env = Environment(loader=FileSystemLoader('templates')) # set up template environment
+	html_response = ''
+
+	if section == 'deck':
+		template = env.get_template('modules/deck.html')
+		html_response = template.module.render(input_json)
+
+	elif section == 'head':
+		template = env.get_template('modules/head.html')
+		html_response = template.module.render(input_json)
+
+	elif section == 'ingredients':
+		template = env.get_template('modules/ingredients.html')
+		html_response = template.module.render(input_json)
+
+	elif section == 'instructions':
+		template = env.get_template('modules/instructions.html')
+		html_response = template.module.render(input_json)
+
+	return html_response
 
 
 def get_filename(filename='[empty]'):
