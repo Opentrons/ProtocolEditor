@@ -170,7 +170,10 @@ class Protocol():
                 idx1 = int(id_parts[1])
                 idx2 = int(id_parts[2])
                 retVal = self.instructions.delete_by_index(idx1,idx2)
-            
+            elif ef == 'modify_by_block':
+                idx1 = int(id_parts[1])
+                idx2 = int(id_parts[2])
+                retVal = self.instructions.modify_by_block(idx1,idx2)
         return retVal
             
 
