@@ -18,10 +18,6 @@
 
 	position: relative;
 	vertical-align: top;
-
-	&.editing {
-		border: 1px solid $darkest-gray;
-	}
 }
 
 .delete-button {
@@ -45,6 +41,10 @@
 	&.right {
 		right: 0;
 	}
+
+	&.left {
+		left: 0;
+	}
 }
 
 .hidden {
@@ -64,6 +64,13 @@ button.del {
 	&:hover {
 		background: lighten($red, 10%);
 	}
+
+	&.small {
+		margin-top: 0;
+		padding: 0;
+
+		height: 20px;
+	}
 }
 
 button.del.cancel {
@@ -78,6 +85,13 @@ button.del.cancel {
 
 	&:hover {
 		background: darken($light, 10%);
+	}
+
+	&.small {
+		margin-top: 0;
+		padding: 0;
+		
+		height: 20px;
 	}
 }
 

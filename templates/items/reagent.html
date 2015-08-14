@@ -11,12 +11,12 @@
 	{{ kv.pair(key=attr, value=location[attr]) }}
 	{% endfor %}
 
-	{{ d.draw() }}
+	{{ d.draw('left') }}
 </div>
 {% endfor %}
 
 <a href="javascript:void(0);" class="add" onclick="edit_add('ingredients.{{ ingrNum }}');">New Location</a> 
 
-{{ d.draw() }}
+{{ d.draw('right') }}
 
 {% endmacro %}

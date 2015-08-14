@@ -8,7 +8,7 @@
 
 <div id="containers">
 	{% for container in section %}
-	<div id="deck.{{ loop.index0 }}" class="grouping">
+	<div id="deck.{{ loop.index0 }}" class="grouping modifyBlock">
 		{{ c.draw(container, section[container]) }}
 	</div>
 	{% endfor %}

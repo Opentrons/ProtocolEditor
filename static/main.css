@@ -188,8 +188,6 @@ a.item-select {
   background: #F8F8F8;
   position: relative;
   vertical-align: top; }
-  .grouping.editing {
-    border: 1px solid #BBBBBB; }
 
 .delete-button {
   -webkit-box-sizing: border-box;
@@ -207,6 +205,8 @@ a.item-select {
     background: rgba(251, 63, 15, 0.25); }
   .delete-button.right {
     right: 0; }
+  .delete-button.left {
+    left: 0; }
 
 .hidden {
   display: none !important; }
@@ -220,6 +220,10 @@ button.del {
   color: #FDFDFD; }
   button.del:hover {
     background: #fc6741; }
+  button.del.small {
+    margin-top: 0;
+    padding: 0;
+    height: 20px; }
 
 button.del.cancel {
   display: inline-block;
@@ -230,6 +234,10 @@ button.del.cancel {
   color: #222222; }
   button.del.cancel:hover {
     background: #e4e4e4; }
+  button.del.cancel.small {
+    margin-top: 0;
+    padding: 0;
+    height: 20px; }
 
 img.del {
   height: 10px;
@@ -706,6 +714,9 @@ div.block {
   overflow: auto;
   position: relative; }
 
+.modifyBlock.editing {
+  border: 1px solid #BBBBBB !important; }
+
 /* CLASS BLOCKS */
 .content {
   -webkit-box-sizing: border-box;
@@ -729,7 +740,8 @@ div.block {
   display: inline-block;
   height: auto;
   width: 100%;
-  margin: 1px 0; }
+  margin: 1px 0;
+  position: relative; }
 
 .key {
   -webkit-box-sizing: border-box;

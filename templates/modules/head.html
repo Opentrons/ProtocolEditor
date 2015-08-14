@@ -9,7 +9,8 @@
 </header>
 
 {% for tool in section %}
-<div id="head.{{ loop.index0 }}" class="content">
+{% set toolnumber = loop.index0 %}
+<div id="head.{{ toolnumber }}" class="content">
 
   <div class="pipette">
     <span class="pipette-name">{{ tool }}{#{{ kv.single(value=tool) }}#}</span>
@@ -20,7 +21,7 @@
     {% for attr in section[tool] %}
 
     {% if ((loop.length/loop.index) < 2) and new_column is not defined %}
-    <!-- this loop puts the information on a new column when it's half through -->
+    {# this loop puts the information on a new column when it's half through #}
     {% set new_column = 1 %}
     </div>
     <div class="attr">
@@ -29,24 +30,25 @@
     
     {% if attr == 'tip-racks' %}
     
-    <div class="key-value">
-      <span class="key">{{ attr }}</span>
-      {% for location in section[tool][attr] %}
-      {{ kv.single(value=location.container) }}
-      {% endfor %}
+    {% for location in section[tool][attr] %}
+    <div id="head.{{ toolnumber }}.{{ loop.index0 }}" class="key-value">
+      {{ kv.pair(key=attr, value=location.container) }}
+      {{ d.del_tiprack() }}
     </div>
+    {% endfor %}
+    <a href="javascript:void(0);" class="add" onclick="edit_add('head.{{ toolnumber }}');">New Tip Rack</a> 
 
-    {% elif attr == 'trash-container' %}
+    {% elif attr == 'trash-container' %} {# this is formatted differently for some reason #}
     {{ kv.pair(key=attr, value=section[tool][attr].container)}}
   
-    {% elif attr != 'points' %}
+    {% elif attr != 'points' %} {# never draw points #}
     {{ kv.pair(key=attr, value=section[tool][attr]) }}
     {% endif %}
 
     {% endfor %}
   </div>
 
-  {{ d.draw() }}
+  {{ d.draw('right') }}
 </div>
 {% endfor %}
 

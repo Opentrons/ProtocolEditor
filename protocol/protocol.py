@@ -133,7 +133,7 @@ class Protocol():
                 idx1 = int(id_parts[1])
                 idx2 = int(id_parts[2])
                 self.ingredients.modify_by_index_index_key(idx1, idx2, data)
-            elif ef == 'modify_by_block':
+            elif ef == 'modify':
                 idx1 = int(id_parts[1])
                 retVal = self.ingredients.modify_by_block(idx1, data)
                 
