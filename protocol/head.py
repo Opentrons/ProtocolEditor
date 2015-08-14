@@ -67,9 +67,22 @@ class Head():
 
 	#editing methods
 	
-	def delete_by_key():
-		pass
-	
+	def delete_tiprack(self, idx1, idx2):
+		"""deletes a tiprack obj, specified by idx2 in the tip-racks list for
+		a head object specified by idx1
+		
+		"""
+		try:
+			key = self.head_section.keys()[idx1]		#get the pipette key from the index
+			if self.head_section.has_key(key):
+				del self.head_section[key]['tip-racks'][idx2]
+		except Exception as e:
+			msg = e.strerror
+			# print 'errmsg=',msg
+		finally:
+			# return {'head' : {key:msg}}	# section temporarily commented pending error response requirement
+			return self.render_as_json()
+		
 	def delete_by_index(self, idx):
 		"""deletes an item in the head section at Level 1
 		idx is an integer
@@ -83,6 +96,24 @@ class Head():
 			if self.head_section.has_key(key):
 				del self.head_section[key]
 			msg = 'OK'
+		except Exception as e:
+			msg = e.strerror
+			# print 'errmsg=',msg
+		finally:
+			# return {'head' : {key:msg}}	# section temporarily commented pending error response requirement
+			return self.render_as_json()
+		
+	def add_tiprack(self, idx):
+		"""adds a tiprack obj in the tip-racks list for a head object specified by idx
+		
+		"""
+		try:
+			tr = {"container" : "p200-rack"}	#default tip-rack
+			
+			key = self.head_section.keys()[idx]		#get the key from the index
+			if self.head_section.has_key(key):
+				self.head_section[key]["tip-racks"].append(tr)
+				
 		except Exception as e:
 			msg = e.strerror
 			# print 'errmsg=',msg
