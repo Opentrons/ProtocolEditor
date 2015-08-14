@@ -43,8 +43,6 @@ class Protocol():
     
     #export json
     #import json
-    #assemble
-
 
     #method for processing edit methods from ajax
     def process_edit_msg(self, msg_dict):
@@ -100,8 +98,15 @@ class Protocol():
             if ef == 'delete':
                 idx1 = int(id_parts[1])
                 retVal = self.head.delete_by_index(idx1)
+            elif ef == 'delete_tiprack':
+                idx1 = int(id_parts[1])
+                idx2 = int(id_parts[2])
+                retVal = self.head.delete_tiprack(idx1, idx2)
             elif ef == 'add':
                 retVal = self.head.add()
+            elif ef == 'add_tiprack':
+                idx1 = int(id_parts[1])
+                retVal = self.head.add_tiprack(idx1)
             elif ef == 'modify':
                 idx1 = int(id_parts[1])
                 idx2 = int(id_parts[2])
@@ -165,7 +170,10 @@ class Protocol():
                 idx1 = int(id_parts[1])
                 idx2 = int(id_parts[2])
                 retVal = self.instructions.delete_by_index(idx1,idx2)
-            
+            elif ef == 'modify_by_block':
+                idx1 = int(id_parts[1])
+                idx2 = int(id_parts[2])
+                retVal = self.instructions.modify_by_block(idx1,idx2)
         return retVal
             
 

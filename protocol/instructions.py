@@ -378,6 +378,29 @@ class Instructions():
         self.instructions_section[idx1]['groups'].insert(idx2, group_obj)
         return self.render_as_json()
         
+    def modify_by_block(self, idx1, idx2, data):
+        """deletes an item in the instructions section at Level 2 corresponding to an
+        dict item in the groups list and inserts a new json object (data) at the same position
+        
+        idx1 and idx2 are integers
+        1.  idx1 and idx2 are returned from ajax using html id of the form "instructions.idx1.idx2"  ex: "instructions.1.1"
+        2.  the dict for the revised instructions_section is returned
+        3.  data is the json of the block that was modified in the gui
+
+        """
+        try:
+            self.delete_by_index(idx1,idx2)     #delete the existing object
+            self.instructions_section[idx1]['groups'].insert(idx2, data)   #insert the replacement object
+            msg = 'OK'
+        except Exception as e:
+            msg = e.strerror
+            # print 'errmsg=',msg
+        finally:
+            # return {'instructions' : {key:msg}}	# section temporarily commented pending error response requirement
+            return self.render_as_json()
+            
+            
+        
         
         
         
