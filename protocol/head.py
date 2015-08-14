@@ -86,7 +86,7 @@ class Head():
 	def delete_by_index(self, idx):
 		"""deletes an item in the head section at Level 1
 		idx is an integer
-		1.  idx is returned from ajax using html id of the form "head-idx"  ex: "head-0"
+		1.  idx is returned from ajax using html id of the form "head.idx"  ex: "head.0"
 		2.  idx is converted into the key of the head value/object to be deleted
 		3.  the dict for the revised head_section is returned
 		
@@ -195,3 +195,27 @@ class Head():
 		finally:
 			# return {'head' : {key:msg}}	# section temporarily commented pending error response requirement
 			pass
+
+	def modify_by_block(self, idx, data):
+		"""modifies an item in the head section at Level 1
+		idx is an integer
+		1.  idx is returned from ajax using html id of the form "head.idx"  ex: "head.0"
+		2.  idx is converted into the key of the head value/object to be modified
+		3.  the dict for the revised head_section is returned
+		
+		"""
+		try:
+			name = data.keys()[0]		#get the tool name in the data block
+			if self.head_section.has_key(name):
+				self.head_section[name] = data[name]		#name didn't change, so use it
+			else:
+				self.delete_by_index(idx)	#delete the existing tool
+				self.head_section[name] = data[name]
+			
+			msg = 'OK'
+		except Exception as e:
+			msg = e.strerror
+			# print 'errmsg=',msg
+		finally:
+			# return {'ingredients' : {key:msg}}	# section temporarily commented pending error response requirement
+			return self.render_as_json()
