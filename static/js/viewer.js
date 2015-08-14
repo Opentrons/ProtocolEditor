@@ -146,7 +146,7 @@ document.addEventListener('click', function(event){
 	for(var i=0; i<parents.length; i++) { // go through the nodes in the parents list
 //		console.log(parents[i].classList);
 		if(parents[i].classList != null) {
-			if(parents[i].classList.contains('grouping')) { // highlight the highest level grouping node to be edited
+			if(parents[i].classList.contains('modifyBlock')) { // highlight the highest level grouping node to be edited
 
 				current = parents[i]; // set this new grouping to be the current node
 				current.classList.add('editing');
@@ -157,7 +157,7 @@ document.addEventListener('click', function(event){
 	}
 
 	if(current != previous && previous != null) { // if the new click is in a different block than prev, save changes
-		console.log("getBlock " + previous);
+//		console.log("getBlock " + previous);
 		getBlock(previous); // call the function in 'sender.js' to read the current block into JSON
 	}
 

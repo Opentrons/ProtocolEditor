@@ -133,6 +133,10 @@ div.block {
 	position: relative;
 }
 
+.modifyBlock.editing {
+	border: 1px solid $darkest-gray !important;
+}
+
 /* CLASS BLOCKS */
 
 .content {
@@ -156,6 +160,7 @@ div.block {
 	width: 100%;
 
 	margin: 1px 0;
+	position: relative;
 }
 
 .key {

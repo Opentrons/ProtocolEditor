@@ -7,7 +7,7 @@
 
 <div id="reagents">
 	{% for ingredient in section %}
-	<div id="ingredients.{{ loop.index0 }}" class="content">
+	<div id="ingredients.{{ loop.index0 }}" class="content modifyBlock">
 		{{ r.draw(ingredient, section[ingredient], loop.index0) }}
 	</div>
 	{% endfor %}
