@@ -60,7 +60,7 @@ class Ingredients():
 	def delete_by_index(self, idx):
 		"""deletes an item in the ingredients section at Level 1
 		idx is an integer
-		1.  idx is returned from ajax using html id of the form "ingredients-idx"  ex: "ingredients-3"
+		1.  idx is returned from ajax using html id of the form "ingredients.idx"  ex: "ingredients.3"
 		2.  idx is converted into the key of the ingredients value/object to be deleted
 		3.  the dict for the revised ingredients_section is returned
 		
@@ -112,7 +112,7 @@ class Ingredients():
 			v = ("volume",0)
 			new_ingredient_dict = [ OrderedDict([c,l,v]) ]
 			self.ingredients_section[name] = new_ingredient_dict
-			print self.ingredients_section
+			#print self.ingredients_section
 			msg = 'OK'
 		except Exception as e:
 			msg = e.strerror
@@ -165,4 +165,22 @@ class Ingredients():
 			# return {'ingredients' : {key:msg}}	# section temporarily commented pending error response requirement
 			pass
 	
-
+	def modify_by_block(self, idx, data):
+		"""deletes an item in the ingredients section at Level 1
+		idx is an integer
+		1.  idx is returned from ajax using html id of the form "ingredients.idx"  ex: "ingredients.3"
+		2.  idx is converted into the key of the ingredients value/object to be deleted
+		3.  the dict for the revised ingredients_section is returned
+		4.  data is the json of the block that was modified in the gui
+		"""
+		try:
+			self.delete_by_index(idx)	#delete the existing reagent
+			name = data.keys()[0]		#get the reagent name
+			self.ingredients_section[name] = data[name]
+			msg = 'OK'
+		except Exception as e:
+			msg = e.strerror
+			# print 'errmsg=',msg
+		finally:
+			# return {'ingredients' : {key:msg}}	# section temporarily commented pending error response requirement
+			return self.render_as_json()
