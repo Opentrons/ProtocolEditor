@@ -1,4 +1,14 @@
-function toggle(clicked, showID) {
+
+/*
+'viewer.js' contains all of the functions responsible for handling
+the mechanics of the display.
+*/
+
+////////////////////////////////////////////
+////////// ITEMS VIEW FUNCITONS ////////////
+////////////////////////////////////////////
+
+function toggleItem(clicked, showID) {
 	/*
 	toggles the displayed "Item" block by adding/removing the "active" tag
 	based on which button was clicked.
@@ -23,10 +33,10 @@ function toggle(clicked, showID) {
 }
 
 ////////////////////////////////////////////
-////////////////////////////////////////////
+////////// INSTRUCTIONS VIEW FUNCTIONS /////
 ////////////////////////////////////////////
 
-function view(clicked) {
+function toggleInstruction(clicked) {
 	/*
 	ID of form: "instruction.0.1"
 		- first number refers to tool number
@@ -47,7 +57,13 @@ function view(clicked) {
 	}
 }
 
-function showInstruction(clicked) { // always shows the block
+function showInstruction(clicked) {
+	/*
+	Instead of toggling view, always expands the instructions, even if it
+	is already expanded when this button is clicked.
+
+	Built for use with the delete button.
+	*/
 	var clicked_id = clicked.id;
 	var id_parts = clicked_id.split('.'); // split ID based on period
 
@@ -60,135 +76,35 @@ function showInstruction(clicked) { // always shows the block
 	}
 }
 
-////////////////////////////////////////////
-////////////////////////////////////////////
-////////////////////////////////////////////
-
-document.addEventListener('click', function(event){
+function showInserts(clicked) {
 	/*
-	Highlights the group currently being edited on click, unhighlights when
-	something other than it is clicked.
-
-	Will eventually be used to save entire blocks of modifications when the block
-	is clicked away from. For not it is just for display.
+	Shows the "Insert New Instruction" buttons on click. For use in the 
+	instructions navbar.
 	*/
-	var clicked = event.srcElement;
-	var editing = document.getElementsByClassName('editing');
-
-	for(var i=0; i<editing.length; i++) {
-		editing[i].classList.remove('editing');
-	}
-
-	var current = clicked;
-	var parents = [ current ];
-	while(current.parentNode != null && current.parentNode.nodeName != 'SECTION') {
-		parents.push(current.parentNode);
-		current = current.parentNode;
-	}
-
-	for(var i=0; i<parents.length; i++) {
-//		console.log(parents[i].classList);
-		if(parents[i].classList != null) {
-			if(parents[i].classList.contains('grouping')) {
-				parents[i].classList.add('editing');
-			}
-		}
-	}
-});
-
-////////////////////////////////////////////
-////////////////////////////////////////////
-////////////////////////////////////////////
-
-$(window).scroll(function(e){ 
-	/*
-	JQuery listener to keep the instructions toggle menu stuck to the top of the page
-	and the instructions edits to the bottom of the page.
-	*/
-	var screen_to_top = $(window).scrollTop() + 25;
-
-	//INSTRUCTIONS TOGGLE
-	var instr_toggler = $("#InstructionsToggle");
-	var instr_block = $("#InstructionsDisplay");
-
-	var instr_left = $("#InstructionsLeft");
-//	var instr_actions = $("#InstructionsActions");
-
-	var instr_toggle_to_top = instr_toggler.offset().top;
-	var instr_block_to_top = instr_block.offset().top;
-
-	if(instr_toggle_to_top < screen_to_top) {
-		instr_left.addClass('sticky');
-//		instr_toggler.addClass('sticky');
-//		instr_actions.addClass('sticky');
-	} else if(instr_block_to_top > screen_to_top) {
-		instr_left.removeClass('sticky');
-//		instr_toggler.removeClass('sticky');
-//		instr_actions.removeClass('sticky');
-	}
-});
-
-////////////////////////////////////////////
-////////////////////////////////////////////
-////////////////////////////////////////////
-
-function clickSubmit(key, parent) { // this funciton simulates a click on the submit button on blur for modal editing
-	var submitButton = parent.children[1];
-
-	var parentID = null;
-	var cur = parent;
-	while(parentID == null) { // keep going up and up until we reach an item that has an ID
-		cur = cur.parentNode; // using this method allows for a non-uniform ID setting pattern
-		if(cur.hasAttribute("id")) { // that works well with the highly variable protocol format
-			parentID = cur.id;
-//			console.log(parentID);
-		}
-	}
-
-	submitButton.onclick = edit_modify(parentID, key, parent.children[0].value); // set the input button's onclick function, then click the button
-	// this is a sort of roundabout way to do this, yes, but the Modals framework is listening for a button click so this method will do
-	submitButton.click(); // simulate click on the input[type=submit] within the form 'parent'
-}
-
-////////////////////////////////////////////
-////////////////////////////////////////////
-////////////////////////////////////////////
-
-function removeSection(del_button) {
-	/*
-	First confirms delete and then deletes the parent node of the button clicked.
-
-	Completes the deletion on the front end, then informs the backend of
-	the deletion via AJAX.
-	*/
-	el_to_del = del_button.parentNode; // this is the button nested in the delete section nested in the el to delete
-
-	if(!del_button.classList.contains('confirm')) { // first click, must still confirm?
-		del_button.classList.add('confirm');
-
-		del_button.children[0].classList.add('hidden');
-		del_button.children[1].classList.remove('hidden');
-
-//		console.log("change img");
-//		del_button.innerHTML = 'click here to CANCEL delete'; // change to confirm picture
+	if(clicked.classList.contains('active')) {
+		clicked.classList.remove('active');
 	} else {
-		el_to_del.parentNode.removeChild(el_to_del); // delete the node in question
-		edit_delete(el_to_del.id); // contact the edit function for deleting to update the backend of the deletion
+		clicked.classList.add('active');
+	}
+
+	var inserts = document.getElementsByClassName('insert-block');
+	for(var i=0; i<inserts.length; i++) {
+		if(inserts[i].classList.contains('view')) {
+			inserts[i].classList.remove('view');
+		} else {
+			inserts[i].classList.add('view');
+		}
 	}
 }
-
-function cancelRemove(div_to_cancel) {
-	div_to_cancel.classList.remove('confirm');
-
-	div_to_cancel.children[0].classList.remove('hidden');
-	div_to_cancel.children[1].classList.add('hidden');
-}
-
-////////////////////////////////////////////
-////////////////////////////////////////////
-////////////////////////////////////////////
 
 function showAddInstruction(buttonDiv) {
+	/*
+	Expands the "Insert New Instructions" button to the set of five
+	buttons: one for each type of instruction (transfer, distribure,
+	consolidate, mix), and one for Cancel.
+
+	On cancel click, hides the grouping.
+	*/
 	var hideLink = buttonDiv.children[0];
 	var buttonGroup = buttonDiv.children[1];
 
@@ -202,6 +118,74 @@ function showAddInstruction(buttonDiv) {
 }
 
 ////////////////////////////////////////////
+//////// EVENT LISTENERS ///////////////////
+////////////////////////////////////////////
+
+document.addEventListener('click', function(event){
+	/*
+	Highlights the group currently being edited on click, unhighlights when
+	something other than it is clicked.
+
+	Will eventually be used to save entire blocks of modifications when the block
+	is clicked away from. For not it is just for display.
+	*/
+	var current = event.srcElement; // get the clicked element
+	var previous = document.getElementsByClassName('editing')[0]; // only one block currently editing
+
+	if(previous) { // if there is a node currently being edited
+		previous.classList.remove('editing'); // remove the editing class
+	}
+
+	var parents = [ current ]; // initialize parent list with the clicked node
+	// assemble list of parents until end or we reach a <section> block
+	while(current.parentNode != null && current.parentNode.nodeName != 'SECTION') {
+		parents.push(current.parentNode);
+		current = current.parentNode;
+	}
+
+	for(var i=0; i<parents.length; i++) { // go through the nodes in the parents list
+//		console.log(parents[i].classList);
+		if(parents[i].classList != null) {
+			if(parents[i].classList.contains('grouping')) { // highlight the highest level grouping node to be edited
+
+				current = parents[i]; // set this new grouping to be the current node
+				current.classList.add('editing');
+
+				break; // exit loop, we have found our node
+			}
+		}
+	}
+
+	if(current != previous && previous != null) { // if the new click is in a different block than prev, save changes
+		console.log("getBlock " + previous);
+		getBlock(previous); // call the function in 'sender.js' to read the current block into JSON
+	}
+
+});
+
+$(window).scroll(function(e){ 
+	/*
+	JQuery listener to keep the instructions toggle menu stuck to the top of the page
+	and the instructions edits to the bottom of the page.
+	*/
+	var screen_to_top = $(window).scrollTop() + 25;
+
+	//INSTRUCTIONS TOGGLE
+	var instr_toggler = $("#InstructionsToggle");
+	var instr_block = $("#InstructionsDisplay");
+	var instr_left = $("#InstructionsLeft");
+
+	var instr_toggle_to_top = instr_toggler.offset().top;
+	var instr_block_to_top = instr_block.offset().top;
+
+	if(instr_toggle_to_top < screen_to_top) {
+		instr_left.addClass('sticky');
+	} else if(instr_block_to_top > screen_to_top) {
+		instr_left.removeClass('sticky');
+	}
+});
+
+////////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 
@@ -210,7 +194,6 @@ Functions to preserve the expanded structure of the instructions
 upon an edit action that will overwrite the entire section.
 
 NON-FUNCTIONAL CURRENTLY 
-*/
 
 function getExpandStructure() {
 	var instructions = document.getElementsByClassName('action-block-nav');
@@ -235,28 +218,5 @@ function applyExpandStructure(structure) {
 		}
 	}
 }
-
-////////////////////////////////////////////
-////////////////////////////////////////////
-////////////////////////////////////////////
-
-function showInserts(clicked) {
-//	var instrID = 'instructions.' + String(instr_num);
-//	var toolChildren = document.getElementById(instrID).children;
-	if(clicked.classList.contains('active')) {
-		clicked.classList.remove('active');
-	} else {
-		clicked.classList.add('active');
-	}
-
-	var inserts = document.getElementsByClassName('insert-block');
-	for(var i=0; i<inserts.length; i++) {
-		if(inserts[i].classList.contains('view')) {
-			inserts[i].classList.remove('view');
-		} else {
-			inserts[i].classList.add('view');
-		}
-	}
-}
-
+*/
 

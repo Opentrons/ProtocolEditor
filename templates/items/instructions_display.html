@@ -30,7 +30,7 @@
 
 		{% for movetype in tip %}
 		{# <!-- Realistically, there will only ever be one attribute here --> #}
-		<div class="action-header" onclick="view(this.parentNode);">
+		<div class="action-header" onclick="toggleInstruction(this.parentNode);">
 			<span class="action-number">{{ movenumber }}</span>
 			<span class="action-tool">{{ group.tool }}</span>
 			<span class="action-title">
