@@ -460,6 +460,7 @@ span.action-title {
   padding: 0 10px; }
 
 img.action-icon {
+  float: left;
   height: 1rem;
   vertical-align: top;
   background: #FFFFFF;

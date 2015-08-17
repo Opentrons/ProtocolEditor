@@ -14,6 +14,7 @@ class Info():
 	#   "description": "description of protocol",
 	#   "create-date": "7/15/2015",
 	# 	"version": "2"
+	#	"run-notes": "notes"
 	#   }
 	
 	this object holds the key="info" value as a complete python OrderedDict

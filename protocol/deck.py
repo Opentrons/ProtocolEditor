@@ -1,4 +1,3 @@
-from container import Container
 from collections import OrderedDict
 import json
 
@@ -38,19 +37,6 @@ class Deck():
 		self.deck_section = deck_section	#this is a possibly unordered dictionary of containers
 		self.containers = OrderedDict()		#this will become an ordered dictionary of containers
 
-		self.create_deck()	#this populates the containers ordered dictionary according to some order
-		
-	def create_deck(self):
-		"""
-		This function instantiates all container children based off of the information
-		passed over in the JSON protocol section.
-		"""
-		for container_name in self.deck_section:
-			#print container_name
-			new_container = Container(container_name, self.deck_section[container_name]) # container is responsible for putting itself together
-			self.containers[container_name] = new_container # set container in dictionary with its name as the key
-			
-		#print self.containers
 
 	def occupied_slots(self):
 		""" this function returns the number of slots with defined containers

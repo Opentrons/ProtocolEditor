@@ -15,6 +15,8 @@ function getBlock(block) {
 	/*
 	getBlock takes an ID as input and assembles the block-level JSON for edit_modify_block.
 	Ends with a call to edit_modify_block.
+
+	DOM traversal... readers beware.
 	*/
 	var id_parts = block.id.split('.');
 	var section = id_parts[0];
@@ -23,7 +25,7 @@ function getBlock(block) {
 	if(section == 'deck') { // the block being edited is a container block
 		var children = block.children;
 		var name = getKeyValue(children[0]);
-
+		
 		out[name['value']] = {}; // assemble the full JSON snippet for this container
 		for(var i=1; i<children.length-1; i++) {
 			var pair = getKeyValue(children[i]);
@@ -34,27 +36,158 @@ function getBlock(block) {
 		var name = getKeyValue(children[0]);
 
 		out[name['value']] = [];
-
 		for(var i=0; i<children.length; i++) {
 			if(children[i].classList.contains('grouping')) {
 				var locNode = children[i];
 				var newLoc = {};
 
-				for(var j=0; j<locNode.children.length; j++){
-					if(locNode.children[j].classList.contains('key-value')) {
-						console.log(locNode.children[j]);
-						var pair = getKeyValue(locNode.children[j]);
-						newLoc[pair['key']] = pair['value'];
-					}
+				var keyValues = getChildByClassName(locNode, 'key-value');
+				for(var j=0; j<keyValues.length; j++){
+					console.log(keyValues[j]);
+					var pair = getKeyValue(keyValues[j]);
+					newLoc[pair['key']] = pair['value'];
 				}
-
 				out[name['value']].push(newLoc);
 			}
 		}
-		console.log(JSON.stringify(out));
-//		console.log(children);
-	}
+	} else if(section == 'instructions') { // this is going to get ugly
+		var children = block.children;
+		var name = getChildByClassName(children[0], 'action-title')[0].innerHTML;
 
+		if(name == 'transfer') {
+			out[name] = [];
+
+			var motions = getChildByClassName(block, 'action-attributes');
+			var curMove = {};
+			for(var i=0; i<motions.length; i++) {
+				var attributes = getChildByClassName(motions[i], 'key-value');
+
+				if(motions[i].classList.contains('from')) { // add from attributes
+					curMove['from'] = {}
+					for(var j=0; j<attributes.length; j++) {
+						var pair = getKeyValue(attributes[j]);
+						curMove['from'][pair['key']] = pair['value'];
+					}
+				} else if(motions[i].classList.contains('to')) { // add to attributes
+					curMove['to'] = {}
+					for(var j=0; j<attributes.length; j++) {
+						var pair = getKeyValue(attributes[j]);
+						curMove['to'][pair['key']] = pair['value'];
+					}
+				} else { // add other attributes
+					for(var j=0; j<attributes.length; j++) {
+						var pair = getKeyValue(attributes[j]);
+						curMove[pair['key']] = pair['value'];
+					}
+					out[name].push(curMove); // end of this move, add move to list
+					curMove = {}; // reset for next move (if there is one)
+				}
+			}
+
+		} else if(name == 'distribute') {
+			out[name] = {};
+
+			var motions = getChildByClassName(block, 'action-attributes');
+			console.log(motions.length);
+
+			for(var i=0; i<motions.length; i++) {
+				console.log(motions[i]);
+				var attributes = getChildByClassName(motions[i], 'key-value');
+
+				if(motions[i].classList.contains('from')) { // add from attributes
+					out[name]['from'] = {}
+					for(var j=0; j<attributes.length; j++) {
+						var pair = getKeyValue(attributes[j]);
+						out[name]['from'][pair['key']] = pair['value'];
+					}
+				} else if(motions[i].classList.contains('to')) { // add to attributes
+					out[name]['to'] = []
+					
+					var locations = getChildByClassName(motions[i], 'action');					
+
+					for(var j=0; j<locations.length; j++) {
+						var newLoc = {};
+						var attributes = getChildByClassName(locations[j], 'key-value');
+
+						for(var k=0; k<attributes.length; k++) {
+							var pair = getKeyValue(attributes[k]);
+							newLoc[pair['key']] = pair['value'];
+						}
+						out[name]['to'].push(newLoc);
+					}
+
+				} else { // add other attributes
+					console.log('other');
+					console.log(attributes.length);
+					for(var j=0; j<attributes.length; j++) {
+						var pair = getKeyValue(attributes[j]);
+						out[name][pair['key']] = pair['value'];
+					}
+				}
+			}
+
+		} else if(name == 'consolidate') {
+			out[name] = {};
+
+			var motions = getChildByClassName(block, 'action-attributes');
+			console.log(motions.length);
+
+			for(var i=0; i<motions.length; i++) {
+				console.log(motions[i]);
+				var attributes = getChildByClassName(motions[i], 'key-value');
+
+				if(motions[i].classList.contains('from')) { // add from attributes
+					out[name]['from'] = []
+					
+					var locations = getChildByClassName(motions[i], 'action');					
+
+					for(var j=0; j<locations.length; j++) {
+						var newLoc = {};
+						var attributes = getChildByClassName(locations[j], 'key-value');
+
+						for(var k=0; k<attributes.length; k++) {
+							var pair = getKeyValue(attributes[k]);
+							newLoc[pair['key']] = pair['value'];
+						}
+						out[name]['from'].push(newLoc);
+					}
+				} else if(motions[i].classList.contains('to')) { // add to attributes
+					out[name]['to'] = {}
+					for(var j=0; j<attributes.length; j++) {
+						var pair = getKeyValue(attributes[j]);
+						out[name]['to'][pair['key']] = pair['value'];
+					}
+				} else { // add other attributes
+					console.log('other');
+					console.log(attributes.length);
+					for(var j=0; j<attributes.length; j++) {
+						var pair = getKeyValue(attributes[j]);
+						out[name][pair['key']] = pair['value'];
+					}
+				}
+			}
+
+		} else {
+			out[name] = [];
+
+			var motions = getChildByClassName(block, 'action-attributes');
+			var curMove = {};	
+			
+			for(var i=0; i<motions.length; i++) {
+				var attributes = getChildByClassName(motions[i], 'key-value');
+
+				for(var j=0; j<attributes.length; j++) {
+					var pair = getKeyValue(attributes[j]);
+					curMove[pair['key']] = pair['value'];
+				}
+
+				out[name].push(curMove);
+				curMove = {}; // add and reset the current move
+			}	
+		}
+	}
+	
+	console.log(JSON.stringify(out));
 	edit_modify_block(block.id, out); // call the AJAX function to edit by block
 }
 
@@ -87,6 +220,23 @@ function getKeyValue(kvblock) {
 	return out;
 }
 
+function getChildByClassName(parent, classname) {
+	/*
+	Helper function that returns the child node of a given parent with a given classname.
+
+	If there are multiple, will return a list.
+	*/
+	var matches = [];
+
+	for(var i=0; i<parent.children.length; i++) {
+		if(parent.children[i].classList.contains(classname)) {
+			matches.push(parent.children[i]);
+		}
+	}
+//	console.log(matches);
+	return matches; // returns full list of matches
+}
+
 function clickSubmit(key, parent) {
 	/*
 	This funciton simulates a click on the submit button on blur for modal editing.
@@ -113,6 +263,10 @@ function clickSubmit(key, parent) {
 	submitButton.click(); // simulate click on the input[type=submit] within the form 'parent'
 	// triggers an edit_modify() and changes the <input> text field back into a <span>
 }
+
+////////////////////////////////////////////
+///////// DELETE BLOCK FUNCTIONS ///////////
+////////////////////////////////////////////
 
 function removeSection(del_button) {
 	/*
