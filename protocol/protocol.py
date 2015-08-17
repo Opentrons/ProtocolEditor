@@ -188,6 +188,11 @@ class Protocol():
                 idx1 = int(id_parts[1])
                 idx2 = int(id_parts[2])
                 retVal = self.instructions.modify_by_block(idx1,idx2, data)
+            elif ef == 'delete_motion':
+                idx1 = int(id_parts[1])
+                idx2 = int(id_parts[2])
+                idx3 = int(id_parts[3])
+                retVal = self.instructions.delete_motion(idx1, idx2, idx3)
         return retVal
             
 

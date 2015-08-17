@@ -262,7 +262,48 @@ class Instructions():
         finally:
             # return {'instructions' : {key:msg}}	# section temporarily commented pending error response requirement
             return self.render_as_json()
-
+        
+    def get_movement_type(movement_dict):
+        keys = movement_dict.keys()
+        if keys.has_key('transfer'):
+            return 'transfer'
+        elif keys.has_key('distribute'):
+            return 'distribute'
+        elif keys.has_key('consolidate'):
+            return 'consolidate'
+        else:
+            return 'none'
+        
+    def delete_motion(self, idx1, idx2, idx3):
+        # determine if its transfer, distribute etc from idx1 and idx2
+        move_dict = self.instructions_section[idx1]['groups'][idx2]
+        move_type = self.get_movement_type(mov_dict)
+        
+        if move_type == 'transfer':
+            # transfer - delete idx3 in list value for "transfer" key
+            del self.instructions_section[idx1]['groups'][idx2]['transfer'][idx3]
+            pass
+        elif move_type == 'distribute':
+            # distribute - delete idx3 in list value for "to" key
+            del self.instructions_section[idx1]['groups'][idx2]['to'][idx3]
+            pass
+        elif move_type == 'consolidate':
+            # consolidate - delete idx3 in list value for "from" key
+            del self.instructions_section[idx1]['groups'][idx2]['from'][idx3]
+            pass
+        else:
+            pass
+        
+        return self.render_as_json()
+    
+    def add_motion(self, idx1, idx2):
+        # determine if its transfer, distribute etc from idx1 and idx2
+        # transfer - append a transfer from/to pair in list value for transfer key
+        # distribute - append to in list value for to key
+        # consolidate - append from in list value for from key
+        # return as usual
+        pass
+    
     def add_transfer(self, idx1):
         """append an instructions value/object to the ordered instructions dict at Level 1
         
@@ -389,12 +430,13 @@ class Instructions():
 
         """
         try:
+            print 'data is:\n\n', data
             self.delete_by_index(idx1,idx2)     #delete the existing object
             self.instructions_section[idx1]['groups'].insert(idx2, data)   #insert the replacement object
             msg = 'OK'
         except Exception as e:
             msg = e.strerror
-            # print 'errmsg=',msg
+            #print 'errmsg=',msg
         finally:
             # return {'instructions' : {key:msg}}	# section temporarily commented pending error response requirement
             return self.render_as_json()
