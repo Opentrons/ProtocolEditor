@@ -28,8 +28,16 @@ class Protocol():
 
         #aggregate objects
         #info object
-        if self.prot_dict.has_key('info'):
-            self.info = Info(self.prot_dict['info'])
+        if not self.prot_dict.has_key('info'): # the task of defining the default info block should be in the Info() class
+            default_info = OrderedDict()
+            default_info['name'] = 'protocol name'
+            default_info['description'] = 'protocol description'
+            default_info['create-date'] = 'Jan 1 2000'
+            default_info['version'] = '1.0'
+            default_info['run-notes'] = 'none'
+            self.prot_dict['info'] = default_info
+        self.info = Info(self.prot_dict['info'])
+
         #head object
         self.head = Head(self.prot_dict['head'])
         #deck object
@@ -56,7 +64,7 @@ class Protocol():
         """
         id_parts = msg_dict["id"].split(".")
         ef = msg_dict["ef"]
-        data = msg_dict["data"]
+        data = OrderedDict(msg_dict["data"])
 
         section = id_parts[0]     #get the leading section of the id
 
@@ -139,8 +147,8 @@ class Protocol():
                 pass
             elif ef == 'paste':
                 pass
-            elif ef == 'modify':
-                pass
+            # elif ef == 'modify':
+            #     pass
             elif ef == 'insert_transfer':
                 idx1 = int(id_parts[1])
                 idx2 = int(id_parts[2])
@@ -173,10 +181,10 @@ class Protocol():
                 idx1 = int(id_parts[1])
                 idx2 = int(id_parts[2])
                 retVal = self.instructions.delete_by_index(idx1,idx2)
-            elif ef == 'modify_by_block':
+            elif ef == 'modify':
                 idx1 = int(id_parts[1])
                 idx2 = int(id_parts[2])
-                retVal = self.instructions.modify_by_block(idx1,idx2)
+                retVal = self.instructions.modify_by_block(idx1,idx2, data)
         return retVal
             
 

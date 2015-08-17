@@ -15,10 +15,8 @@
 	{% for movetype in tip %}
 	<div id="instructions.{{ outer }}.{{ movenumber - 1 }}.nav" class="action-block-nav {% if outer == 0 and movenumber == 1 %}view{% endif %}" onclick="toggleInstruction(this)">
 		<span class="action-number">{{ movenumber }}</span>
-		<span class="action-title">
-			{{ movetype }}
-			<img class="action-icon" src="/static/images/{{ movetype }}.png" />
-		</span>
+		<img class="action-icon" src="/static/images/{{ movetype }}.png" />
+		<span class="action-title">{{ movetype }}</span>
 	</div>
 	{% endfor %}
 

@@ -26,38 +26,36 @@
 		</div>
 	</div>
 
-	<div id="instructions.{{ groupnumber }}.{{ movenumber - 1 }}" class="action-block {% if movenumber == 1 and groupnumber == 0 %}view{% endif %}">
+	<div id="instructions.{{ groupnumber }}.{{ movenumber - 1 }}" class="action-block {% if movenumber == 1 and groupnumber == 0 %}view{% endif %} modifyBlock">
 
 		{% for movetype in tip %}
 		{# <!-- Realistically, there will only ever be one attribute here --> #}
 		<div class="action-header" onclick="toggleInstruction(this.parentNode);">
 			<span class="action-number">{{ movenumber }}</span>
 			<span class="action-tool">{{ group.tool }}</span>
-			<span class="action-title">
-				<img class="action-icon" src="/static/images/{{ movetype }}.png" />
-				{{ movetype }}
-			</span>
+			<img class="action-icon" src="/static/images/{{ movetype }}.png" />
+			<span class="action-title">{{ movetype }}</span>
 		</div>
 		{% endfor %}
 
 		{% if tip.transfer is defined %}
 
 		{% for move in tip.transfer %}
-		<div class="action-attributes">
+		<div class="action-attributes from">
 			<img src="/static/images/from.png" class="label" />
 			{% for key in move.from %}
 			{{ kv.pair(key=key, value=move.from[key] )}}
 			{% endfor %}
 		</div>
 
-		<div class="action-attributes">
+		<div class="action-attributes to">
 			<img src="/static/images/to.png" class="label" />
 			{% for key in move.to %}
 			{{ kv.pair(key=key, value=move.to[key] )}}
 			{% endfor %}
 		</div>
 
-		<div class="action-attributes">
+		<div class="action-attributes attr">
 			<img src="/static/images/attributes.png" class="label" />
 			{% for attribute in move %}
 			{% if (attribute != 'from') and (attribute != 'to') %}
@@ -69,14 +67,14 @@
 
 
 		{% elif tip.distribute is defined %}
-		<div class="action-attributes">
+		<div class="action-attributes from">
 			<img src="/static/images/from.png" class="label" />
 			{% for key in tip.distribute.from %}
 			{{ kv.pair(key=key, value=tip.distribute.from[key] )}}
 			{% endfor %}
 		</div>
 
-		<div class="action-attributes">
+		<div class="action-attributes to">
 			<img src="/static/images/to.png" class="label" />
 			{% for location in tip.distribute.to %}
 			<div class="action">
@@ -87,7 +85,7 @@
 			{% endfor %}
 		</div>
 
-		<div class="action-attributes">
+		<div class="action-attributes attr">
 			<img src="/static/images/attributes.png" class="label" />
 			{% for attribute in tip.distribute %}
 			{% if (attribute != 'from') and (attribute != 'to') %}
@@ -98,7 +96,7 @@
 		
 
 		{% elif tip.consolidate is defined %}
-		<div class="action-attributes">
+		<div class="action-attributes from">
 			<img src="/static/images/from.png" class="label" />
 			{% for location in tip.consolidate.from %}
 			<div class="action">
@@ -109,14 +107,14 @@
 			{% endfor %}
 		</div>
 
-		<div class="action-attributes">
+		<div class="action-attributes to">
 			<img src="/static/images/to.png" class="label" />
 			{% for key in tip.consolidate.to %}
 			{{ kv.pair(key=key, value=tip.consolidate.to[key] )}}
 			{% endfor %}
 		</div>
 
-		<div class="action-attributes">
+		<div class="action-attributes attr">
 			<img src="/static/images/attributes.png" class="label" />
 			{% for attribute in tip.consolidate %}
 			{% if (attribute != 'from') and (attribute != 'to') %}
