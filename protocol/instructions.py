@@ -240,6 +240,66 @@ class Instructions():
             group_obj = {'mix' : mix_list}
         
         return group_obj
+    
+    def get_default_motion(self, move_type):
+        """default motion object factory by move type
+        
+        move_type is a string with values: 'transfer', 'distribute', 'consolidate' or 'mix'
+        returns a single OrderedDict of appropriate type for inclusion in a list
+        """
+        move_element = None
+        if move_type == 'transfer':
+            #generate a from_dict and to_dict pair with attributes
+            fc = ('container','from container name')
+            fl = ('location','A1')
+            fto = ('tip-offset', -2)
+            fd = ('delay', 2000)
+            ftt = ('touch-tip', True)
+            from_dict = OrderedDict([fc,fl,fto,fd,ftt])
+            
+            #generate to_dict object
+            tc = ('container','to container name')
+            tl = ('location','A1')
+            ttt = ('touch-tip', True)
+            to_dict = OrderedDict([tc,tl,ttt])
+            
+            #define attributes
+            v = ('volume',100)
+            b = ('blowout', True)
+            ep = ('extra-pull', True)
+            
+            #aggregate into complete move object
+            move_element = OrderedDict([('from',from_dict),('to',to_dict),v,b,ep])
+            
+        elif move_type == 'distribute':
+            #generate to_dict object object only
+            tc = ('container','to container name')
+            tl = ('location','A1')
+            v = ('volume',100)  #added to transfer
+            ttt = ('touch-tip', True)
+            to_dict = OrderedDict([tc,tl,v,ttt])
+            move_element = to_dict
+            
+        elif move_type == 'consolidate':
+            #generate a from_dict object only
+            fc = ('container','from container name')
+            fl = ('location','A1')
+            v = ('volume',100)  #added to transfer
+            ftt = ('touch-tip', True)
+            from_dict = OrderedDict([fc,fl,v,ftt])
+            move_element = from_dict
+            
+        elif move_type == 'mix':
+            fc = ('container','from container name')
+            fl = ('location','A1')
+            v = ('volume',100)  #added to transfer
+            r = ('repititions', 5)
+            b = ('blowout', True)
+            lt = ('liquid-tracking',True)
+            mix_dict = OrderedDict([fc,fl,v,r,b,lt])
+            move_element = mix_dict
+        
+        return move_element
 
 
     #editing methods
@@ -285,12 +345,14 @@ class Instructions():
             pass
         elif move_type == 'distribute':
             # distribute - delete idx3 in list value for "to" key
-            del self.instructions_section[idx1]['groups'][idx2]['to'][idx3]
+            del self.instructions_section[idx1]['groups'][idx2]['distribute']['to'][idx3]
             pass
         elif move_type == 'consolidate':
             # consolidate - delete idx3 in list value for "from" key
-            del self.instructions_section[idx1]['groups'][idx2]['from'][idx3]
+            del self.instructions_section[idx1]['groups'][idx2]['consolidate']['from'][idx3]
             pass
+        elif move_type == 'mix':
+            del self.instructions_section[idx1]['groups'][idx2]['mix'][idx3]
         else:
             pass
         
@@ -298,11 +360,27 @@ class Instructions():
     
     def add_motion(self, idx1, idx2):
         # determine if its transfer, distribute etc from idx1 and idx2
-        # transfer - append a transfer from/to pair in list value for transfer key
-        # distribute - append to in list value for to key
-        # consolidate - append from in list value for from key
-        # return as usual
-        pass
+        move_dict = self.instructions_section[idx1]['groups'][idx2]
+        move_type = self.get_movement_type(mov_dict)
+        motion_dict = self.get_default_motion(move_type)    #gets appropriate move_dict
+        
+        # transfer
+        if move_type == 'transfer':
+            self.instructions_section[idx1]['groups'][idx2]['transfer'].append(motion_dict)
+        
+        # distribute
+        if move_type == 'distribute':
+            self.instructions_section[idx1]['groups'][idx2]['distribute']['to'].append(motion_dict)
+        
+        # consolidate
+        if move_type == 'consolidate':
+            self.instructions_section[idx1]['groups'][idx2]['consolidate']['from'].append(motion_dict)
+            
+        # mix
+        if move_type == 'mix':
+            self.instructions_section[idx1]['groups'][idx2]['mix'].append(motion_dict)
+            
+        return self.render_as_json()
     
     def add_transfer(self, idx1):
         """append an instructions value/object to the ordered instructions dict at Level 1

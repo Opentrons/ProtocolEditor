@@ -193,6 +193,10 @@ class Protocol():
                 idx2 = int(id_parts[2])
                 idx3 = int(id_parts[3])
                 retVal = self.instructions.delete_motion(idx1, idx2, idx3)
+            elif ef == 'add_motion':
+                idx1 = int(id_parts[1])
+                idx2 = int(id_parts[2])
+                retVal = self.instructions.add_motion(idx1, idx2)
         return retVal
             
 
