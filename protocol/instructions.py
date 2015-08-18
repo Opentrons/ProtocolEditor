@@ -331,6 +331,8 @@ class Instructions():
             return 'distribute'
         elif keys.has_key('consolidate'):
             return 'consolidate'
+        elif keys.has_key('mix'):
+            return 'mix'
         else:
             return 'none'
         
