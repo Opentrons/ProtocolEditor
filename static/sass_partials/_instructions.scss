@@ -104,7 +104,7 @@ div.action-block {
 
 	overflow: hidden;
 
-	padding: 5px 0;
+	padding: 5px 0 0 0;
 	margin: 2.5px 0;
 
 	text-align: center;
@@ -221,6 +221,12 @@ div.action-attributes {
 	vertical-align: top;
 
 	text-align: left;
+}
+
+div.motion {
+	@include no_stretch;
+	position: relative;
+	padding: 0 10px;
 }
 
 

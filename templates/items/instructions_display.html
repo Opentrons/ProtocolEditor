@@ -8,6 +8,10 @@
 {% for group in section %}
 <div id="instructions.{{ loop.index0 }}" class="instruction-group">
 	{% set groupnumber = loop.index0 %}
+	<div class="action-header-nav">
+		<img class="action-icon" src="/static/images/tool.png" />
+		{{ group.tool }}
+	</div>
 
 	{% for tip in group.groups %}
 	{% set movenumber = loop.index %}
@@ -41,27 +45,30 @@
 		{% if tip.transfer is defined %}
 
 		{% for move in tip.transfer %}
-		<div class="action-attributes from">
-			<img src="/static/images/from.png" class="label" />
-			{% for key in move.from %}
-			{{ kv.pair(key=key, value=move.from[key] )}}
-			{% endfor %}
-		</div>
+		<div id="instructions.{{ groupnumber }}.{{ movenumber - 1 }}.{{ loop.index0 }}" class="motion">
+			<div class="action-attributes from">
+				<img src="/static/images/from.png" class="label" />
+				{% for key in move.from %}
+				{{ kv.pair(key=key, value=move.from[key] )}}
+				{% endfor %}
+			</div>
 
-		<div class="action-attributes to">
-			<img src="/static/images/to.png" class="label" />
-			{% for key in move.to %}
-			{{ kv.pair(key=key, value=move.to[key] )}}
-			{% endfor %}
-		</div>
+			<div class="action-attributes to">
+				<img src="/static/images/to.png" class="label" />
+				{% for key in move.to %}
+				{{ kv.pair(key=key, value=move.to[key] )}}
+				{% endfor %}
+			</div>
 
-		<div class="action-attributes attr">
-			<img src="/static/images/attributes.png" class="label" />
-			{% for attribute in move %}
-			{% if (attribute != 'from') and (attribute != 'to') %}
-			{{ kv.pair(key=attribute, value=move[attribute] )}}
-			{% endif %}
-			{% endfor %}
+			<div class="action-attributes attr">
+				<img src="/static/images/attributes.png" class="label" />
+				{% for attribute in move %}
+				{% if (attribute != 'from') and (attribute != 'to') %}
+				{{ kv.pair(key=attribute, value=move[attribute] )}}
+				{% endif %}
+				{% endfor %}
+			</div>
+			{{ d.draw('right') }}
 		</div>
 		{% endfor %}
 
@@ -77,10 +84,12 @@
 		<div class="action-attributes to">
 			<img src="/static/images/to.png" class="label" />
 			{% for location in tip.distribute.to %}
-			<div class="action">
+			<div id="instructions.{{ groupnumber }}.{{ movenumber - 1 }}.{{ loop.index0 }}" class="action">
 				{% for key in location %}
 				{{ kv.pair(key=key, value=location[key] )}}
 				{% endfor %}
+
+				{{ d.draw('left') }}
 			</div>
 			{% endfor %}
 		</div>
@@ -99,10 +108,12 @@
 		<div class="action-attributes from">
 			<img src="/static/images/from.png" class="label" />
 			{% for location in tip.consolidate.from %}
-			<div class="action">
+			<div id="instructions.{{ groupnumber }}.{{ movenumber - 1 }}.{{ loop.index0 }}" class="action">
 				{% for key in location %}
 				{{ kv.pair(key=key, value=location[key] )}}
 				{% endfor %}
+
+				{{ d.draw('left') }}
 			</div>
 			{% endfor %}
 		</div>
@@ -126,10 +137,12 @@
 
 		{% elif tip.mix is defined %}
 		{% for mix in tip.mix %}
-		<div class="action-attributes">
+		<div id="instructions.{{ groupnumber }}.{{ movenumber - 1 }}.{{ loop.index0 }}" class="action-attributes">
 			{% for attribute in mix%}
 			{{ kv.pair(key=attribute, value=mix[attribute]) }}
 			{% endfor %}
+
+			{{ d.draw('left') }}
 		</div>
 		{% endfor %}
 
@@ -145,10 +158,10 @@
 		<div class="add-instruction">
 			<a href="javascript:void(0);" class="add" onclick="showAddInstruction(this.parentNode);">Add New Instruction to End</a> 
 			<div class="hidden">
-				<button class="add-instruction" onclick="edit_add_instruction('instructions.{{ loop.index0 }}', 'transfer')">Transfer</button>
-				<button class="add-instruction" onclick="edit_add_instruction('instructions.{{ loop.index0 }}', 'distribute')">Distribute</button>
-				<button class="add-instruction" onclick="edit_add_instruction('instructions.{{ loop.index0 }}', 'consolidate')">Consolidate</button>
-				<button class="add-instruction" onclick="edit_add_instruction('instructions.{{ loop.index0 }}', 'mix')">Mix</button>
+				<button class="add-instruction" onclick="edit_add_instruction('instructions.{{ groupnumber }}', 'transfer')">Transfer</button>
+				<button class="add-instruction" onclick="edit_add_instruction('instructions.{{ groupnumber }}', 'distribute')">Distribute</button>
+				<button class="add-instruction" onclick="edit_add_instruction('instructions.{{ groupnumber }}', 'consolidate')">Consolidate</button>
+				<button class="add-instruction" onclick="edit_add_instruction('instructions.{{ groupnumber }}', 'mix')">Mix</button>
 				<button class="add-instruction cancel" onclick="showAddInstruction(this.parentNode.parentNode);">Cancel</button>
 			</div>
 		</div>

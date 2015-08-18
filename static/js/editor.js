@@ -51,39 +51,44 @@ function getBlock(block) {
 			}
 		}
 	} else if(section == 'instructions') { // this is going to get ugly
-		var children = block.children;
-		var name = getChildByClassName(children[0], 'action-title')[0].innerHTML;
+//		var children = block.children;
+		var name = getChildByClassName(block.children[0], 'action-title')[0].innerHTML;
 
 		if(name == 'transfer') {
 			out[name] = [];
 
-			var motions = getChildByClassName(block, 'action-attributes');
-			var curMove = {};
-			for(var i=0; i<motions.length; i++) {
-				var attributes = getChildByClassName(motions[i], 'key-value');
+			var actions = getChildByClassName(block, 'motion');
 
-				if(motions[i].classList.contains('from')) { // add from attributes
-					curMove['from'] = {}
-					for(var j=0; j<attributes.length; j++) {
-						var pair = getKeyValue(attributes[j]);
-						curMove['from'][pair['key']] = pair['value'];
+			for(var i=0; i<actions.length; i++) {
+				var curMove = {};
+				var motions = getChildByClassName(actions[i], 'action-attributes');
+
+				for(var j=0; j<motions.length; j++) {
+					var attributes = getChildByClassName(motions[j], 'key-value');
+
+					if(motions[j].classList.contains('from')) { // add from attributes
+						curMove['from'] = {}
+						for(var k=0; k<attributes.length; k++) {
+							var pair = getKeyValue(attributes[k]);
+							curMove['from'][pair['key']] = pair['value'];
+						}
+					} else if(motions[j].classList.contains('to')) { // add to attributes
+						curMove['to'] = {}
+						for(var k=0; k<attributes.length; k++) {
+							var pair = getKeyValue(attributes[k]);
+							curMove['to'][pair['key']] = pair['value'];
+						}
+					} else { // add other attributes
+						for(var k=0; k<attributes.length; k++) {
+							var pair = getKeyValue(attributes[k]);
+							curMove[pair['key']] = pair['value'];
+						}
+						console.log('other');
 					}
-				} else if(motions[i].classList.contains('to')) { // add to attributes
-					curMove['to'] = {}
-					for(var j=0; j<attributes.length; j++) {
-						var pair = getKeyValue(attributes[j]);
-						curMove['to'][pair['key']] = pair['value'];
-					}
-				} else { // add other attributes
-					for(var j=0; j<attributes.length; j++) {
-						var pair = getKeyValue(attributes[j]);
-						curMove[pair['key']] = pair['value'];
-					}
-					out[name].push(curMove); // end of this move, add move to list
-					curMove = {}; // reset for next move (if there is one)
 				}
+				out[name].push(curMove);
 			}
-
+			
 		} else if(name == 'distribute') {
 			out[name] = {};
 

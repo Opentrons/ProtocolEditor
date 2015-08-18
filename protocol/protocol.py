@@ -44,9 +44,7 @@ class Protocol():
         self.deck = Deck(self.prot_dict['deck'])
         #ingredients object
         self.ingredients = Ingredients(self.prot_dict['ingredients'])
-
         #instructions object - list
-        #inst = Instructions()
         self.instructions = Instructions(self.prot_dict['instructions'])
     
     #export json

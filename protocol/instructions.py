@@ -323,15 +323,15 @@ class Instructions():
             # return {'instructions' : {key:msg}}	# section temporarily commented pending error response requirement
             return self.render_as_json()
         
-    def get_movement_type(movement_dict):
+    def get_movement_type(self, movement_dict):
         keys = movement_dict.keys()
-        if keys.has_key('transfer'):
+        if 'transfer' in keys:
             return 'transfer'
-        elif keys.has_key('distribute'):
+        elif 'distribute' in keys:
             return 'distribute'
-        elif keys.has_key('consolidate'):
+        elif 'consolidate' in keys:
             return 'consolidate'
-        elif keys.has_key('mix'):
+        elif 'mix' in keys:
             return 'mix'
         else:
             return 'none'
@@ -339,7 +339,7 @@ class Instructions():
     def delete_motion(self, idx1, idx2, idx3):
         # determine if its transfer, distribute etc from idx1 and idx2
         move_dict = self.instructions_section[idx1]['groups'][idx2]
-        move_type = self.get_movement_type(mov_dict)
+        move_type = self.get_movement_type(move_dict)
         
         if move_type == 'transfer':
             # transfer - delete idx3 in list value for "transfer" key
@@ -363,7 +363,7 @@ class Instructions():
     def add_motion(self, idx1, idx2):
         # determine if its transfer, distribute etc from idx1 and idx2
         move_dict = self.instructions_section[idx1]['groups'][idx2]
-        move_type = self.get_movement_type(mov_dict)
+        move_type = self.get_movement_type(move_dict)
         motion_dict = self.get_default_motion(move_type)    #gets appropriate move_dict
         
         # transfer

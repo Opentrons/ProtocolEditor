@@ -84,6 +84,8 @@ function edit_delete(id) {
 		changes['ef'] = 'delete_loc';
 	} else if(section == 'head' && id_parts.length == 3) {
 		changes['ef'] = 'delete_tiprack';
+	} else if(section == 'instructions' && id_parts.length == 4) { // instructions, id of form 'instructions.0.0.1'
+		changes['ef'] = 'delete_motion';
 	}
 
 //	if(section == 'instructions') {
@@ -95,9 +97,6 @@ function edit_delete(id) {
 
 	$.getJSON('/edit', out, function(data) { // must re-render entire section because the indeces have changed
 		document.getElementById(section).innerHTML = data.html; // reset html
-		
-//		console.log(data.html);
-//		console.log("item " + id + " deleted.");
 	});
 
 //	if(section == 'instructions') {

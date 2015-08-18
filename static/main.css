@@ -409,7 +409,7 @@ div.action-block {
   width: 100%;
   height: 2rem;
   overflow: hidden;
-  padding: 5px 0;
+  padding: 5px 0 0 0;
   margin: 2.5px 0;
   text-align: center; }
   div.action-block.view {
@@ -508,6 +508,13 @@ div.action-attributes {
   position: relative;
   vertical-align: top;
   text-align: left; }
+
+div.motion {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  position: relative;
+  padding: 0 10px; }
 
 a.item-select {
   border-radius: 5px;
