@@ -521,7 +521,22 @@ class Instructions():
             # return {'instructions' : {key:msg}}	# section temporarily commented pending error response requirement
             return self.render_as_json()
             
-            
+    def paste_move(self,idx1, idx2, copied_dict, ntimes):
+        """function for inserting a copied instruction dict into the existing instructions_section
+        
+        idx1 and idx2 correspond to the insertion indices for the groups list
+        ntimes controls how many times it's inserted
+        """
+        try:
+            for k in range(0,ntimes):
+                self.instructions_section[idx1]['groups'].insert(idx2, copied_dict)   #insert the replacement object
+        except Exception as e:
+            msg = e.strerror
+            #print 'errmsg=',msg
+        finally:
+            # return {'instructions' : {key:msg}}	# section temporarily commented pending error response requirement
+            return self.render_as_json()
+    
         
         
         

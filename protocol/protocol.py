@@ -48,6 +48,9 @@ class Protocol():
         #instructions object - list
         #inst = Instructions()
         self.instructions = Instructions(self.prot_dict['instructions'])
+        
+        #variable for holding a copied instruction dict
+        self.clipboard = None
     
     #export json
     #import json
@@ -197,6 +200,19 @@ class Protocol():
                 idx1 = int(id_parts[1])
                 idx2 = int(id_parts[2])
                 retVal = self.instructions.add_motion(idx1, idx2)
+            elif ef == 'copy':
+                idx1 = int(id_parts[1])
+                idx2 = int(id_parts[2])
+                #save instruction at indices idx1 and idx2
+                self.clipboard = self.instructions[idx1]['groups'][idx2]
+                retVal = None
+            elif ef == 'paste':
+                idx1 = int(id_parts[1])
+                idx2 = int(id_parts[2])
+                #insert saved instruction to new position at indices idx1 and idx2
+                ntimes = data['ntimes']
+                copied_dict = self.clipboard
+                retVal = self.instructions.paste_move(idx1, idx2, copied_dict, ntimes)
         return retVal
             
 
