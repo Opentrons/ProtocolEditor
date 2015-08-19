@@ -69,7 +69,7 @@ class Deck():
 	def delete_by_index(self, idx):
 		"""deletes an item in the deck section
 		idx is an integer
-		1.  idx is returned from ajax using html id of the form "deck-idx"  ex: "deck-3"
+		1.  idx is returned from ajax using html id of the form "deck.idx"  ex: "deck.3"
 		2.  idx is converted into the key of the deck container to be deleted
 		3.  the dict for the revised deck_section is returned
 		
@@ -110,7 +110,7 @@ class Deck():
 	def modify_by_index(self, idx, new_container_dict):
 		"""modify a deck container selected by index in the deck_section dict
 		idx is an integer
-		1.  idx is returned from ajax using html id of the form "deck-idx"  ex: "deck-3"
+		1.  idx is returned from ajax using html id of the form "deck.idx"  ex: "deck.3"
 		2.  idx is converted into the key of the deck container to be modified
 		3.  new_container_dict is the container dict containing the new attributes
 		4.  new_container_dict is of the form {"container_name" : {"labware" : string, "slot" : string}}
@@ -136,7 +136,7 @@ class Deck():
 	def modify_by_index_key(self, idx, key, new_container_dict):
 		"""modify an attribute, selected by key, in a deck container, selected by index, in the deck_section dict
 		idx is an integer
-		1.  idx is returned from ajax using html id of the form "deck-idx"  ex: "deck-3"
+		1.  idx is returned from ajax using html id of the form "deck.idx"  ex: "deck.3"
 		2.  idx is converted into the key of the deck container to be modified
 		3.  new_container_dict is the container dict containing the new attributes
 		4.  new_container_dict is of the form {"container_name" : {"labware" : string, "slot" : string}}

@@ -201,7 +201,8 @@ class Head():
 		idx is an integer
 		1.  idx is returned from ajax using html id of the form "head.idx"  ex: "head.0"
 		2.  idx is converted into the key of the head value/object to be modified
-		3.  the dict for the revised head_section is returned
+		3.  data is the head dict block that was modified in the gui
+		4.  the dict for the entire revised head_section is returned
 		
 		"""
 		try:

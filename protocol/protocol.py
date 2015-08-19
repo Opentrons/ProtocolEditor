@@ -116,13 +116,13 @@ class Protocol():
             elif ef == 'add_tiprack':
                 idx1 = int(id_parts[1])
                 retVal = self.head.add_tiprack(idx1)
+            # elif ef == 'modify':
+            #     idx1 = int(id_parts[1])
+            #     idx2 = int(id_parts[2])
+            #     self.head.modify_by_index_index_key(idx1, idx2, data)
             elif ef == 'modify':
                 idx1 = int(id_parts[1])
-                idx2 = int(id_parts[2])
-                self.head.modify_by_index_index_key(idx1, idx2, data)
-            # elif ef == 'modify_by_block':
-            #     idx1 = int(id_parts[1])
-            #     retVal = self.head.modify_by_block(idx1, data)
+                retVal = self.head.modify_by_block(idx1, data)
         
         elif section == 'ingredients':
             #id has form "ingredients.2.1.volume" for 3rd reagent, 1st list element, volume attribute
