@@ -50,6 +50,7 @@ input[type="file"] {
 
 	background: $white;
 	color: $fade-black;
+	cursor: pointer;
 
 	@include transition(0.25s);
 	&:hover {

@@ -22,7 +22,7 @@
 
 {% macro del_tiprack() %}
 <div class="delete-button right">
-	<img class="del" src="/static/images/x.png" onclick="removeSection(this.parentNode); showInstruction(this.parentNode.parentNode);" />
+	<img class="del" src="/static/images/x.png" onclick="removeSection(this.parentNode);" />
 	<div class="hidden">
 		<button class="del small" onclick="removeSection(this.parentNode.parentNode)">Delete</button>
 		<button class="del small cancel" onclick="cancelRemove(this.parentNode.parentNode)">Cancel</button> 

@@ -8,30 +8,35 @@
 {% for group in section %}
 <div id="instructions.{{ loop.index0 }}" class="instruction-group">
 	{% set groupnumber = loop.index0 %}
+	<div class="action-header-nav">
+		<img class="action-icon" src="/static/images/tool.png" />
+		{{ group.tool }}
+	</div>
 
 	{% for tip in group.groups %}
-	{% set movenumber = loop.index %}
+	{% set movenumber = loop.index0 %}
+	{% set id = 'instructions.' ~ groupnumber ~ '.' ~ movenumber %}
 
 	{#<!-- INSERT INSTRUCTION IN LIST -->#}
-	<div class="insert-block">
+	<div class="insert-block addInstruction">
 		<div class="add-instruction">
 			<a href="javascript:void(0);" class="add" onclick="showAddInstruction(this.parentNode);">Insert New Instruction Here</a> 
 			<div class="hidden">
-				<button class="add-instruction" onclick="edit_insert('instructions.{{ groupnumber }}.{{ movenumber - 1 }}', 'transfer')">Transfer</button>
-				<button class="add-instruction" onclick="edit_insert('instructions.{{ groupnumber }}.{{ movenumber - 1 }}', 'distribute')">Distribute</button>
-				<button class="add-instruction" onclick="edit_insert('instructions.{{ groupnumber }}.{{ movenumber - 1 }}', 'consolidate')">Consolidate</button>
-				<button class="add-instruction" onclick="edit_insert('instructions.{{ groupnumber }}.{{ movenumber - 1 }}', 'mix')">Mix</button>
+				<button class="add-instruction" onclick="edit_insert('instructions.{{ groupnumber }}.{{ movenumber }}', 'transfer')">Transfer</button>
+				<button class="add-instruction" onclick="edit_insert('instructions.{{ groupnumber }}.{{ movenumber }}', 'distribute')">Distribute</button>
+				<button class="add-instruction" onclick="edit_insert('instructions.{{ groupnumber }}.{{ movenumber }}', 'consolidate')">Consolidate</button>
+				<button class="add-instruction" onclick="edit_insert('instructions.{{ groupnumber }}.{{ movenumber }}', 'mix')">Mix</button>
 				<button class="add-instruction cancel" onclick="showAddInstruction(this.parentNode.parentNode);">Cancel</button>
 			</div>
 		</div>
 	</div>
 
-	<div id="instructions.{{ groupnumber }}.{{ movenumber - 1 }}" class="action-block {% if movenumber == 1 and groupnumber == 0 %}view{% endif %} modifyBlock">
+	<div id="instructions.{{ groupnumber }}.{{ movenumber }}" class="action-block {#{% if movenumber == 0 and groupnumber == 0 %}view{% endif %}#} modifyBlock">
 
 		{% for movetype in tip %}
 		{# <!-- Realistically, there will only ever be one attribute here --> #}
 		<div class="action-header" onclick="toggleInstruction(this.parentNode);">
-			<span class="action-number">{{ movenumber }}</span>
+			<span class="action-number">{{ movenumber + 1}}</span>
 			<span class="action-tool">{{ group.tool }}</span>
 			<img class="action-icon" src="/static/images/{{ movetype }}.png" />
 			<span class="action-title">{{ movetype }}</span>
@@ -41,29 +46,33 @@
 		{% if tip.transfer is defined %}
 
 		{% for move in tip.transfer %}
-		<div class="action-attributes from">
-			<img src="/static/images/from.png" class="label" />
-			{% for key in move.from %}
-			{{ kv.pair(key=key, value=move.from[key] )}}
-			{% endfor %}
-		</div>
+		<div id="instructions.{{ groupnumber }}.{{ movenumber }}.{{ loop.index0 }}" class="motion">
+			<div class="action-attributes from">
+				<img src="/static/images/from.png" class="label" />
+				{% for key in move.from %}
+				{{ kv.pair(key=key, value=move.from[key] )}}
+				{% endfor %}
+			</div>
 
-		<div class="action-attributes to">
-			<img src="/static/images/to.png" class="label" />
-			{% for key in move.to %}
-			{{ kv.pair(key=key, value=move.to[key] )}}
-			{% endfor %}
-		</div>
+			<div class="action-attributes to">
+				<img src="/static/images/to.png" class="label" />
+				{% for key in move.to %}
+				{{ kv.pair(key=key, value=move.to[key] )}}
+				{% endfor %}
+			</div>
 
-		<div class="action-attributes attr">
-			<img src="/static/images/attributes.png" class="label" />
-			{% for attribute in move %}
-			{% if (attribute != 'from') and (attribute != 'to') %}
-			{{ kv.pair(key=attribute, value=move[attribute] )}}
-			{% endif %}
-			{% endfor %}
+			<div class="action-attributes attr">
+				<img src="/static/images/attributes.png" class="label" />
+				{% for attribute in move %}
+				{% if (attribute != 'from') and (attribute != 'to') %}
+				{{ kv.pair(key=attribute, value=move[attribute] )}}
+				{% endif %}
+				{% endfor %}
+			</div>
+			{{ d.draw('right') }}
 		</div>
 		{% endfor %}
+		{{ new_motion('transfer', id) }}
 
 
 		{% elif tip.distribute is defined %}
@@ -77,10 +86,12 @@
 		<div class="action-attributes to">
 			<img src="/static/images/to.png" class="label" />
 			{% for location in tip.distribute.to %}
-			<div class="action">
+			<div id="instructions.{{ groupnumber }}.{{ movenumber }}.{{ loop.index0 }}" class="action">
 				{% for key in location %}
 				{{ kv.pair(key=key, value=location[key] )}}
 				{% endfor %}
+
+				{{ d.draw('left') }}
 			</div>
 			{% endfor %}
 		</div>
@@ -93,16 +104,19 @@
 			{% endif %}
 			{% endfor %}
 		</div>
+		{{ new_motion('distribute', id) }}
 		
 
 		{% elif tip.consolidate is defined %}
 		<div class="action-attributes from">
 			<img src="/static/images/from.png" class="label" />
 			{% for location in tip.consolidate.from %}
-			<div class="action">
+			<div id="instructions.{{ groupnumber }}.{{ movenumber }}.{{ loop.index0 }}" class="action">
 				{% for key in location %}
 				{{ kv.pair(key=key, value=location[key] )}}
 				{% endfor %}
+
+				{{ d.draw('left') }}
 			</div>
 			{% endfor %}
 		</div>
@@ -122,16 +136,20 @@
 			{% endif %}
 			{% endfor %}
 		</div>
+		{{ new_motion('consolidate', id) }}
 		
 
 		{% elif tip.mix is defined %}
 		{% for mix in tip.mix %}
-		<div class="action-attributes">
+		<div id="instructions.{{ groupnumber }}.{{ movenumber }}.{{ loop.index0 }}" class="action-attributes">
 			{% for attribute in mix%}
 			{{ kv.pair(key=attribute, value=mix[attribute]) }}
 			{% endfor %}
+
+			{{ d.draw('left') }}
 		</div>
 		{% endfor %}
+		{{ new_motion('mix', id) }}
 
 		{% endif %}
 
@@ -141,14 +159,14 @@
 	{% endfor %}
 
 	{#<!-- ADD INSTRUCTION TO END OF LIST -->#}
-	<div class="insert-block">
+	<div class="insert-block addInstruction">
 		<div class="add-instruction">
 			<a href="javascript:void(0);" class="add" onclick="showAddInstruction(this.parentNode);">Add New Instruction to End</a> 
 			<div class="hidden">
-				<button class="add-instruction" onclick="edit_add_instruction('instructions.{{ loop.index0 }}', 'transfer')">Transfer</button>
-				<button class="add-instruction" onclick="edit_add_instruction('instructions.{{ loop.index0 }}', 'distribute')">Distribute</button>
-				<button class="add-instruction" onclick="edit_add_instruction('instructions.{{ loop.index0 }}', 'consolidate')">Consolidate</button>
-				<button class="add-instruction" onclick="edit_add_instruction('instructions.{{ loop.index0 }}', 'mix')">Mix</button>
+				<button class="add-instruction" onclick="edit_add_instruction('instructions.{{ groupnumber }}', 'transfer')">Transfer</button>
+				<button class="add-instruction" onclick="edit_add_instruction('instructions.{{ groupnumber }}', 'distribute')">Distribute</button>
+				<button class="add-instruction" onclick="edit_add_instruction('instructions.{{ groupnumber }}', 'consolidate')">Consolidate</button>
+				<button class="add-instruction" onclick="edit_add_instruction('instructions.{{ groupnumber }}', 'mix')">Mix</button>
 				<button class="add-instruction cancel" onclick="showAddInstruction(this.parentNode.parentNode);">Cancel</button>
 			</div>
 		</div>
@@ -157,4 +175,23 @@
 </div>
 {% endfor %}
 
+{% endmacro %}
+
+
+{% macro new_motion(type, id) %}
+<div class="insert-block addMotion">
+	<div class="add-instruction">
+		<a href="javascript:void(0);" class="add" onclick="showAddInstruction(this.parentNode);">
+			{% if type == 'transfer' %}Add new Transfer with same Tip
+			{% elif type == 'distribute' %}Add new 'TO' location
+			{% elif type == 'consolidate' %}Add new 'FROM' location
+			{% elif type == 'mix' %}Add new Mix with same Tip
+			{% endif %}
+		</a> 
+		<div class="hidden">
+			<button class="add-instruction" onclick="edit_add('{{ id }}')">Add</button>
+			<button class="add-instruction cancel" onclick="showAddInstruction(this.parentNode.parentNode);">Cancel</button>
+		</div>
+	</div>
+</div>
 {% endmacro %}

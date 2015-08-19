@@ -76,7 +76,7 @@ function showInstruction(clicked) {
 	}
 }
 
-function showInserts(clicked) {
+function showInserts(clicked, insertType) {
 	/*
 	Shows the "Insert New Instruction" buttons on click. For use in the 
 	instructions navbar.
@@ -89,10 +89,12 @@ function showInserts(clicked) {
 
 	var inserts = document.getElementsByClassName('insert-block');
 	for(var i=0; i<inserts.length; i++) {
-		if(inserts[i].classList.contains('view')) {
-			inserts[i].classList.remove('view');
-		} else {
-			inserts[i].classList.add('view');
+		if(inserts[i].classList.contains(insertType)) {
+			if(inserts[i].classList.contains('view')) {
+				inserts[i].classList.remove('view');
+			} else {
+				inserts[i].classList.add('view');
+			}
 		}
 	}
 }
@@ -100,7 +102,7 @@ function showInserts(clicked) {
 function showAddInstruction(buttonDiv) {
 	/*
 	Expands the "Insert New Instructions" button to the set of five
-	buttons: one for each type of instruction (transfer, distribure,
+	buttons: one for each type of instruction (transfer, distribute,
 	consolidate, mix), and one for Cancel.
 
 	On cancel click, hides the grouping.
@@ -189,11 +191,12 @@ $(window).scroll(function(e){
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 
-/* 
+/*
 Functions to preserve the expanded structure of the instructions
 upon an edit action that will overwrite the entire section.
 
 NON-FUNCTIONAL CURRENTLY 
+*/
 
 function getExpandStructure() {
 	var instructions = document.getElementsByClassName('action-block-nav');
@@ -210,13 +213,19 @@ function getExpandStructure() {
 	return expands;
 }
 
-function applyExpandStructure(structure) {
+function applyExpandStructure(structure, newID) {
 	var instructions = document.getElementsByClassName('action-block-nav');
+	console.log(structure);
+
 	for(var i=0; i<instructions.length; i++) {
+		// if(i == newID) {
+		// 	i++;
+		// }
 		if(structure[i]) {
-			view(instructions[i]);
+			console.log("toggle: " + i);
+			console.log(instructions[i].id);
+			toggleInstruction(instructions[i]);
 		}
 	}
 }
-*/
 

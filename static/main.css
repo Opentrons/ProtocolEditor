@@ -100,6 +100,7 @@ input[type="file"] {
   position: relative;
   background: #FFFFFF;
   color: #222222;
+  cursor: pointer;
   /*	NO TRANSITIONS CURRENTLY USED	
   	transition: $time;
   	-webkit-transition: $time;
@@ -313,12 +314,12 @@ section#InstructionsDisplay {
 section#InstructionsToggle {
   width: 200px;
   height: auto;
-  max-height: calc(100vh - 170px);
+  max-height: calc(100vh - 205px);
   overflow-y: scroll; }
 
 section#InstructionsActions {
   width: 200px;
-  height: 95px; }
+  height: 130px; }
 
 div#InstructionsLeft {
   width: 200px;
@@ -409,12 +410,12 @@ div.action-block {
   width: 100%;
   height: 2rem;
   overflow: hidden;
-  padding: 5px 0;
+  padding: 5px 0 0 0;
   margin: 2.5px 0;
   text-align: center; }
   div.action-block.view {
     height: auto !important;
-    /* just for now */ }
+    min-height: 70px; }
     div.action-block.view:hover {
       background: #F8F8F8;
       color: #222222; }
@@ -508,6 +509,13 @@ div.action-attributes {
   position: relative;
   vertical-align: top;
   text-align: left; }
+
+div.motion {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  position: relative;
+  padding: 0 10px; }
 
 a.item-select {
   border-radius: 5px;
