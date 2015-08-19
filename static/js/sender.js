@@ -88,20 +88,12 @@ function edit_delete(id) {
 		changes['ef'] = 'delete_motion';
 	}
 
-//	if(section == 'instructions') {
-//		var instr_expand = getExpandStructure();
-//	}
-
 	var out = {}
 	out['changes'] = JSON.stringify(changes); // this is how we're doing it, every time
 
 	$.getJSON('/edit', out, function(data) { // must re-render entire section because the indeces have changed
 		document.getElementById(section).innerHTML = data.html; // reset html
 	});
-
-//	if(section == 'instructions') {
-//		applyExpandStructure(instr_expand);
-//	}
 }
 
 function edit_add(id) {
@@ -121,11 +113,16 @@ function edit_add(id) {
 		"data": {}
 	};
 
+	$('body').click(); // simulate a click to save all of the edits that may be in process
+
 	if(section == 'ingredients' && id_parts.length == 2) { 
 		// if it's an ingredient and the ID is of form 'ingredients.0' then it is a location (add to ingredients.0)
 		changes['ef'] = 'add_loc';
 	} else if(section == 'head' && id_parts.length == 2) {
-		changes['ef'] = 'add_tiprack'
+		changes['ef'] = 'add_tiprack';
+	} else if(section == 'instructions' && id_parts.length == 3) { // instructions of form 'instructions.0.1' (add motion)
+		changes['ef'] = 'add_motion';
+		var instr_expand = getExpandStructure();
 	}
 
 	var out = {};
@@ -133,6 +130,10 @@ function edit_add(id) {
 
 	$.getJSON('/edit', out, function(data) { // return HTML for new container
 		document.getElementById(section).innerHTML = data.html; // reset html
+	
+		if(section == 'instructions') { // reset expand structure
+			applyExpandStructure(instr_expand, id_parts[2]);
+		}
 	});
 }
 
@@ -151,12 +152,14 @@ function edit_add_instruction(id, moveType) {
 	};
 
 	var section = id.split('.')[0];
+	var instr_expand = getExpandStructure(); // get instructions expand structure to apply later
 
 	var out = {};
 	out['changes'] = JSON.stringify(changes);
 
 	$.getJSON('/edit', out, function(data) { // return HTML for new container
 		document.getElementById(section).innerHTML = data.html; // reset html
+		applyExpandStructure(instr_expand, id.split('.')[2]); // apply same expand structure to new instructions
 	});
 }
 
@@ -168,12 +171,14 @@ function edit_insert(id, moveType) {
 	};
 
 	var section = id.split('.')[0];
+	var instr_expand = getExpandStructure(); // get instructions expand structure to apply later
 
 	var out = {};
 	out['changes'] = JSON.stringify(changes);
 
 	$.getJSON('/edit', out, function(data) { // return HTML for new container
 		document.getElementById(section).innerHTML = data.html; // reset html
+		applyExpandStructure(instr_expand, id.split('.')[2]); // apply same expand structure to new instructions
 	});
 }
 

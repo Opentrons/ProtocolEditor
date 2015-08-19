@@ -7,14 +7,14 @@ section#InstructionsDisplay {
 section#InstructionsToggle {
 	width: 200px;
 	height: auto;
-	max-height: calc(100vh - 170px);
+	max-height: calc(100vh - 205px);
 
 	overflow-y: scroll;
 }
 
 section#InstructionsActions {
 	width: 200px;
-	height: 95px;
+	height: 130px;
 }
 
 div#InstructionsLeft {
@@ -110,7 +110,8 @@ div.action-block {
 	text-align: center;
 
 	&.view {
-		height: auto !important; /* just for now */
+		height: auto !important;
+		min-height: 70px;
 
 		&:hover {
 			background: $gray;

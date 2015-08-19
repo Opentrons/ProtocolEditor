@@ -100,6 +100,7 @@ input[type="file"] {
   position: relative;
   background: #FFFFFF;
   color: #222222;
+  cursor: pointer;
   /*	NO TRANSITIONS CURRENTLY USED	
   	transition: $time;
   	-webkit-transition: $time;
@@ -313,12 +314,12 @@ section#InstructionsDisplay {
 section#InstructionsToggle {
   width: 200px;
   height: auto;
-  max-height: calc(100vh - 170px);
+  max-height: calc(100vh - 205px);
   overflow-y: scroll; }
 
 section#InstructionsActions {
   width: 200px;
-  height: 95px; }
+  height: 130px; }
 
 div#InstructionsLeft {
   width: 200px;
@@ -414,7 +415,7 @@ div.action-block {
   text-align: center; }
   div.action-block.view {
     height: auto !important;
-    /* just for now */ }
+    min-height: 70px; }
     div.action-block.view:hover {
       background: #F8F8F8;
       color: #222222; }

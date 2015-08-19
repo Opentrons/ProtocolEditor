@@ -58,6 +58,7 @@ function getBlock(block) {
 			out[name] = [];
 
 			var actions = getChildByClassName(block, 'motion');
+			console.log('actions length: ' + String(actions.length));
 
 			for(var i=0; i<actions.length; i++) {
 				var curMove = {};
@@ -83,7 +84,7 @@ function getBlock(block) {
 							var pair = getKeyValue(attributes[k]);
 							curMove[pair['key']] = pair['value'];
 						}
-						console.log('other');
+//						console.log('other');
 					}
 				}
 				out[name].push(curMove);
@@ -93,7 +94,7 @@ function getBlock(block) {
 			out[name] = {};
 
 			var motions = getChildByClassName(block, 'action-attributes');
-			console.log(motions.length);
+//			console.log(motions.length);
 
 			for(var i=0; i<motions.length; i++) {
 				console.log(motions[i]);
@@ -122,8 +123,8 @@ function getBlock(block) {
 					}
 
 				} else { // add other attributes
-					console.log('other');
-					console.log(attributes.length);
+//					console.log('other');
+//					console.log(attributes.length);
 					for(var j=0; j<attributes.length; j++) {
 						var pair = getKeyValue(attributes[j]);
 						out[name][pair['key']] = pair['value'];
@@ -172,7 +173,7 @@ function getBlock(block) {
 				}
 			}
 
-		} else {
+		} else { // it's a mix
 			out[name] = [];
 
 			var motions = getChildByClassName(block, 'action-attributes');
