@@ -90,7 +90,7 @@ def make_edit():
 	m = cache.get('master') # retrieve the protocol object from the cache
 
 	changes = request.args.get('changes') # read the changes variable from the postback
-	changes = json.loads(changes) # parse changes variable to JSON
+	changes = json.loads(changes, object_pairs_hook=OrderedDict) # parse changes variable to JSON
 	print "changes: %s" % changes
 
 	protocol_response = m.process_edit_msg(changes) # send the changes back to the protocol module for processing
