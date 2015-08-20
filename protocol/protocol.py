@@ -147,13 +147,7 @@ class Protocol():
                 retVal = self.ingredients.modify_by_block(idx1, data)
                 
         elif section == 'instructions':
-            if ef == 'copy':
-                pass
-            elif ef == 'paste':
-                pass
-            # elif ef == 'modify':
-            #     pass
-            elif ef == 'insert_transfer':
+            if ef == 'insert_transfer':
                 idx1 = int(id_parts[1])
                 idx2 = int(id_parts[2])
                 retVal = self.instructions.insert_transfer(idx1, idx2)
@@ -202,7 +196,7 @@ class Protocol():
                 idx1 = int(id_parts[1])
                 idx2 = int(id_parts[2])
                 #save instruction at indices idx1 and idx2
-                self.clipboard = self.instructions[idx1]['groups'][idx2]
+                self.clipboard = self.instructions.instructions_section[idx1]['groups'][idx2]
                 retVal = None
             elif ef == 'paste':
                 idx1 = int(id_parts[1])

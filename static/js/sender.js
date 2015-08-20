@@ -176,16 +176,39 @@ function edit_insert(id, moveType) {
 	var out = {};
 	out['changes'] = JSON.stringify(changes);
 
-	$.getJSON('/edit', out, function(data) { // return HTML for new container
+	$.getJSON('/edit', out, function(data) {
 		document.getElementById(section).innerHTML = data.html; // reset html
 		applyExpandStructure(instr_expand, id.split('.')[2]); // apply same expand structure to new instructions
 	});
 }
 
-function edit_copy() {
+function edit_copy(id) {
+	var changes = {
+		"ef": "copy",
+		"id": id,
+		"data": {}
+	};
 
+	var out = {};
+	out['changes'] = JSON.stringify(changes);
+
+	$.getJSON('/edit', out, function(data) { });
 }
 
-function edit_paste() {
+function edit_paste(id, number) {
+	var changes = {
+		"ef": "paste",
+		"id": id,
+		"data": {
+			"ntimes": number
+		}
+	};
 
+	var section = id.split('.')[0];
+	var out = {};
+	out['changes'] = JSON.stringify(changes);
+
+	$.getJSON('/edit', out, function(data) { 
+		document.getElementById(section).innerHTML = data.html; // reset html
+	});	
 }

@@ -57,6 +57,26 @@ function toggleInstruction(clicked) {
 	}
 }
 
+function toggleGroup(buttonDiv) {
+	/*
+	Expands the "Insert New Instructions" button to the set of five
+	buttons: one for each type of instruction (transfer, distribute,
+	consolidate, mix), and one for Cancel.
+
+	On cancel click, hides the grouping.
+	*/
+	var hideLink = buttonDiv.children[0];
+	var buttonGroup = buttonDiv.children[1];
+
+	if(hideLink.classList.contains('hidden')) {
+		hideLink.classList.remove('hidden');
+		buttonGroup.classList.add('hidden');
+	} else {
+		hideLink.classList.add('hidden');
+		buttonGroup.classList.remove('hidden');
+	}
+}
+
 function showInstruction(clicked) {
 	/*
 	Instead of toggling view, always expands the instructions, even if it
@@ -99,23 +119,44 @@ function showInserts(clicked, insertType) {
 	}
 }
 
-function showAddInstruction(buttonDiv) {
+function showCopy(copyDiv) {
 	/*
-	Expands the "Insert New Instructions" button to the set of five
-	buttons: one for each type of instruction (transfer, distribute,
-	consolidate, mix), and one for Cancel.
+	Expands the 'PASTE INSTRUCTION HERE' blocks and shows the CANCEL COPY blocks.
+	Has toggles in place so that only one copy block will be shown at once, also so
+	that the paste blocks show at the proper times.
 
-	On cancel click, hides the grouping.
+	Gets a little hairy...
 	*/
-	var hideLink = buttonDiv.children[0];
-	var buttonGroup = buttonDiv.children[1];
+	var copies = document.getElementsByClassName('copy-button');
+	var expandPastes = true;
+	for(var i=0; i<copies.length; i++) { // check to see if user is already trying to copy from somewhere else 
+		if(copies[i].classList.contains('confirm')) { // they are
+			if(copies[i] != copyDiv) { // if user isn't clicking on the cancel button
+				expandPastes = false; // don't re-expand paste blocks, they're already in view
+				copies[i].classList.remove('confirm');
+				toggleGroup(copies[i]); // unshow previous copy
+			}
+		}
+	}
 
-	if(hideLink.classList.contains('hidden')) {
-		hideLink.classList.remove('hidden');
-		buttonGroup.classList.add('hidden');
+	if(expandPastes) { // if pastes aren't already expanded, time to expand them
+		var pastes = document.getElementsByClassName('paste-location');
+		
+		for(var i=0; i<pastes.length; i++) { // unhide paste blocks
+			if(pastes[i].classList.contains('hidden')) {
+				pastes[i].classList.remove('hidden');
+			} else {
+				pastes[i].classList.add('hidden');
+			}
+		}
+	}
+
+	// show current copy confirm block
+	toggleGroup(copyDiv); 
+	if(!copyDiv.classList.contains('confirm')) {
+		copyDiv.classList.add('confirm');
 	} else {
-		hideLink.classList.add('hidden');
-		buttonGroup.classList.remove('hidden');
+		copyDiv.classList.remove('confirm');
 	}
 }
 
@@ -187,6 +228,20 @@ $(window).scroll(function(e){
 	}
 });
 
+// window.onbeforeunload = function(e) { // attempt to stop accidental navigation away from page
+// 	if(!e) {
+// 		e = window.event;
+// 	}
+
+// 	e.cancelBubble = true; //e.cancelBubble is supported by IE - this will kill the bubbling process
+// 	if(e.stopPropagation) { //e.stopPropagation works in Firefox
+// 		e.stopPropagation();
+// 		e.preventDefault();
+// 	}
+
+// 	e.returnValue = 'Any unsaved changes will be lost when leaving this page.'; //This is displayed on the dialog
+// };
+
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 ////////////////////////////////////////////
@@ -195,7 +250,7 @@ $(window).scroll(function(e){
 Functions to preserve the expanded structure of the instructions
 upon an edit action that will overwrite the entire section.
 
-NON-FUNCTIONAL CURRENTLY 
+NOT ENTIRELY FUNCTIONAL CURRENTLY 
 */
 
 function getExpandStructure() {
