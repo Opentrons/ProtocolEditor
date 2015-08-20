@@ -149,7 +149,7 @@
 	{% endfor %}
 
 	{#<!-- 	{{ paste(id) }} --> THIS DOESN'T WORK CURRENLTY -- ONLY PASTING IN FRONT OF INSTRUCTIONS WORKS #}
-	{% set id = 'instructions.' ~ groupnumber %}
+	{% set id = 'instructions.' ~ groupnumber ~ '.' ~ group.groups|length %}
 	{{ add_instruction('Add New Instruction to End', id) }}
 
 	{% set id = 'instructions.' ~ groupnumber ~ '.' ~ group.groups|length %}
@@ -187,10 +187,10 @@
 	<div class="add-instruction">
 		<a href="javascript:void(0);" class="add" onclick="toggleGroup(this.parentNode);">{{ title }}</a> 
 		<div class="hidden">
-			<button class="add-instruction" onclick="edit_insert(id, 'transfer')">Transfer</button>
-			<button class="add-instruction" onclick="edit_insert(id, 'distribute')">Distribute</button>
-			<button class="add-instruction" onclick="edit_insert(id, 'consolidate')">Consolidate</button>
-			<button class="add-instruction" onclick="edit_insert(id, 'mix')">Mix</button>
+			<button class="add-instruction" onclick="edit_insert('{{ id }}', 'transfer')">Transfer</button>
+			<button class="add-instruction" onclick="edit_insert('{{ id }}', 'distribute')">Distribute</button>
+			<button class="add-instruction" onclick="edit_insert('{{ id }}', 'consolidate')">Consolidate</button>
+			<button class="add-instruction" onclick="edit_insert('{{ id }}', 'mix')">Mix</button>
 			<button class="add-instruction cancel" onclick="toggleGroup(this.parentNode.parentNode);">Cancel</button>
 		</div>
 	</div>

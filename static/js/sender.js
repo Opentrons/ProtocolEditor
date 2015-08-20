@@ -137,7 +137,7 @@ function edit_add(id) {
 	});
 }
 
-function edit_add_instruction(id, moveType) {
+function edit_add_instruction(id, moveType) { /* NOT USED CURRENTLY */
 	/*
 	CORE EDITING FUNCTIONS: Modify Delete Copy Paste [Add] Insert
 	
