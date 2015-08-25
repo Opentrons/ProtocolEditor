@@ -22,7 +22,7 @@
   </head>
     
   <body>
-
+    
     <!-- EDIT IN PLACE SCRIPTS -->
     <script type="text/javascript" src="/static/js/sugar.js"></script>
     <script type="text/javascript" src="/static/js/modals/in-place.js"></script> 
@@ -37,14 +37,14 @@
 
     <section id="Input">
       <form method="post" action="/process" enctype="multipart/form-data" class="left">
-        <button type="submit">Process</button>
+        <button onclick="toggleDispMsg()" type="submit">Process</button>
         <input type="file" name="protocol" accept=".json" />
       </form>
 
       <form action="/save" method="post" class="right">
         <input class="filename" type="text" name="filename" value='{{ filename }}' onclick="this.select();" />
         <span class="filename">. json</span>
-        <button type="submit" {% if filename == '[empty]' %}disabled{% endif %}>Save</button>
+        <button onclick="toggleDispMsg()" type="submit" {% if filename == '[empty]' %}disabled{% endif %}>Save</button>
       </form>
     </section>
 
