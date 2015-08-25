@@ -9,9 +9,11 @@
 </header>
 
 {% for tool in section %}
-{% set toolnumber = loop.index0 %}
-<div id="head.{{ toolnumber }}" class="content">
 
+{% set toolnumber = loop.index0 %}
+{# <div id="head.{{ toolnumber }}" class="content"> #} {# modified rbw #}
+<div id="head.{{ toolnumber }}" class="grouping modifyBlock">
+  
   <div class="pipette">
     <span class="pipette-name">{{ tool }}{#{{ kv.single(value=tool) }}#}</span>
     <img src="/static/images/pipette.png" class="pipette" />

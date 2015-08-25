@@ -73,12 +73,13 @@ class Head():
 		
 		"""
 		try:
+			print '\n\nhead delete_tiprack\n\n'
 			key = self.head_section.keys()[idx1]		#get the pipette key from the index
 			if self.head_section.has_key(key):
 				del self.head_section[key]['tip-racks'][idx2]
 		except Exception as e:
 			msg = e.strerror
-			# print 'errmsg=',msg
+			print '\n\nhead delete_tiprack errmsg=',msg, '\n\n'
 		finally:
 			# return {'head' : {key:msg}}	# section temporarily commented pending error response requirement
 			return self.render_as_json()
@@ -92,13 +93,14 @@ class Head():
 		
 		"""
 		try:
+			print '\n\nhead delete_by_index\n\n'
 			key = self.head_section.keys()[idx]		#get the key from the index
 			if self.head_section.has_key(key):
 				del self.head_section[key]
 			msg = 'OK'
 		except Exception as e:
 			msg = e.strerror
-			# print 'errmsg=',msg
+			print '\n\nhead delete_by_index errmsg=',msg, '\n\n'
 		finally:
 			# return {'head' : {key:msg}}	# section temporarily commented pending error response requirement
 			return self.render_as_json()
@@ -108,15 +110,15 @@ class Head():
 		
 		"""
 		try:
+			print '\n\nhead add_tiprack\n\n'
 			tr = {"container" : "p200-rack"}	#default tip-rack
-			
 			key = self.head_section.keys()[idx]		#get the key from the index
 			if self.head_section.has_key(key):
 				self.head_section[key]["tip-racks"].append(tr)
 				
 		except Exception as e:
 			msg = e.strerror
-			# print 'errmsg=',msg
+			print '\n\nhead add_tiprack errmsg=',msg, '\n\n'
 		finally:
 			# return {'head' : {key:msg}}	# section temporarily commented pending error response requirement
 			return self.render_as_json()
@@ -150,6 +152,7 @@ class Head():
 		
 		"""
 		try:
+			print '\n\nhead add\n\n'
 			name = "tool_name"
 			t = ("tool", "pipette")
 			tr = ("tip-racks",[{"container" : "tiprack_name"}])
@@ -173,6 +176,7 @@ class Head():
 			msg = 'OK'
 		except Exception as e:
 			msg = e.strerror
+			print '\n\nhead add errmsg=',msg, '\n\n'
 		finally:
 			# return {'head' : {key:msg}}	#need error requirments
 			return self.render_as_json()
@@ -185,6 +189,7 @@ class Head():
 		
 		"""
 		try:
+			print '\n\nhead modify_by_index_index_key\n\n'
 			key1 = self.head_section.keys()[idx1]
 			key2 = new_head_dict.keys()[0]
 			#print "\n\nidx1=",idx1, "  idx2=",idx2, "  key1=",key1,"  key2=", key2
@@ -192,6 +197,7 @@ class Head():
 			msg = 'OK'
 		except Exception as e:
 			msg = e.strerror
+			print '\n\nhead modify_by_index_index_key errmsg=',msg, '\n\n'
 		finally:
 			# return {'head' : {key:msg}}	# section temporarily commented pending error response requirement
 			pass
@@ -206,7 +212,10 @@ class Head():
 		
 		"""
 		try:
+			print '\n\nhead modify_by_block\n\n'
+			print 'data is:\n\n', data
 			name = data.keys()[0]		#get the tool name in the data block
+			print 'name is: ', name
 			if self.head_section.has_key(name):
 				self.head_section[name] = data[name]		#name didn't change, so use it
 			else:
@@ -216,7 +225,7 @@ class Head():
 			msg = 'OK'
 		except Exception as e:
 			msg = e.strerror
-			# print 'errmsg=',msg
+			print '\n\nhead modify_by_block errmsg=',msg, '\n\n'
 		finally:
 			# return {'ingredients' : {key:msg}}	# section temporarily commented pending error response requirement
 			return self.render_as_json()

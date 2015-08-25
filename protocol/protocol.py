@@ -63,45 +63,38 @@ class Protocol():
         4.  edit_data_dict is a dict of editing data ex: { 'plate-1":{"labware":"96-flat", "slot":"C1"}}
         
         """
-        id_parts = msg_dict["id"].split(".")
-        ef = msg_dict["ef"]
-        data = OrderedDict(msg_dict["data"])
-
-        section = id_parts[0]     #get the leading section of the id
-
-        retVal = None # set to None so it won't raise an error if unassigned
-
         try:
-            idx1 = int(id_parts[1])
-        except Exception, e:
-            print e
+            id_parts = msg_dict["id"].split(".")
+            ef = msg_dict["ef"]
+            data = OrderedDict(msg_dict["data"])
+            section = id_parts[0]     #get the leading section of the id
+            retVal = None # set to None so it won't raise an error if unassigned
+        except Exception as e:
+            print 'error in protocol-1:', e
+               
+        # try:
+        #     idx1 = int(id_parts[1])
+        # except Exception, e:
+        #     print 'error in protocol-2:', e
+        #     print 'msg_dict["id"]:', msg_dict["id"]
 
         if section == 'info':
             if ef == 'modify':
-                self.info.modify_by_key(data)      #get the index
-        
-        
-        # # print 'section=',section, '  idx1=',idx1, '  ef=', ef
-        # 
-        # if section == 'info':
-        #     if ef == 'modify':
-        #         idx1 = int(id_parts[1])
-        #         self.info.modify_by_key(idx1)      #get the index
-                #nothing to return
+                self.info.modify_by_key(data)
                 
         elif section == 'deck':
             if  ef == 'delete':
                 idx1 = int(id_parts[1])
                 retVal = self.deck.delete_by_index(idx1)
             elif ef == 'add':
-                print 'add deck'
+                # print 'add deck'
                 # retVal = self.deck.add(data)
                 retVal = self.deck.add()
             elif ef == 'modify':
                 idx1 = int(id_parts[1])
                 self.deck.modify_by_index(idx1,data)
                 retVal = None   #nothing to return
-            
+                
         elif section == 'head':
             #id has form "head.0.1.volume" for 1st pipette, 
             if ef == 'delete':
