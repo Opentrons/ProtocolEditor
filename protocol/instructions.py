@@ -537,9 +537,67 @@ class Instructions():
             # return {'instructions' : {key:msg}}	# section temporarily commented pending error response requirement
             return self.render_as_json()
     
+    def delete_tool(self, idx1):
+        """function to delete the tool at tool index idx1
         
+        """
+        try:
+            self.instructions_section.pop(idx1)        
+        except Exception as e:
+            msg = e.strerror
+            #print 'errmsg=',msg
+        finally:
+            # return {'instructions' : {key:msg}}	# section temporarily commented pending error response requirement
+            return self.render_as_json()
         
+    def insert_tool(self, idx1):
+        """insert a tool object to the ordered instructions dict at Level 1
         
+        1. idx2 gives the insertion point in the tool list, with new tool inserted before idx2
+        2. new tool dict contains a single transfer
+        3.  new_tool_dict is of the form (for a transfer):
+            {
+                "tool" : "tool name",
+                "groups" : [
+                    {
+                      "transfer": [
+                        {
+                          "from": {
+                            "container": "trough",
+                            "location": "A1",
+                            "tip-offset": -2,
+                            "delay" : 2000,
+                            "touch-tip" : true
+                          },
+                          "to": {
+                            "container": "plate-1",
+                            "location": "A1",
+                            "touch-tip" : true
+                          },
+                          "volume": 100,
+                          "blowout" : true,
+                          "extra-pull" : true
+                        }
+                      ]
+                    }
+                ]
+            }
+        3.  the dict for the revised instructions_section is returned
+        """
+        try:
+            group_obj = self.get_default_move('transfer')
+            tool_obj = OrderedDict()
+            tool_obj['tool'] = 'tool name'
+            tool_obj['groups'] = [group_obj]
+            
+            #insert into instructions section and return rendered section
+            self.instructions_section.insert(idx1, tool_obj)
+        except Exception as e:
+            msg = e.strerror
+            #print 'errmsg=',msg
+        finally:
+            # return {'instructions' : {key:msg}}	# section temporarily commented pending error response requirement
+            return self.render_as_json()
         
         
         
