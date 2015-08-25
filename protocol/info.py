@@ -60,12 +60,14 @@ class Info():
 		
 		"""
 		try:
+			print '\n\ninfo modify_by_key\n\n'
 			key = new_dict.keys()[0]
 			if self.info_section.has_key(key):
 				self.info_section[key] =  new_dict[key]
 			msg = 'OK'
 		except Exception as e:
 			msg = e.strerror
+			print '\n\ninfo modify_by_key errmsg=',msg, '\n\n'
 		finally:
 			# return {'info' : {key:msg}}	# section temporarily commented pending error response requirement
 			pass

@@ -66,13 +66,14 @@ class Ingredients():
 		
 		"""
 		try:
+			print '\n\ningredients delete_by_index\n\n'
 			key = self.ingredients_section.keys()[idx]		#get the key from the index
 			if self.ingredients_section.has_key(key):
 				del self.ingredients_section[key]
 			msg = 'OK'
 		except Exception as e:
 			msg = e.strerror
-			# print 'errmsg=',msg
+			print '\n\ningredients delete_by_index errmsg=',msg, '\n\n'
 		finally:
 			# return {'ingredients' : {key:msg}}	# section temporarily commented pending error response requirement
 			return self.render_as_json()
@@ -86,13 +87,14 @@ class Ingredients():
 		
 		"""
 		try:
+			print '\n\ningredients delete_by_index_index\n\n'
 			key = self.ingredients_section.keys()[idx1]		#get the key from the index
 			if self.ingredients_section.has_key(key):
 				del self.ingredients_section[key][idx2]		#delete the dict with index idx2 from the list
 			msg = 'OK'
 		except Exception as e:
 			msg = e.strerror
-			# print 'errmsg=',msg
+			print '\n\ningredients delete_by_index_index errmsg=',msg, '\n\n'
 		finally:
 			# return {'ingredients' : {key:msg}}	# section temporarily commented pending error response requirement
 			return self.render_as_json()
@@ -105,8 +107,11 @@ class Ingredients():
 		
 		"""
 		try:
-			
-			name = "ingredient_name"
+			print '\n\ningredients add\n\n'
+			n_ingr = len(self.ingredients_section.keys()) + 1
+			print 'number of ingredients: ', n_ingr
+			name = "ingredient_name" + str(n_ingr)
+			print self.ingredients_section.keys()
 			c = ("container","container_name")
 			l = ("location","A1")
 			v = ("volume",0)
@@ -114,8 +119,10 @@ class Ingredients():
 			self.ingredients_section[name] = new_ingredient_dict
 			#print self.ingredients_section
 			msg = 'OK'
+			print 'ingredient_add2'
 		except Exception as e:
 			msg = e.strerror
+			print '\n\ningredients add errmsg=',msg, '\n\n'
 		finally:
 			# return {'ingredients' : {key:msg}}	#need error requirments
 			return self.render_as_json()
@@ -130,6 +137,7 @@ class Ingredients():
 		
 		"""
 		try:
+			print '\n\ningredients add_by_index\n\n'
 			key1 = self.ingredients_section.keys()[idx1]	#get the key for idx1
 			#generate a default entry
 			c = ("container","container_name")
@@ -142,6 +150,7 @@ class Ingredients():
 			msg = 'OK'
 		except Exception as e:
 			msg = e.strerror
+			print '\n\ningredients add_by_index errmsg=',msg, '\n\n'
 		finally:
 			# return {'ingredients' : {key:msg}}	#need error requirments
 			return self.render_as_json()
@@ -154,6 +163,7 @@ class Ingredients():
 		
 		"""
 		try:
+			print '\n\ningredients modify_by_index\n\n'
 			key1 = self.ingredients_section.keys()[idx1]
 			key2 = new_ingredient_dict.keys()[0]
 			#print "\n\nidx1=",idx1, "  idx2=",idx2, "  key1=",key1,"  key2=", key2
@@ -161,6 +171,7 @@ class Ingredients():
 			msg = 'OK'
 		except Exception as e:
 			msg = e.strerror
+			print '\n\ningredients modify_by_index_index_key errmsg=',msg, '\n\n'
 		finally:
 			# return {'ingredients' : {key:msg}}	# section temporarily commented pending error response requirement
 			pass
@@ -174,13 +185,14 @@ class Ingredients():
 		4.  data is the json of the block that was modified in the gui
 		"""
 		try:
+			print '\n\ningredients modify_by_block\n\n'
 			self.delete_by_index(idx)	#delete the existing reagent
 			name = data.keys()[0]		#get the reagent name
 			self.ingredients_section[name] = data[name]
 			msg = 'OK'
 		except Exception as e:
 			msg = e.strerror
-			# print 'errmsg=',msg
+			print '\n\ningredients modify_by_block errmsg=',msg, '\n\n'
 		finally:
 			# return {'ingredients' : {key:msg}}	# section temporarily commented pending error response requirement
 			return self.render_as_json()

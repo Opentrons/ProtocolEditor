@@ -75,12 +75,14 @@ class Deck():
 		
 		"""
 		try:
+			print '\n\ndeck delete_by_index\n\n'
 			key = self.deck_section.keys()[idx]		#get the key from the index
 			if self.deck_section.has_key(key):
 				del self.deck_section[key]
 			msg = 'OK'
 		except Exception as e:
 			msg = e.strerror
+			print '\n\ndeck delete_by_index errmsg=',msg, '\n\n'
 		finally:
 			# return {'deck' : {key:msg}}	# section temporarily commented pending error response requirement
 			return self.render_as_json()
@@ -94,6 +96,7 @@ class Deck():
 		
 		"""
 		try:
+			print '\n\ndeck add\n\n'
 			# name = new_container_dict.keys()[0]
 			# attr = new_container_dict[name]
 			# new_container = Container(name, attr)
@@ -103,6 +106,7 @@ class Deck():
 			msg = 'OK'
 		except Exception as e:
 			msg = e.strerror
+			print '\n\ndeck add errmsg=',msg, '\n\n'
 		finally:
 			# return {'deck' : {key:msg}}
 			return self.render_as_json()
@@ -119,7 +123,7 @@ class Deck():
 		"""
 		try:
 			
-			
+			print '\n\ndeck modify_by_index\n\n'
 			old_key = self.deck_section.keys()[idx]		#get the old_key from the index
 			new_key = new_container_dict.keys()[0]	#get the new key from the new_container_dict
 			attr = new_container_dict[new_key]		#get the attributes from the new_container_dict
@@ -129,6 +133,7 @@ class Deck():
 			msg = 'OK'
 		except Exception as e:
 			msg = e.strerror
+			print '\n\ndeck modify_by_index errmsg=',msg, '\n\n'
 		finally:
 			# return {'deck' : {key:msg}}	# section temporarily commented pending error response requirement
 			pass
@@ -144,6 +149,7 @@ class Deck():
 		
 		"""
 		try:
+			print '\n\ndeck modify_by_index_key\n\n'
 			old_key = self.deck_section.keys()[idx]		#get the old_key from the index
 			new_key = new_container_dict.keys()[0]	#get the new key from the new_container_dict
 			attr = new_container_dict[new_key]		#get the attributes from the new_container_dict
@@ -153,6 +159,7 @@ class Deck():
 			msg = 'OK'
 		except Exception as e:
 			msg = e.strerror
+			print '\n\ndeck modify_by_index_key errmsg=',msg, '\n\n'
 		finally:
 			# return {'deck' : {key:msg}}	# section temporarily commented pending error response requirement
 			pass
