@@ -112,8 +112,10 @@ img.del {
 img.pipette { /* pipette image */
 	display: inline-block;
 
-	height: 200px;
+	width: calc(100% - 50px);
 	margin: 0 25px;
+
+	float: right;
 /*	margin: 25px auto;
 
 	right: 0;
@@ -144,8 +146,9 @@ div.mini-block {
 }
 
 span.pipette-name {
-	margin: 5px 0;
-	display: block;
+	margin: 25px 0 0 50px;
+	display: inline-block;
+	float: left;
 
 	font-size: 1.5rem;
 }
@@ -158,7 +161,6 @@ div.pipette {
 	text-align: center;
 
 	display: inline-block;
-	width: 110px;
 }
 
 div.attributes {

@@ -10,33 +10,6 @@ back to the server.
 ////////////////////////////////////////////
 ///////// FRONTEND EDIT FUNCTIONS //////////
 ////////////////////////////////////////////
-function stripAttributeTags(mytags){
-	/*
-	 function to extract the contents of <div class='attr'> tags
-	 and remove tags that are not of key-value type
-	*/
-	var tagsNew = [];
-	for (var i=0; i<mytags.length; i++) {
-		t1 = mytags[i].className;
-		if (t1 == 'delete-button right') {
-			//do nothing
-		}
-		else if (t1 != 'attr') {
-			tagsNew.push(mytags[i]);
-		}
-		else{
-			var childTags = mytags[i].children;
-			for(var j=0; j<childTags.length; j++){
-				var t2 = childTags[j].className;
-				if ( t2 == 'key-value' || t2 == 'pipette') {
-					tagsNew.push(childTags[j]);
-				}
-				
-			}
-		}
-	}
-	return tagsNew;
-}
 
 function getBlock(block) {
 	/*
@@ -64,35 +37,35 @@ function getBlock(block) {
 		var children = block.children;
 		children = stripAttributeTags(children);
 		
-		//set the top block name
-		var name = children[0].innerText.trim();	//trim needed to remove newline character
-		console.log(name)
-		out[name] = {}; // assemble the full JSON snippet for this tool
-		console.log(out)
-		//iterate through rest of children to build JSON block
-		out[name]['tip-racks'] = [];
-		for(var i=1; i<children.length-1; i++) {
-			if(children[i].children[0].children[0]) {
-				//special processing for tip-racks
-				rack = {};
-				var value = children[i].children[0].children[1].children[0].children[1].children[0].children[0].value;
-				rack['container'] = value;
-				out[name]['tip-racks'].push(rack);
-			}
-			else if(getKeyValue(children[i])['key'] == 'trash-container') {
-				//special processing for trash-container
-				var pair = getKeyValue(children[i]);
+		var keyValues = getChildByClassName(block, 'key-value');
+//		console.log(keyValues.length);
+
+		var name = getKeyValue(keyValues[0]).value;
+		out[name] = {}; // get the tool name from the first item in the list
+		out[name]['tip-racks'] = []
+
+		for(var i=1; i<keyValues.length; i++) { // get the attributes for the item
+//			console.log(keyValues[i]);
+			var pair = getKeyValue(keyValues[i]);
+			console.log(pair);
+
+			if(pair['key'] == 'trash-container') {
 				out[name]['trash-container'] = {};
-				out[name]['trash-container']['container'] = pair['value'];
-			}
-			else {
-				//normal processing for key-value pairs
-				var pair = getKeyValue(children[i]);
+ 				out[name]['trash-container']['container'] = pair['value'];
+			} else {
 				out[name][pair['key']] = pair['value'];
 			}
 		}
-		console.log('out:\n\n')
-		console.log(out)
+
+		var tips = getChildByClassName(block, 'tiprack');
+		for(var i=0; i<tips.length; i++) { // get the tiprack names 
+			var rack = {};
+			var pair = getKeyValue(tips[i].children[0]);
+
+			rack['container'] = pair['value'];
+			out[name]['tip-racks'].push(rack);
+//			console.log(pair);
+		}
 	} else if(section == 'ingredients') { // editing an ingredient block
 		var children = block.children;
 		var name = getKeyValue(children[0]);
