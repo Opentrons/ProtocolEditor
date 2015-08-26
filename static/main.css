@@ -260,6 +260,9 @@ img.pipette {
   	right: 0;
   	left: 0; */ }
 
+div.tiprack {
+  position: relative; }
+
 /* pipette block stylings */
 div.attr {
   width: 325px;

@@ -33,10 +33,6 @@ function getBlock(block) {
 			out[name['value']][pair['key']] = pair['value'];
 		}
 	} if(section == 'head') { // the block being edited is a tool/pipette block
-		
-		var children = block.children;
-		children = stripAttributeTags(children);
-		
 		var keyValues = getChildByClassName(block, 'key-value');
 //		console.log(keyValues.length);
 
