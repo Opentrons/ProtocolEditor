@@ -155,7 +155,12 @@
 	{% set id = 'instructions.' ~ groupnumber ~ '.' ~ group.groups|length %}
 	{{ paste(id) }}
 
+	{{ d.draw('right') }}
+
 </div>
+
+{% set id = 'instructions.' ~ loop.index0 %}
+{{ add_tool(section, id) }}
 {% endfor %}
 
 {% endmacro %}
@@ -191,6 +196,21 @@
 			<button class="add-instruction" onclick="edit_insert('{{ id }}', 'distribute')">Distribute</button>
 			<button class="add-instruction" onclick="edit_insert('{{ id }}', 'consolidate')">Consolidate</button>
 			<button class="add-instruction" onclick="edit_insert('{{ id }}', 'mix')">Mix</button>
+			<button class="add-instruction cancel" onclick="toggleGroup(this.parentNode.parentNode);">Cancel</button>
+		</div>
+	</div>
+</div>
+{% endmacro %}
+
+
+{% macro add_tool(section, id) %}
+<div class="insert-block addTool">
+	<div class="add-instruction">
+		<a href="javascript:void(0);" class="add" onclick="toggleGroup(this.parentNode);">Add New Tool Group Here</a> 
+		<div class="hidden">
+			{% for group in section %}
+			<button class="add-instruction" onclick="edit_insert('{{ id }}', '{{ group.tool }}')">{{ group.tool }}</button>
+			{% endfor %}
 			<button class="add-instruction cancel" onclick="toggleGroup(this.parentNode.parentNode);">Cancel</button>
 		</div>
 	</div>

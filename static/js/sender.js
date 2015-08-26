@@ -86,6 +86,8 @@ function edit_delete(id) {
 		changes['ef'] = 'delete_tiprack';
 	} else if(section == 'instructions' && id_parts.length == 4) { // instructions, id of form 'instructions.0.0.1'
 		changes['ef'] = 'delete_motion';
+	} else if(section == 'instructions' && id_parts.length == 2) { // delete instruction group 'instructions.0'
+		changes['ef'] = 'delete_tool';
 	}
 
 	var out = {}
@@ -170,8 +172,19 @@ function edit_insert(id, moveType) {
 		"data": {}
 	};
 
-	var section = id.split('.')[0];
+	var id_parts = id.split('.');
+	
+	var section = id_parts[0];
 	var instr_expand = getExpandStructure(); // get instructions expand structure to apply later
+
+	console.log(id_parts);
+	if(section == 'instructions' && id_parts.length == 2) { // insert new tool group 
+		changes['ef'] = 'insert_tool';
+		console.log('insert_tool');
+
+		changes['data']['tool'] = moveType;
+	}
+	
 
 	var out = {};
 	out['changes'] = JSON.stringify(changes);

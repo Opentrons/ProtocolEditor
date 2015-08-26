@@ -550,7 +550,7 @@ class Instructions():
             # return {'instructions' : {key:msg}}	# section temporarily commented pending error response requirement
             return self.render_as_json()
         
-    def insert_tool(self, idx1):
+    def insert_tool(self, idx1, data):
         """insert a tool object to the ordered instructions dict at Level 1
         
         1. idx2 gives the insertion point in the tool list, with new tool inserted before idx2
@@ -587,7 +587,7 @@ class Instructions():
         try:
             group_obj = self.get_default_move('transfer')
             tool_obj = OrderedDict()
-            tool_obj['tool'] = 'tool name'
+            tool_obj['tool'] = data['tool']
             tool_obj['groups'] = [group_obj]
             
             #insert into instructions section and return rendered section

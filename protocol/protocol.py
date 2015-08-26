@@ -185,6 +185,12 @@ class Protocol():
                 idx1 = int(id_parts[1])
                 idx2 = int(id_parts[2])
                 retVal = self.instructions.add_motion(idx1, idx2)
+            elif ef == 'delete_tool':
+                idx1 = int(id_parts[1])
+                retVal = self.instructions.delete_tool(idx1)
+            elif ef == 'insert_tool':
+                idx1 = int(id_parts[1])
+                retVal = self.instructions.insert_tool(idx1, data)
             elif ef == 'copy':
                 idx1 = int(id_parts[1])
                 idx2 = int(id_parts[2])
