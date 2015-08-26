@@ -27,7 +27,8 @@ cache = Cache(app, config={'CACHE_TYPE': 'simple'}) # initialize cache to store 
 
 @app.route('/')
 def landing_page():
-	return render_template('body.html', filename='[empty]')
+	# return render_template('body.html', filename='[empty]')	#modified rbw 8/26/15
+	return render_template('body.html', filename='[empty]', savedFile=0, loadedFile=0)
 
 
 @app.route('/save', methods=['GET', 'POST'])
@@ -70,7 +71,8 @@ def process_file():
 			master = Protocol(parsed_protocol) # instantiate the master protocol object 
 			cache.set('master', master) # store the protocol object in the cache
 
-			return render_template('body.html', protocol=parsed_protocol, filename=filename)
+			# return render_template('body.html', protocol=parsed_protocol, filename=filename)	#modified rbw
+			return render_template('body.html', protocol=parsed_protocol, filename=filename, savedFile=0, loadedFile=1)
 
 		else: 
 			# LANDING PAGE NOT WORKING FOR NOW, FIX IT LATER

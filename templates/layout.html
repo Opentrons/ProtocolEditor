@@ -37,20 +37,21 @@
 
     <section id="Input">
       <form method="post" action="/process" enctype="multipart/form-data" class="left">
-        <button onclick="toggleDispMsg()" type="submit">Process</button>
+        <button type="submit">Process</button>
         <input type="file" name="protocol" accept=".json" />
       </form>
 
       <form action="/save" method="post" class="right">
         <input class="filename" type="text" name="filename" value='{{ filename }}' onclick="this.select();" />
         <span class="filename">. json</span>
-        <button onclick="toggleDispMsg()" type="submit" {% if filename == '[empty]' %}disabled{% endif %}>Save</button>
+        <button onclick="fileSaved()" type="submit" {% if filename == '[empty]' %}disabled{% endif %}>Save</button>
       </form>
     </section>
 
     {% if protocol is defined %}
     {% block content %}{% endblock %}
     {% endif %}
+
 
   </body>
 

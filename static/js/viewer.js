@@ -228,28 +228,34 @@ $(window).scroll(function(e){
 	}
 });
 
-function toggleDispMsg(){
-	dispMsg = !dispMsg
+
+function fileLoaded(){
+	loadedFile = true;
 }
 
-var dispMsg = true
-// window.onbeforeunload = function(e) { // attempt to stop accidental navigation away from page
-// 	//if(!e) {
-// 	//	e = window.event;
-// 	//
-// 	//}
-//
-//// 	e.cancelBubble = true; //e.cancelBubble is supported by IE - this will kill the bubbling process
-//// 	if(e.stopPropagation) { //e.stopPropagation works in Firefox
-//// 		e.stopPropagation();
-//// 		e.preventDefault();
-//// 	}
-//
-//// 	e.returnValue = 'Any unsaved changes will be lost when leaving this page.'; //This is displayed on the dialog
+function fileSaved(){
+	savedFile = true;
+}
+
+ window.onbeforeunload = function(e) { // attempt to stop accidental navigation away from page
+ 	//if(!e) {
+ 	//	e = window.event;
+ 	//
+ 	//}
+
+// 	e.cancelBubble = true; //e.cancelBubble is supported by IE - this will kill the bubbling process
+// 	if(e.stopPropagation) { //e.stopPropagation works in Firefox
+// 		e.stopPropagation();
+// 		e.preventDefault();
+// 	}
+
+// 	e.returnValue = 'Any unsaved changes will be lost when leaving this page.'; //This is displayed on the dialog
 //if (dispMsg) {
-//	return 'Any edits you have made will be lost... Click Save button to download edited file first.';
-//}
-// };
+if (loadedFile && !savedFile) {
+	//dispMsg = !dispMsg;
+	return 'Any edits you have made will be lost... Click Save button to download edited file first.';
+}
+ };
 
 ////////////////////////////////////////////
 ////////////////////////////////////////////
