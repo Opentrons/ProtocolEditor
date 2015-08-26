@@ -195,18 +195,23 @@ function edit_copy(id) {
 	$.getJSON('/edit', out, function(data) { });
 }
 
-function edit_paste(id, number) {
+function edit_paste(id) {
+	var ntimes = parseInt(document.getElementById(id + '.copies').value);
+
 	var changes = {
 		"ef": "paste",
 		"id": id,
 		"data": {
-			"ntimes": number
+			"ntimes": ntimes
 		}
 	};
 
 	var section = id.split('.')[0];
 	var out = {};
 	out['changes'] = JSON.stringify(changes);
+
+//	var ntimes = document.getElementById(id + '.copies');
+//	console.log(ntimes.value);
 
 	$.getJSON('/edit', out, function(data) { 
 		document.getElementById(section).innerHTML = data.html; // reset html

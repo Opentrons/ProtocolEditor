@@ -691,6 +691,10 @@ div.paste-location {
 div.paste-location {
   text-align: center; }
 
+input.ntimes {
+  border: none;
+  outline: none; }
+
 button.paste {
   width: 150px;
   margin-top: 10px;

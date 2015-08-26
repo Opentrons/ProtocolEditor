@@ -216,8 +216,8 @@
 <div class="paste-location hidden">
 	<a href="javascript:void(0);" class="add" onclick="toggleGroup(this.parentNode);">Paste Instruction Here</a>
 	<div class="hidden">
-		Number of copies to be made: 1<!--  <input type="text" -->
-		<button class="paste" onclick="edit_paste('{{ id }}', 1);">Paste</button>
+		Number of copies to be made: <input type="text" id="{{ id }}.copies" value="1" size="10" class="ntimes" />
+		<button class="paste" onclick="edit_paste('{{ id }}');">Paste</button>
 		<button class="paste cancel" onclick="toggleGroup(this.parentNode.parentNode);">Cancel</button>
 	</div>
 </div>
