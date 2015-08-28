@@ -499,6 +499,20 @@ class Instructions():
         self.instructions_section[idx1]['groups'].insert(idx2, group_obj)
         return self.render_as_json()
         
+    # def fix_logical(self, in_val):
+    #     """function to convert quoted logical values
+    #         to python format
+    #     
+    #     """
+    #     out_val = None
+    #     if isinstance(in_val, basestring):
+    #         out_val = in_val.strip() in ['True', 'true']
+    #     elif isinstance(in_val, bool):
+    #         out_val = in_val
+    #     else:
+    #         out_val = None
+    #     return out_val
+    
     def modify_by_block(self, idx1, idx2, data):
         """deletes an item in the instructions section at Level 2 corresponding to an
         dict item in the groups list and inserts a new json object (data) at the same position
@@ -513,6 +527,20 @@ class Instructions():
             print 'data is:\n\n', data
             self.delete_by_index(idx1,idx2)     #delete the existing object
             self.instructions_section[idx1]['groups'].insert(idx2, data)   #insert the replacement object
+            
+            # #make sure any quoted logical is a python logical
+            # #todo - need to get into the transfer, to, from & attributes or use values() method
+            # #maybe do it on the data object in a separate function
+            # tt = self.fix_logical(self.instructions_section[idx1]['groups'][idx2]['touch-tip'])
+            # bo = self.fix_logical(self.instructions_section[idx1]['groups'][idx2]['blowout'])
+            # ep = self.fix_logical(self.instructions_section[idx1]['groups'][idx2]['extra-pull'])
+            # lt = self.fix_logical(self.instructions_section[idx1]['groups'][idx2]['liquid-tracking'])
+            # 
+            # self.instructions_section[idx1]['groups'][idx2]['touch-tip'] = tt
+            # self.instructions_section[idx1]['groups'][idx2]['blowout'] = bo
+            # self.instructions_section[idx1]['groups'][idx2]['extra-pull'] = ep
+            # self.instructions_section[idx1]['groups'][idx2]['liquid-tracking'] = lt
+            
             msg = 'OK'
         except Exception as e:
             msg = e.strerror

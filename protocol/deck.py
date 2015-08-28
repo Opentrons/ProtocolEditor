@@ -97,12 +97,11 @@ class Deck():
 		"""
 		try:
 			print '\n\ndeck add\n\n'
-			# name = new_container_dict.keys()[0]
-			# attr = new_container_dict[name]
-			# new_container = Container(name, attr)
-			# self.containers[new_container.name] = new_container
+			n_deck = len(self.deck_section.keys()) + 1
+			print 'number of containers: ', n_deck
+			name = "container_name" + str(n_deck)
 			new_container_dict = OrderedDict([("labware","container type"),("slot","A1")])
-			self.deck_section["container_name"] = new_container_dict
+			self.deck_section[name] = new_container_dict
 			msg = 'OK'
 		except Exception as e:
 			msg = e.strerror
