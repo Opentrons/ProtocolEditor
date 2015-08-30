@@ -202,21 +202,21 @@ class Head():
 			# return {'head' : {key:msg}}	# section temporarily commented pending error response requirement
 			pass
 
-	def fix_logical(self, in_val):
-		"""function to convert quoted logical values
-			to python format
-		
-		"""
-		out_val = None
-		print '\n\nin_val:', in_val
-		print '\n\nin_val is string?:', isinstance(in_val, basestring)
-		if isinstance(in_val, basestring):
-			out_val = in_val.strip() in ['True', 'true']
-		elif isinstance(in_val, bool):
-			out_val = in_val
-		else:
-			out_val = None
-		return out_val
+	# def fix_logical(self, in_val):
+	# 	"""function to convert quoted logical values
+	# 		to python format
+	# 	
+	# 	"""
+	# 	out_val = None
+	# 	print '\n\nin_val:', in_val
+	# 	print '\n\nin_val is string?:', isinstance(in_val, basestring)
+	# 	if isinstance(in_val, basestring):
+	# 		out_val = in_val.strip() in ['True', 'true']
+	# 	elif isinstance(in_val, bool):
+	# 		out_val = in_val
+	# 	else:
+	# 		out_val = None
+	# 	return out_val
 		
 	def modify_by_block(self, idx, data):
 		"""modifies an item in the head section at Level 1
@@ -232,6 +232,11 @@ class Head():
 			print 'data is:\n\n', data
 			name = data.keys()[0]		#get the tool name in the data block
 			print 'name is: ', name
+			
+			#get the points section of the edited object
+			key = self.head_section.keys()[idx]		#get the key from the index
+			points_section = self.head_section[key]['points']
+			print '\n\npoints section:\n\n', points_section
 
 			if self.head_section.has_key(name):
 				self.head_section[name] = data[name]		#name didn't change, so use it
@@ -239,9 +244,8 @@ class Head():
 				self.delete_by_index(idx)	#delete the existing tool
 				self.head_section[name] = data[name]
 				
-			#make sure any quoted logical is a python logical
-			mc = self.fix_logical(self.head_section[name]['multi-channel'])
-			self.head_section[name]['multi-channel'] = mc
+			#add the head section to the edited head object
+			self.head_section[name]['points'] = points_section
 
 			msg = 'OK'
 		except Exception as e:

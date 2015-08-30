@@ -64,6 +64,7 @@ class Protocol():
         
         """
         try:
+            print '\n\nmsg_dict:\n\n', msg_dict
             id_parts = msg_dict["id"].split(".")
             ef = msg_dict["ef"]
             data = OrderedDict(msg_dict["data"])

@@ -11,6 +11,31 @@ back to the server.
 ///////// FRONTEND EDIT FUNCTIONS //////////
 ////////////////////////////////////////////
 
+var reNumeric = new RegExp(/^-?(\d+(,\d{3})*(\.\d+)?|\d?(\.\d+))$/);
+//var reNumeric = new RegExp(/[+-]?+(?>\d++\.?+\d*+|\d*+\.?+\d++)"/)  gave error
+//var reNumeric = new RegExp(/^(?=.*\d)\d*(?:\.\d*)?$/)
+var reBoolean = new RegExp(/^(true|false)$/);
+function string2Value(inValue){
+	var outValue = "";
+	inValue = inValue.trim();
+	if (reNumeric.test(inValue)) {
+		outValue = parseFloat(inValue);
+	}
+	else if (reBoolean.test(inValue.toLowerCase())) {
+		if (inValue.toLowerCase() == "true") {
+			outValue = true;
+		}
+		else{
+			outValue = false;
+		}
+	}
+	else{
+		outValue = inValue;
+	}
+	
+	return outValue;
+}
+
 function getBlock(block) {
 	/*
 	getBlock takes an ID as input and assembles the block-level JSON for edit_modify_block.
@@ -34,22 +59,19 @@ function getBlock(block) {
 		}
 	} if(section == 'head') { // the block being edited is a tool/pipette block
 		var keyValues = getChildByClassName(block, 'key-value');
-//		console.log(keyValues.length);
 
 		var name = getKeyValue(keyValues[0]).value;
 		out[name] = {}; // get the tool name from the first item in the list
 		out[name]['tip-racks'] = []
 
 		for(var i=1; i<keyValues.length; i++) { // get the attributes for the item
-//			console.log(keyValues[i]);
 			var pair = getKeyValue(keyValues[i]);
-			console.log(pair);
 
 			if(pair['key'] == 'trash-container') {
 				out[name]['trash-container'] = {};
  				out[name]['trash-container']['container'] = pair['value'];
 			} else {
-				out[name][pair['key']] = pair['value'];
+				out[name][pair['key']] = string2Value(pair['value']);
 			}
 		}
 
@@ -60,7 +82,6 @@ function getBlock(block) {
 
 			rack['container'] = pair['value'];
 			out[name]['tip-racks'].push(rack);
-//			console.log(pair);
 		}
 	} else if(section == 'ingredients') { // editing an ingredient block
 		var children = block.children;
@@ -74,9 +95,8 @@ function getBlock(block) {
 
 				var keyValues = getChildByClassName(locNode, 'key-value');
 				for(var j=0; j<keyValues.length; j++){
-					console.log(keyValues[j]);
 					var pair = getKeyValue(keyValues[j]);
-					newLoc[pair['key']] = pair['value'];
+					newLoc[pair['key']] = string2Value(pair['value']);
 				}
 				out[name['value']].push(newLoc);
 			}
@@ -89,7 +109,6 @@ function getBlock(block) {
 			out[name] = [];
 
 			var actions = getChildByClassName(block, 'motion');
-			console.log('actions length: ' + String(actions.length));
 
 			for(var i=0; i<actions.length; i++) {
 				var curMove = {};
@@ -102,20 +121,19 @@ function getBlock(block) {
 						curMove['from'] = {}
 						for(var k=0; k<attributes.length; k++) {
 							var pair = getKeyValue(attributes[k]);
-							curMove['from'][pair['key']] = pair['value'];
+							curMove['from'][pair['key']] = string2Value(pair['value']);
 						}
 					} else if(motions[j].classList.contains('to')) { // add to attributes
 						curMove['to'] = {}
 						for(var k=0; k<attributes.length; k++) {
 							var pair = getKeyValue(attributes[k]);
-							curMove['to'][pair['key']] = pair['value'];
+							curMove['to'][pair['key']] = string2Value(pair['value']);
 						}
 					} else { // add other attributes
 						for(var k=0; k<attributes.length; k++) {
 							var pair = getKeyValue(attributes[k]);
-							curMove[pair['key']] = pair['value'];
+							curMove[pair['key']] = string2Value(pair['value']);
 						}
-//						console.log('other');
 					}
 				}
 				out[name].push(curMove);
@@ -125,17 +143,15 @@ function getBlock(block) {
 			out[name] = {};
 
 			var motions = getChildByClassName(block, 'action-attributes');
-//			console.log(motions.length);
 
 			for(var i=0; i<motions.length; i++) {
-				console.log(motions[i]);
 				var attributes = getChildByClassName(motions[i], 'key-value');
 
 				if(motions[i].classList.contains('from')) { // add from attributes
 					out[name]['from'] = {}
 					for(var j=0; j<attributes.length; j++) {
 						var pair = getKeyValue(attributes[j]);
-						out[name]['from'][pair['key']] = pair['value'];
+						out[name]['from'][pair['key']] = string2Value(pair['value']);
 					}
 				} else if(motions[i].classList.contains('to')) { // add to attributes
 					out[name]['to'] = []
@@ -148,17 +164,15 @@ function getBlock(block) {
 
 						for(var k=0; k<attributes.length; k++) {
 							var pair = getKeyValue(attributes[k]);
-							newLoc[pair['key']] = pair['value'];
+							newLoc[pair['key']] = string2Value(pair['value']);
 						}
 						out[name]['to'].push(newLoc);
 					}
 
 				} else { // add other attributes
-//					console.log('other');
-//					console.log(attributes.length);
 					for(var j=0; j<attributes.length; j++) {
 						var pair = getKeyValue(attributes[j]);
-						out[name][pair['key']] = pair['value'];
+						out[name][pair['key']] = string2Value(pair['value']);
 					}
 				}
 			}
@@ -167,10 +181,8 @@ function getBlock(block) {
 			out[name] = {};
 
 			var motions = getChildByClassName(block, 'action-attributes');
-			console.log(motions.length);
 
 			for(var i=0; i<motions.length; i++) {
-				console.log(motions[i]);
 				var attributes = getChildByClassName(motions[i], 'key-value');
 
 				if(motions[i].classList.contains('from')) { // add from attributes
@@ -184,7 +196,7 @@ function getBlock(block) {
 
 						for(var k=0; k<attributes.length; k++) {
 							var pair = getKeyValue(attributes[k]);
-							newLoc[pair['key']] = pair['value'];
+							newLoc[pair['key']] = string2Value(pair['value']);
 						}
 						out[name]['from'].push(newLoc);
 					}
@@ -192,14 +204,12 @@ function getBlock(block) {
 					out[name]['to'] = {}
 					for(var j=0; j<attributes.length; j++) {
 						var pair = getKeyValue(attributes[j]);
-						out[name]['to'][pair['key']] = pair['value'];
+						out[name]['to'][pair['key']] = string2Value(pair['value']);
 					}
 				} else { // add other attributes
-					console.log('other');
-					console.log(attributes.length);
 					for(var j=0; j<attributes.length; j++) {
 						var pair = getKeyValue(attributes[j]);
-						out[name][pair['key']] = pair['value'];
+						out[name][pair['key']] = string2Value(pair['value']);
 					}
 				}
 			}
@@ -215,7 +225,7 @@ function getBlock(block) {
 
 				for(var j=0; j<attributes.length; j++) {
 					var pair = getKeyValue(attributes[j]);
-					curMove[pair['key']] = pair['value'];
+					curMove[pair['key']] = string2Value(pair['value']);
 				}
 
 				out[name].push(curMove);
@@ -224,8 +234,6 @@ function getBlock(block) {
 		}
 	}
 	
-	console.log('json.stringify(out):\n\n')
-	console.log(JSON.stringify(out));
 	edit_modify_block(block.id, out); // call the AJAX function to edit by block
 }
 
@@ -271,7 +279,6 @@ function getChildByClassName(parent, classname) {
 			matches.push(parent.children[i]);
 		}
 	}
-//	console.log(matches);
 	return matches; // returns full list of matches
 }
 
@@ -287,13 +294,12 @@ function clickSubmit(key, parent) {
 		cur = cur.parentNode; // using this method allows for a non-uniform ID setting pattern
 		if(cur.hasAttribute("id")) { // that works well with the highly variable protocol format
 			parentID = cur.id;
-//			console.log(parentID);
 		}
 	}
 
 	parentID_parts = parentID.split('.');
 	if(parentID_parts[0] == 'deck') {
-		console.log(document.getElementById(parentID));
+		console.log(document.getElementById(parentID))
 	}
 
 	submitButton.onclick = edit_modify(parentID, key, parent.children[0].value); // set the input button's onclick function, then click the button
