@@ -8,6 +8,21 @@ the mechanics of the display.
 ////////// ITEMS VIEW FUNCITONS ////////////
 ////////////////////////////////////////////
 
+//added rbw
+function removeMessage(id){
+	/* for removing any error or warning messages */
+	console.log('inside removeMessage');
+	el = document.getElementById(id);
+	el.style.visibility = 'hidden'
+}
+
+//added rbw
+function copyToClipboard(id) {
+	el = document.getElementById(id)
+	text = el.value
+    window.prompt("Copy JSON file using Cmd-C (Ctrl-C for Windows) and then click OK to open JSONLint", text);
+}
+
 function toggleItem(clicked, showID) {
 	/*
 	toggles the displayed "Item" block by adding/removing the "active" tag
