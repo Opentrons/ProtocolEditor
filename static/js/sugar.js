@@ -98,13 +98,16 @@ Sugar.delegateEvent = function(selector, eventType, fun) {
 	root.addEventListener(eventType, function(e) {
 		var suspects = root.querySelectorAll(selector);
 		var target = e.target;
+//		console.log(target); ///////////////////////////////////////////////////////////
 		for (var i = 0, l = suspects.length; i < l; i++) {
+//			console.log("check selector"); ///////////////////////////////////////////////////////////
 			var el = target;
 			var p  = suspects[i];
+//			console.log(el, p); ///////////////////////////////////////////////////////////
 			while(el && el !== root) {
 				if (el === p) {
 					e = new Sugar.Event(e);
-					e.stop();
+//					e.stop();
 					fun.call(p, e, new Sugar.Element(el));
 				}
 				el = el.parentNode;
@@ -162,7 +165,7 @@ Sugar.Mode.prototype = {
 		var scope = '.modalComponent.'+this.modalName+' '+this.scope;
 		var modeName = this.name;
 		Sugar.delegateEvent(scope+' '+selector, eventName, function(e, el) {
-			e.stop();
+//			e.stop();
 			var parentMode  = el.getParent('.mode.'+modeName);
 			var parentModal = el.getParent('.modalComponent');
 			callback.apply(this, [e, parentMode, parentModal]);

@@ -1,0 +1,51 @@
+#Toggle {
+	width: 200px;
+	float: left;
+
+	&.sticky {
+		position: fixed;
+		top: 0px;
+	}
+
+	&.stuck {
+		position: absolute;
+		bottom: 0;
+	}
+}
+
+a.item-select {
+	@include round_corners;
+	@include border($border-gray);
+
+	width: 100%;
+	height: auto;
+
+	display: inline-block;
+
+	color: $fade-black;
+	background: $light;
+
+	text-align: center;
+	text-decoration: none;
+
+	padding: 5px 0;
+	margin: 2.5px 0;
+
+	@include transition(0.25s);
+	&:hover {
+		background: darken( $light, 10% );
+	}
+	&:active {
+		background: $darkest-gray;
+	}
+
+	&.active {
+		cursor: default;
+		color: $light;
+		background: $blue;
+	} 
+
+	&:focus {
+		outline: none;
+	}
+}

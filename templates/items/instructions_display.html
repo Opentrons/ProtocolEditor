@@ -1,0 +1,244 @@
+{% import 'helpers/keyvalue.html' as kv %}
+{% import 'helpers/deleter.html' as d %}
+
+{% macro render(section) %}
+
+<img class="icon" src="/static/images/instructions.png" /><h3>Instructions</h3>
+
+{% for group in section %}
+<div id="instructions.{{ loop.index0 }}" class="instruction-group">
+	{% set groupnumber = loop.index0 %}
+	<div class="action-header-nav">
+		<img class="action-icon" src="/static/images/tool.png" />
+		&nbsp;{{ group.tool }}
+	</div>
+
+	{% for tip in group.groups %}
+	{% set movenumber = loop.index0 %}
+	{% set id = 'instructions.' ~ groupnumber ~ '.' ~ movenumber %}
+
+	{{ add_instruction('Insert New Instruction Here', id) }}
+	{{ paste(id) }}
+
+	<div id="{{ id }}" class="action-block {#{% if movenumber == 0 and groupnumber == 0 %}view{% endif %}#} modifyBlock">
+
+		{% for movetype in tip %}
+		{# <!-- Realistically, there will only ever be one attribute here --> #}
+		<div class="action-header" onclick="toggleInstruction(this.parentNode);">
+			<span class="action-number">{{ movenumber + 1}}</span>
+			<span class="action-tool">{{ group.tool }}</span>
+			<img class="action-icon" src="/static/images/{{ movetype }}.png" />
+			<span class="action-title">{{ movetype }}</span>
+		</div>
+		{% endfor %}
+
+		{% if tip.transfer is defined %}
+
+		{% for move in tip.transfer %}
+		<div id="{{ id }}.{{ loop.index0 }}" class="motion">
+			<div class="action-attributes from">
+				<img src="/static/images/from.png" class="label" />
+				{% for key in move.from %}
+				{{ kv.pair(key=key, value=move.from[key] )}}
+				{% endfor %}
+			</div>
+
+			<div class="action-attributes to">
+				<img src="/static/images/to.png" class="label" />
+				{% for key in move.to %}
+				{{ kv.pair(key=key, value=move.to[key] )}}
+				{% endfor %}
+			</div>
+
+			<div class="action-attributes attr">
+				<img src="/static/images/attributes.png" class="label" />
+				{% for attribute in move %}
+				{% if (attribute != 'from') and (attribute != 'to') %}
+				{{ kv.pair(key=attribute, value=move[attribute] )}}
+				{% endif %}
+				{% endfor %}
+			</div>
+			{{ d.draw('right') }}
+		</div>
+		{% endfor %}
+		{{ new_motion('transfer', id) }}
+
+
+		{% elif tip.distribute is defined %}
+		<div class="action-attributes from">
+			<img src="/static/images/from.png" class="label" />
+			{% for key in tip.distribute.from %}
+			{{ kv.pair(key=key, value=tip.distribute.from[key] )}}
+			{% endfor %}
+		</div>
+
+		<div class="action-attributes to">
+			<img src="/static/images/to.png" class="label" />
+			{% for location in tip.distribute.to %}
+			<div id="{{ id }}.{{ loop.index0 }}" class="action">
+				{% for key in location %}
+				{{ kv.pair(key=key, value=location[key] )}}
+				{% endfor %}
+
+				{{ d.draw('left') }}
+			</div>
+			{% endfor %}
+		</div>
+
+		<div class="action-attributes attr">
+			<img src="/static/images/attributes.png" class="label" />
+			{% for attribute in tip.distribute %}
+			{% if (attribute != 'from') and (attribute != 'to') %}
+			{{ kv.pair(key=attribute, value=tip.distribute[attribute] )}}
+			{% endif %}
+			{% endfor %}
+		</div>
+		{{ new_motion('distribute', id) }}
+		
+
+		{% elif tip.consolidate is defined %}
+		<div class="action-attributes from">
+			<img src="/static/images/from.png" class="label" />
+			{% for location in tip.consolidate.from %}
+			<div id="{{ id }}.{{ loop.index0 }}" class="action">
+				{% for key in location %}
+				{{ kv.pair(key=key, value=location[key] )}}
+				{% endfor %}
+
+				{{ d.draw('left') }}
+			</div>
+			{% endfor %}
+		</div>
+
+		<div class="action-attributes to">
+			<img src="/static/images/to.png" class="label" />
+			{% for key in tip.consolidate.to %}
+			{{ kv.pair(key=key, value=tip.consolidate.to[key] )}}
+			{% endfor %}
+		</div>
+
+		<div class="action-attributes attr">
+			<img src="/static/images/attributes.png" class="label" />
+			{% for attribute in tip.consolidate %}
+			{% if (attribute != 'from') and (attribute != 'to') %}
+			{{ kv.pair(key=attribute, value=tip.consolidate[attribute] )}}
+			{% endif %}
+			{% endfor %}
+		</div>
+		{{ new_motion('consolidate', id) }}
+		
+
+		{% elif tip.mix is defined %}
+		{% for mix in tip.mix %}
+		<div id="{{ id }}.{{ loop.index0 }}" class="action-attributes">
+			{% for attribute in mix%}
+			{{ kv.pair(key=attribute, value=mix[attribute]) }}
+			{% endfor %}
+
+			{{ d.draw('left') }}
+		</div>
+		{% endfor %}
+		{{ new_motion('mix', id) }}
+
+		{% endif %}
+
+		{{ d.del_instruction() }}
+		{{ copy(id) }}
+
+	</div>
+	{% endfor %}
+
+	{#<!-- 	{{ paste(id) }} --> THIS DOESN'T WORK CURRENLTY -- ONLY PASTING IN FRONT OF INSTRUCTIONS WORKS #}
+	{% set id = 'instructions.' ~ groupnumber ~ '.' ~ group.groups|length %}
+	{{ add_instruction('Add New Instruction to End', id) }}
+
+	{% set id = 'instructions.' ~ groupnumber ~ '.' ~ group.groups|length %}
+	{{ paste(id) }}
+
+	{{ d.draw('right') }}
+
+</div>
+
+{% set id = 'instructions.' ~ loop.index0 %}
+{{ add_tool(section, id) }}
+{% endfor %}
+
+{% endmacro %}
+
+
+{#<!-- MACROS -->#}
+
+{% macro new_motion(type, id) %}
+<div class="insert-block addMotion">
+	<div class="add-instruction">
+		<a href="javascript:void(0);" class="add" onclick="toggleGroup(this.parentNode);">
+			{% if type == 'transfer' %}Add new Transfer with same Tip
+			{% elif type == 'distribute' %}Add new 'TO' location
+			{% elif type == 'consolidate' %}Add new 'FROM' location
+			{% elif type == 'mix' %}Add new Mix with same Tip
+			{% endif %}
+		</a> 
+		<div class="hidden">
+			<button class="add-instruction" onclick="edit_add('{{ id }}')">Add</button>
+			<button class="add-instruction cancel" onclick="toggleGroup(this.parentNode.parentNode);">Cancel</button>
+		</div>
+	</div>
+</div>
+{% endmacro %}
+
+
+{% macro add_instruction(title, id) %}
+<div class="insert-block addInstruction">
+	<div class="add-instruction">
+		<a href="javascript:void(0);" class="add" onclick="toggleGroup(this.parentNode);">{{ title }}</a> 
+		<div class="hidden">
+			<button class="add-instruction" onclick="edit_insert('{{ id }}', 'transfer')">Transfer</button>
+			<button class="add-instruction" onclick="edit_insert('{{ id }}', 'distribute')">Distribute</button>
+			<button class="add-instruction" onclick="edit_insert('{{ id }}', 'consolidate')">Consolidate</button>
+			<button class="add-instruction" onclick="edit_insert('{{ id }}', 'mix')">Mix</button>
+			<button class="add-instruction cancel" onclick="toggleGroup(this.parentNode.parentNode);">Cancel</button>
+		</div>
+	</div>
+</div>
+{% endmacro %}
+
+
+{% macro add_tool(section, id) %}
+<div class="insert-block addTool">
+	<div class="add-instruction">
+		<a href="javascript:void(0);" class="add" onclick="toggleGroup(this.parentNode);">Add New Tool Group Here</a> 
+		<div class="hidden">
+			{% for group in section %}
+			<button class="add-instruction" onclick="edit_insert('{{ id }}', '{{ group.tool }}')">{{ group.tool }}</button>
+			{% endfor %}
+			<button class="add-instruction cancel" onclick="toggleGroup(this.parentNode.parentNode);">Cancel</button>
+		</div>
+	</div>
+</div>
+{% endmacro %}
+
+
+{% macro copy(id) %}
+<div class="copy-button">
+	<img class="copy" src="/static/images/copy_v2.png" title="Copy Instruction" onclick="showCopy(this.parentNode); showInstruction(this.parentNode.parentNode); edit_copy('{{ id }}');" />
+	<div class="hidden">
+		<p class="copy">
+			This Instruction has been added to the clipboard. Click on a PASTE location to duplicate this instruction or click CANCEL to resume editing.
+		</p>
+<!-- 		<button class="copy" onclick="edit_copy({{ id }});">Copy</button> -->
+		<button class="copy cancel" onclick="showCopy(this.parentNode.parentNode)">Cancel</button> 
+	</div>
+</div>
+{% endmacro %}
+
+
+{% macro paste(id) %}
+<div class="paste-location hidden">
+	<a href="javascript:void(0);" class="add" onclick="toggleGroup(this.parentNode);">Paste Instruction Here</a>
+	<div class="hidden">
+		Number of copies to be made: <input type="text" id="{{ id }}.copies" value="1" size="10" class="ntimes" />
+		<button class="paste" onclick="edit_paste('{{ id }}');">Paste</button>
+		<button class="paste cancel" onclick="toggleGroup(this.parentNode.parentNode);">Cancel</button>
+	</div>
+</div>
+{% endmacro %}

@@ -1,0 +1,199 @@
+
+html, body, .container{
+	font-family: "Tron-Normal";
+	width:1050px !important;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+a:link {
+	color:$darker-gray;
+	text-decoration:none;
+}
+
+a:visited, a:hover, a:active {
+	color:$darkest-gray;
+	text-decoration: none;
+}
+
+button:disabled {
+	color:$darkest-gray;
+	background-color:$darker-gray;
+}
+
+input[type="text"]:focus {
+	outline:none;
+}
+
+img {
+	margin-bottom:5px;
+}
+
+img.icon {
+	height:18px;
+}
+
+img.pipette {
+	height:60px;
+	padding-left:15px;
+}
+
+img.tipchange {
+	height: 18px;
+	text-align: center;
+	margin-bottom:0px;
+}
+
+img.brand {
+	height:100%;
+}
+
+.move-icon-bar {
+	width:50px;
+	text-align:center;
+}
+
+.hide-delete {
+	color:$darker-gray;
+	text-align:right;
+	font-style:italic;
+}
+
+.padded-sides {
+	padding-right:20px;
+	padding-left:20px;
+}
+
+.zebra:nth-of-type(odd) {
+    background: $gray;
+}
+
+.filename-block {
+	text-align:right;
+	margin-top:2px;
+	display:inline;
+	float:right;
+	position:relative;
+}
+
+.filename-input {
+	text-align:right;
+	background: $gray;
+	border:none;
+	font-size:18px;
+	width:475px
+}
+
+.filename-extension {
+	padding-right:25px;
+	font-size:18px;
+}
+
+.edit-input {
+	border:none;
+	background: transparent;
+/*	background: rgba($blue, 0.1); */
+}
+
+.move-number {
+	text-align:right;
+	color: $blue;
+	font-family:"Tron-Strong";
+}
+
+.move-number-label {
+	color:$darkest-gray;
+	font-style:italic;
+	text-align:right;
+	font-family: "Tron-Light";
+	padding-right:5px;
+}
+
+.strong {
+	font-family: "Tron-Strong";
+}
+
+.add-button {
+	color:$darker-gray;
+	font-style:italic;
+}
+
+.submit-new {
+	width:100%;
+	margin-bottom:10px;
+}
+
+.add-motion-button {
+	color:$darker-gray;
+	font-style:italic;
+	text-align:center;
+}
+
+.action-block {
+	position:relative;
+	display:block;
+
+	padding: 10px 10px 0px 10px;
+	margin-bottom:10px;
+
+	@include gray-outline;
+}
+
+.action-block-gray {
+	@extend .action-block;
+	background-color: $gray;
+}
+
+.action-block-white {
+	@extend .action-block;
+	background-color: $white;
+}
+
+.navbar-pad {
+	margin-top:20px;
+	margin-bottom:30px;
+}
+
+@mixin UI-block-template($color, $marginBottom, $padding) {
+	position:relative;
+	display:block;
+	background-color: $color;
+
+	margin-bottom:$marginBottom;
+
+	@include uniform-padding($padding);
+	@include gray-outline;
+}
+
+.UI-block { @include UI-block-template($gray, 30px, 10px); }
+.UI-sub-block-white{ @include UI-block-template($white, 10px, 10px); }
+.UI-sub-block-gray{ @include UI-block-template($gray, 10px, 10px); }
+.UI-sub-block-dark-gray{ @include UI-block-template($darkest-gray, 10px, 10px); }
+.UI-sub-block-black{ @include UI-block-template($black, 10px, 10px); }
+
+.UI-Title{
+	margin-top:0px;
+	padding-left:10px;
+	font-family: "Tron-Normal";
+	color:$fade-black;
+}
+
+
+.add-move-block {
+	@include UI-block-template($gray, 10px, 10px);
+	text-align:center;
+}
+
+.tip-change-block {
+	@include UI-block-template($white, 10px, 10px);
+	text-align:center;
+	margin-left:20px;
+	margin-right:20px;
+}
+
+.collapse-section{
+	color:$darker-gray;
+	font-style:italic;
+	text-align:right;
+	padding-right:30px;
+}

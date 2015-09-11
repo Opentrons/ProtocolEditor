@@ -1,0 +1,93 @@
+#Input {
+	width: 100%; 
+}
+
+button {
+	@include border($border-gray);
+	@include round_corners;
+
+	display: inline-block;
+	width: auto;
+	height: auto;
+
+	padding: 10px;
+	margin: 0 10px;
+
+	font-size: 1rem;
+	font-family: "Tron-Normal";
+
+	color: $light;
+	background: $blue;
+
+	cursor: pointer;
+	@include transition(0.25s);
+
+	&:hover {
+		background: lighten( $blue, 10% );
+	}
+
+	&:disabled {
+		cursor: default;
+
+		color: $darker-gray;
+		background: $darkest-gray;
+	}
+
+	&:focus {
+		outline: none;
+	}
+}
+
+input[type="file"] {
+	@include round_corners;
+	@include border($border-gray);
+
+	margin: 0 10px;
+	padding: 10px;
+
+	display: inline-block;
+	position: relative;
+
+	background: $white;
+	color: $fade-black;
+	cursor: pointer;
+
+	@include transition(0.25s);
+	&:hover {
+		background: darken( $white, 10% );
+	}
+
+	&:focus {
+		outline: none;
+	}
+}
+
+input.filename {
+	@include round_corners;
+
+	width: 400px;
+	vertical-align: middle;
+
+	font-size: 1.5rem;
+	font-family: "Tron-Normal";
+	text-align: right;
+
+	border: none;
+	background: transparent;
+
+	cursor: pointer;
+
+	@include transition(0.25s);
+	&:focus {
+		outline: none;
+	}
+
+	&:hover {
+		background: $light;
+	}
+}
+
+span.filename {
+	font-size: 1.5rem;
+	vertical-align: middle;
+}

@@ -27,4 +27,4 @@ ADD . $APP_HOME
 
 EXPOSE $PORT
 
-ENTRYPOINT editor_main.py
+ENTRYPOINT main.py

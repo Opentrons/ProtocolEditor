@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+
+<!-- import module macros -->
+{% import 'modules/information.html' as info %}
+{% import 'modules/deck.html' as deck %}
+{% import 'modules/ingredients.html' as ingr %}
+{% import 'modules/head.html' as head %}
+{% import 'modules/instructions.html' as instr %}
+
+{% block content %}
+
+<div class="block">
+  
+  <section id="Toggle">
+    <a class="item-select active" href="javascript:void(0);" onclick="toggleItem(this, 'information');">Information</a>
+    <a class="item-select" href="javascript:void(0);" onclick="toggleItem(this, 'deck');">Deck</a>
+    <a class="item-select" href="javascript:void(0);" onclick="toggleItem(this, 'head');">Head</a>
+    <a class="item-select" href="javascript:void(0);" onclick="toggleItem(this, 'ingredients');">Ingredients</a>
+  </section>
+
+  <div id="Item">
+    <section id="information" class="block active">
+    {{ info.render(protocol.info) }}
+    </section>
+
+    <section id="deck" class="block">
+    {{ deck.render(protocol.deck) }}
+    </section>
+
+    <section id="head" class="block">
+    {{ head.render(protocol.head) }}
+    </section>
+
+    <section id="ingredients" class="block">
+    {{ ingr.render(protocol.ingredients) }}
+    </section>
+  </div>
+
+</div>
+
+<!-- <section id="Instructions"> -->
+<div class="block">
+  {{ instr.render(protocol.instructions) }}
+</div>
+<!-- </section> -->
+
+<!-- script for controlling onbeforeunload message -->
+<script type="text/javascript">var savedFile={{savedFile}};var loadedFile={{loadedFile}};</script> 
+
+{% endblock %}

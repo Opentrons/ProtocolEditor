@@ -1,0 +1,18 @@
+{% import 'items/reagent.html' as r %}
+
+{% macro render(section) %}
+
+<img class="icon" src="/static/images/ingredients.png" />
+<h3>Ingredients</h3>
+
+<div id="reagents">
+	{% for ingredient in section %}
+	<div id="ingredients.{{ loop.index0 }}" class="content modifyBlock">
+		{{ r.draw(ingredient, section[ingredient], loop.index0) }}
+	</div>
+	{% endfor %}
+</div>
+
+<a href="javascript:void(0);" class="add" onclick="edit_add('ingredients');">New Ingredient</a> 
+
+{% endmacro %}

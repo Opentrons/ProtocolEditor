@@ -1,0 +1,31 @@
+{% macro draw(side) %}
+<div class="delete-button {{ side }}">
+	<img class="del" src="/static/images/x.png" onclick="removeSection(this.parentNode)" />
+	<div class="hidden">
+		<button class="del" onclick="removeSection(this.parentNode.parentNode)">Delete</button>
+		<button class="del cancel" onclick="cancelRemove(this.parentNode.parentNode)">Cancel</button> 
+	</div>
+</div>
+{% endmacro %}
+
+
+{% macro del_instruction() %}
+<div class="delete-button right">
+	<img class="del" src="/static/images/x.png" title="Delete Instruction" onclick="removeSection(this.parentNode); showInstruction(this.parentNode.parentNode);" />
+	<div class="hidden">
+		<button class="del" onclick="removeSection(this.parentNode.parentNode)">Delete</button>
+		<button class="del cancel" onclick="cancelRemove(this.parentNode.parentNode)">Cancel</button> 
+	</div>
+</div>
+{% endmacro %}
+
+
+{% macro del_tiprack() %}
+<div class="delete-button right">
+	<img class="del" src="/static/images/x.png" onclick="removeSection(this.parentNode);" />
+	<div class="hidden">
+		<button class="del small" onclick="removeSection(this.parentNode.parentNode)">Delete</button>
+		<button class="del small cancel" onclick="cancelRemove(this.parentNode.parentNode)">Cancel</button> 
+	</div>
+</div>
+{% endmacro %}

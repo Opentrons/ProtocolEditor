@@ -1,0 +1,26 @@
+{% import 'helpers/keyvalue.html' as kv %}
+{% import 'helpers/deleter.html' as d %}
+
+{% macro render(section) %}
+<header>
+  <img class="icon" src="/static/images/deck.png" />
+  <h3>Deck</h3>
+</header>
+
+<div id="containers">
+	{% for container in section %}
+	<div id="deck.{{ loop.index0 }}" class="grouping modifyBlock">
+		{{ kv.pair(key='Name', value=container) }}
+
+		{% for attr in section[container] %}
+		{{ kv.pair(key=attr, value=section[container][attr]) }}
+		{% endfor %}
+
+		{{ d.draw('left') }}
+	</div>
+	{% endfor %}
+</div>
+
+<a href="javascript:void(0);" class="add" onclick="edit_add('deck');">New Container</a>
+
+{% endmacro %}

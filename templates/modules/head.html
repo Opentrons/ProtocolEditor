@@ -1,0 +1,47 @@
+{% import 'helpers/keyvalue.html' as kv %}
+{% import 'helpers/deleter.html' as d %}
+
+{% macro render(section) %}
+
+<header>
+  <img class="icon" src="/static/images/head.png" />
+  <h3>Head</h3>
+</header>
+
+{% for tool in section %}
+
+{% set toolnumber = loop.index0 %}
+{# <div id="head.{{ toolnumber }}" class="content"> #} {# modified rbw #}
+<div id="head.{{ toolnumber }}" class="grouping modifyBlock">
+  
+  {{ kv.pair(key="Name", value=tool) }}
+  <img src="/static/images/pipette.png" class="pipette" />
+
+  {% for attr in section[tool] %}
+
+  {% if attr == 'tip-racks' %}
+  
+  {% for location in section[tool][attr] %}
+  <div id="head.{{ toolnumber }}.{{ loop.index0 }}" class="tiprack">
+    {{ kv.pair(key=attr, value=location.container) }}
+    {{ d.del_tiprack() }}
+  </div>
+  {% endfor %}
+  <a href="javascript:void(0);" class="add" onclick="edit_add('head.{{ toolnumber }}');">New Tip Rack</a> 
+
+  {% elif attr == 'trash-container' %} {# this is formatted differently for some reason #}
+  {{ kv.pair(key=attr, value=section[tool][attr].container)}}
+
+  {% elif attr != 'points' %} {# never draw points #}
+  {{ kv.pair(key=attr, value=section[tool][attr]) }}
+  {% endif %}
+
+  {% endfor %}
+
+  {{ d.draw('right') }}
+</div>
+{% endfor %}
+
+<a href="javascript:void(0);" class="add" onclick="edit_add('head');">New Head Item</a> 
+
+{% endmacro %}

@@ -1,0 +1,23 @@
+{% import 'items/instructions_display.html' as id %}
+{% import 'items/instructions_toggle.html' as it %}
+
+{% macro render(section) %}
+<div id="instructions">
+	<div id="InstructionsLeft">
+		<section id="InstructionsToggle">
+			{{ it.render(section) }}
+		</section>
+
+		<section id="InstructionsActions">
+			<a class="add-instruction" href="javascript:void(0);" onclick="showInserts(this, 'addInstruction');">Add Instruction</a>
+			<a class="add-instruction" href="javascript:void(0);" onclick="showInserts(this, 'addMotion')">Add Motion to Instruction</a>
+			<a class="add-instruction" href="javascript:void(0);" onclick="showInserts(this, 'addTool')">Add New Tool Group</a>
+		</section>
+	</div>
+
+	<section id="InstructionsDisplay">
+		{{ id.render(section) }}
+	</section>
+
+</div>
+{% endmacro %}

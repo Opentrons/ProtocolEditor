@@ -1,0 +1,44 @@
+input.save-edit {
+	@include round_corners;
+	@include border($border-gray);
+
+	background: $red;
+	color: $light;
+
+	vertical-align: top;
+
+	height: 1.2rem;
+	width: 40px;
+
+	margin: 0;
+	padding: 0;
+	
+	@include transition(0.25s);
+	&:hover {
+		background: lighten( $red, 10% );
+	}
+
+	&:focus {
+		outline: none;
+	}
+}
+
+input.edit-input {
+	font-family: "Tron-Normal";
+	font-size: 1rem;
+
+	border: none;
+	background: transparent;
+
+/*	width: calc(100% - 50px);  used to be -50px because of 'save' button */
+	width: 100%;
+
+	&:focus {
+		outline: none;
+	}
+}
+
+span.edit-handle {
+	padding: 1px !important;
+	width: 100%;
+}
