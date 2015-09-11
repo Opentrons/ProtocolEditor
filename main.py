@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from flask import Flask, request, session, jsonify, redirect, url_for, abort, render_template, flash, Response, make_response
 from flask.ext.cache import Cache
 
