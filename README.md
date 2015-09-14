@@ -1,6 +1,6 @@
 # ProtocolEditor
 
-Early release of the OpenTrons Protocol Editor.
+Early release of the OpenTrons Protocol Editor.  It's running Python and Flask under the hood.
 
 You can run it yourself locally using the attached Dockerfile, or go to http://editor.mix.bio/.
 
@@ -16,4 +16,4 @@ You can run it yourself locally using the attached Dockerfile, or go to http://e
 
 > `docker run -p 5000:5000 protocol_editor`
 
-4. In your browser, navigate to http://localhost:5000
+4. In your browser, navigate to [http://localhost:5000](http://localhost:5000)
