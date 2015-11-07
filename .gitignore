@@ -1,3 +1,4 @@
 *.pyc
 static/.sass-cache/
 static/.sass-cache/*
+.DS_Store
