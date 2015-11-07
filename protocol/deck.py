@@ -100,7 +100,7 @@ class Deck():
 			n_deck = len(self.deck_section.keys()) + 1
 			print 'number of containers: ', n_deck
 			name = "container_name" + str(n_deck)
-			new_container_dict = OrderedDict([("labware","container type"),("slot","A1")])
+			new_container_dict = OrderedDict([("labware","container type")])#,("slot","A1")])
 			self.deck_section[name] = new_container_dict
 			msg = 'OK'
 		except Exception as e:
