@@ -230,7 +230,7 @@ class Instructions():
             fc = ('container','from container name')
             fl = ('location','A1')
             v = ('volume',100)  #added to transfer
-            r = ('repititions', 5)
+            r = ('repetitions', 5)
             b = ('blowout', True)
             lt = ('liquid-tracking',True)
             
@@ -293,7 +293,7 @@ class Instructions():
             fc = ('container','from container name')
             fl = ('location','A1')
             v = ('volume',100)  #added to transfer
-            r = ('repititions', 5)
+            r = ('repetitions', 5)
             b = ('blowout', True)
             lt = ('liquid-tracking',True)
             mix_dict = OrderedDict([fc,fl,v,r,b,lt])
