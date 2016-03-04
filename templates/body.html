@@ -18,12 +18,6 @@
     <a class="item-select" href="javascript:void(0);" onclick="toggleItem(this, 'ingredients');">Ingredients</a>
   </section>
 
-<!-- <section id="Instructions"> -->
-<div class="block">
-  {{ instr.render(protocol.instructions) }}
-</div>
-<!-- </section> -->
-
   <div id="Item">
     <section id="information" class="block active">
     {{ info.render(protocol.info) }}
@@ -43,6 +37,12 @@
   </div>
 
 </div>
+
+<!-- <section id="Instructions"> -->
+<div class="block">
+  {{ instr.render(protocol.instructions) }}
+</div>
+<!-- </section> -->
 
 <!-- script for controlling onbeforeunload message -->
 <script type="text/javascript">var savedFile={{savedFile}};var loadedFile={{loadedFile}};</script> 
