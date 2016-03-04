@@ -146,9 +146,10 @@ class Instructions():
             #make into a list
             tc = ('container','to container name')
             tl = ('location','A1')
+            tto = ('tip-offset', -2)
             fd = ('delay', 2000)
             ttt = ('touch-tip', True)
-            to_dict = OrderedDict([tc,tl,fd,ttt])
+            to_dict = OrderedDict([tc,tl,tto,fd,ttt])
             to_list = []
             to_list.extend([to_dict,to_dict,to_dict])
             
@@ -254,15 +255,17 @@ class Instructions():
             fc = ('container','from container name')
             fl = ('location','A1')
             fto = ('tip-offset', -2)
-            fd = ('delay', 2000)
+            #fd = ('delay', 2000)
             ftt = ('touch-tip', True)
-            from_dict = OrderedDict([fc,fl,fto,fd,ftt])
+            from_dict = OrderedDict([fc,fl,fto,ftt])
             
             #generate to_dict object
             tc = ('container','to container name')
             tl = ('location','A1')
+            tto = ('tip-offset', -2)
+            fd = ('delay', 2000)
             ttt = ('touch-tip', True)
-            to_dict = OrderedDict([tc,tl,ttt])
+            to_dict = OrderedDict([tc,tl,tto,fd,ttt])
             
             #define attributes
             v = ('volume',100)
